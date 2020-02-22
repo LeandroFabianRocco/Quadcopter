@@ -1,0 +1,11 @@
+fsl_clock.h:668:20:CLOCK_EnableClock	24	static
+fsl_crc.c:79:36:CRC_GetTransposeTypeFromReflectIn	16	static
+fsl_crc.c:91:36:CRC_GetTransposeTypeFromReflectOut	16	static
+fsl_crc.c:105:13:CRC_ConfigureAndStart	24	static
+fsl_crc.c:140:13:CRC_SetProtocolConfig	32	static
+fsl_crc.c:164:13:CRC_SetRawProtocolConfig	32	static
+fsl_crc.c:188:6:CRC_Init	16	static
+fsl_crc.c:221:6:CRC_GetDefaultConfig	24	static
+fsl_crc.c:246:6:CRC_WriteData	32	static
+fsl_crc.c:287:10:CRC_Get32bitResult	16	static
+fsl_crc.c:301:10:CRC_Get16bitResult	24	static

@@ -1,0 +1,8 @@
+fsl_ftfx_cache.c:146:10:FTFx_CACHE_Init	16	static
+fsl_ftfx_cache.c:175:10:FTFx_CACHE_ClearCachePrefetchSpeculation	16	static
+fsl_ftfx_cache.c:208:10:FTFx_CACHE_PflashSetPrefetchSpeculation	16	static
+fsl_ftfx_cache.c:289:10:FTFx_CACHE_PflashGetPrefetchSpeculation	24	static
+fsl_ftfx_cache.c:356:13:ftfx_copy_common_bit_operation_to_ram	16	static
+fsl_ftfx_cache.c:366:13:ftfx_common_bit_operation_command_sequence	40	static
+fsl_ftfx_cache.c:459:6:fmc_flash_cache_clear	24	static
+fsl_ftfx_cache.c:534:6:fmc_flash_prefetch_speculation_clear	24	static

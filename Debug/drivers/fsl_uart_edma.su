@@ -1,0 +1,12 @@
+fsl_uart.h:416:24:UART_GetDataRegisterAddress	16	static
+fsl_uart.h:429:20:UART_EnableTxDMA	16	static
+fsl_uart.h:459:20:UART_EnableRxDMA	16	static
+fsl_uart_edma.c:100:13:UART_SendEDMACallback	40	static
+fsl_uart_edma.c:127:13:UART_ReceiveEDMACallback	40	static
+fsl_uart_edma.c:159:6:UART_TransferCreateHandleEDMA	32	static
+fsl_uart_edma.c:225:10:UART_SendEDMA	80	static
+fsl_uart_edma.c:279:10:UART_ReceiveEDMA	80	static
+fsl_uart_edma.c:328:6:UART_TransferAbortSendEDMA	16	static
+fsl_uart_edma.c:350:6:UART_TransferAbortReceiveEDMA	16	static
+fsl_uart_edma.c:376:10:UART_TransferGetReceiveCountEDMA	32	static
+fsl_uart_edma.c:407:10:UART_TransferGetSendCountEDMA	32	static

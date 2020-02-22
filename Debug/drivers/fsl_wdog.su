@@ -1,0 +1,12 @@
+fsl_common.h:528:28:DisableGlobalIRQ	16	static
+fsl_common.h:559:24:EnableGlobalIRQ	24	static
+fsl_wdog.h:244:20:WDOG_Disable	16	static
+fsl_wdog.h:364:20:WDOG_Unlock	16	static
+fsl_wdog.h:399:20:WDOG_ClearResetCount	16	static
+fsl_wdog.c:42:6:WDOG_GetDefaultConfig	16	static
+fsl_wdog.c:83:6:WDOG_Init	24	static
+fsl_wdog.c:121:6:WDOG_Deinit	24	static
+fsl_wdog.c:152:6:WDOG_SetTestModeConfig	24	static
+fsl_wdog.c:191:10:WDOG_GetStatusFlags	24	static
+fsl_wdog.c:215:6:WDOG_ClearStatusFlags	16	static
+fsl_wdog.c:231:6:WDOG_Refresh	24	static

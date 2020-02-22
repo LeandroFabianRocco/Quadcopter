@@ -46,6 +46,24 @@
 /*
  * @brief   Application entry point.
  */
+
+/* UART4_RX_TX_IRQn interrupt handler */
+void UART4_SERIAL_RX_TX_IRQHANDLER(void) {
+    uint8_t data;
+    /* If new data arrived. */
+    if ((kUART_RxDataRegFullFlag | kUART_RxOverrunFlag) & UART_GetStatusFlags(UART4))
+    {
+    	data = UART_ReadByte(UART4);
+
+    	PRINTF("Data = %5d\r\n", data);
+    }
+    /* Add for ARM errata 838869, affects Cortex-M4, Cortex-M4F Store immediate overlapping
+      exception return operation might vector to incorrect interrupt */
+	#if defined __CORTEX_M && (__CORTEX_M == 4U)
+		__DSB();
+	#endif
+}
+
 int main(void) {
 
   	/* Init board hardware. */

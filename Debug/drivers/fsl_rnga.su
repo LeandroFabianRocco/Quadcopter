@@ -1,0 +1,9 @@
+fsl_clock.h:668:20:CLOCK_EnableClock	24	static
+fsl_clock.h:679:20:CLOCK_DisableClock	24	static
+fsl_rnga.c:173:6:RNGA_Init	16	static
+fsl_rnga.c:197:6:RNGA_Deinit	16	static
+fsl_rnga.c:210:17:rnga_ReadEntropy	24	static
+fsl_rnga.c:235:10:RNGA_GetRandomData	48	static
+fsl_rnga.c:287:6:RNGA_SetMode	16	static
+fsl_rnga.c:300:13:RNGA_GetMode	16	static
+fsl_rnga.c:314:6:RNGA_Seed	16	static

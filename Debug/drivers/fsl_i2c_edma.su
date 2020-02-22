@@ -1,0 +1,11 @@
+fsl_i2c.h:442:20:I2C_MasterClearStatusFlags	16	static
+fsl_i2c.h:524:20:I2C_EnableDMA	16	static
+fsl_i2c.h:545:24:I2C_GetDataRegAddr	16	static
+fsl_i2c_edma.c:88:13:I2C_MasterTransferCallbackEDMA	48	static
+fsl_i2c_edma.c:161:17:I2C_CheckAndClearError	24	static
+fsl_i2c_edma.c:185:17:I2C_InitTransferStateMachineEDMA	40	static
+fsl_i2c_edma.c:358:13:I2C_MasterTransferEDMAConfig	40	static
+fsl_i2c_edma.c:402:6:I2C_MasterCreateEDMAHandle	32	static
+fsl_i2c_edma.c:444:10:I2C_MasterTransferEDMA	32	static
+fsl_i2c_edma.c:579:10:I2C_MasterTransferGetCountEDMA	32	static
+fsl_i2c_edma.c:608:6:I2C_MasterTransferAbortEDMA	16	static

@@ -1,0 +1,6 @@
+fsl_clock.h:668:20:CLOCK_EnableClock	24	static
+fsl_clock.h:679:20:CLOCK_DisableClock	24	static
+fsl_flexbus.c:45:17:FLEXBUS_GetInstance	24	static
+fsl_flexbus.c:85:6:FLEXBUS_Init	24	static
+fsl_flexbus.c:194:6:FLEXBUS_Deinit	16	static
+fsl_flexbus.c:230:6:FLEXBUS_GetDefaultConfig	16	static
