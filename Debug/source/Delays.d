@@ -1,5 +1,5 @@
-board/peripherals.o board/peripherals.d: ../board/peripherals.c \
- ../board/peripherals.h \
+source/Delays.o source/Delays.d: ../source/Delays.c ../source/Delays.h \
+ /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/drivers/fsl_clock.h \
  /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/drivers/fsl_common.h \
  /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/device/fsl_device_registers.h \
  /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/device/MK64F12.h \
@@ -9,13 +9,11 @@ board/peripherals.o board/peripherals.d: ../board/peripherals.c \
  /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/CMSIS/cmsis_gcc.h \
  /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/device/system_MK64F12.h \
  /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/device/MK64F12_features.h \
- /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/drivers/fsl_clock.h \
- /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/drivers/fsl_common.h \
- /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/drivers/fsl_uart.h \
- /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/drivers/fsl_clock.h \
- /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/drivers/fsl_ftm.h
+ /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/drivers/fsl_clock.h
 
-../board/peripherals.h:
+../source/Delays.h:
+
+/home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/drivers/fsl_clock.h:
 
 /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/drivers/fsl_common.h:
 
@@ -36,11 +34,3 @@ board/peripherals.o board/peripherals.d: ../board/peripherals.c \
 /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/device/MK64F12_features.h:
 
 /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/drivers/fsl_clock.h:
-
-/home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/drivers/fsl_common.h:
-
-/home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/drivers/fsl_uart.h:
-
-/home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/drivers/fsl_clock.h:
-
-/home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/drivers/fsl_ftm.h:

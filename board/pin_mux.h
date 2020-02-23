@@ -25,6 +25,30 @@ extern "C" {
  */
 void BOARD_InitBootPins(void);
 
+/*! @name PORTC1 (number 71), J1[5]
+  @{ */
+#define BOARD_PWM0_PORT PORTC /*!<@brief PORT device name: PORTC */
+#define BOARD_PWM0_PIN 1U     /*!<@brief PORTC pin index: 1 */
+                              /* @} */
+
+/*! @name PORTC2 (number 72), J1[14]
+  @{ */
+#define BOARD_PWM1_PORT PORTC /*!<@brief PORT device name: PORTC */
+#define BOARD_PWM1_PIN 2U     /*!<@brief PORTC pin index: 2 */
+                              /* @} */
+
+/*! @name PORTC5 (number 77), J1[15]
+  @{ */
+#define BOARD_PWM2_PORT PORTC /*!<@brief PORT device name: PORTC */
+#define BOARD_PWM2_PIN 5U     /*!<@brief PORTC pin index: 5 */
+                              /* @} */
+
+/*! @name PORTC4 (number 76), J2[4]
+  @{ */
+#define BOARD_PWM3_PORT PORTC /*!<@brief PORT device name: PORTC */
+#define BOARD_PWM3_PIN 4U     /*!<@brief PORTC pin index: 4 */
+                              /* @} */
+
 /*!
  * @brief Configures pin routing and optionally pin electrical features.
  *

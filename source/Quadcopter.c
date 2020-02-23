@@ -42,7 +42,7 @@
 /******************************************************************
  * Other includes
  *****************************************************************/
-
+#include "PWM_functions.h"
 /******************************************************************
  * Variable definitions
  *****************************************************************/
@@ -51,14 +51,22 @@ uint8_t joystick_msb, joystick_lsb;
 static uint8_t joystick;
 static uint8_t throttle;
 
+//uint8_t rxIndex = 0;
+//uint8_t data[10] = {0};
+
 /******************************************************************
  * UART4 interrupt handler
  *****************************************************************/
 void UART4_SERIAL_RX_TX_IRQHANDLER(void) {
-    uint8_t data[10] = {0};
+	uint8_t data[10] = {0};
     if ((kUART_RxDataRegFullFlag | kUART_RxOverrunFlag) & UART_GetStatusFlags(UART4))
     {
     	UART_ReadBlocking(UART4, data, 10);
+    	/*data[rxIndex] = UART_ReadByte(UART4);
+    	rxIndex++;
+
+    	if (rxIndex == 10)
+    		rxIndex = 0;*/
 
     	for (uint8_t i=0; i<10; i++)
     	{
@@ -68,7 +76,6 @@ void UART4_SERIAL_RX_TX_IRQHANDLER(void) {
     			joystick = data[i+3];
     		}
     	}
-
 		PRINTF("Joystick = 0x%x; Throttle = %3d\r\n", joystick, throttle);
     }
     /* Add for ARM errata 838869, affects Cortex-M4, Cortex-M4F Store immediate overlapping
@@ -77,6 +84,9 @@ void UART4_SERIAL_RX_TX_IRQHANDLER(void) {
 		__DSB();
 	#endif
 }
+
+
+
 
 int main(void) {
 
@@ -94,6 +104,10 @@ int main(void) {
     /* Enter an infinite loop, just incrementing a counter. */
     while(1) {
         i++ ;
+        set_pwm_CnV(throttle, PWM_CH0);
+        set_pwm_CnV(throttle, PWM_CH1);
+        set_pwm_CnV(throttle, PWM_CH2);
+        set_pwm_CnV(throttle, PWM_CH3);
         //PRINTF("Joystick = %5d; Throttle = %5d\r\n", joystick, throttle);
         /* 'Dummy' NOP to allow source level single stepping of
             tight while() loop */

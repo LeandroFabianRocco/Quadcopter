@@ -4,15 +4,24 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
+../source/Delays.c \
+../source/PWM_functions.c \
 ../source/Quadcopter.c \
+../source/RGB_LEDS.c \
 ../source/semihost_hardfault.c 
 
 OBJS += \
+./source/Delays.o \
+./source/PWM_functions.o \
 ./source/Quadcopter.o \
+./source/RGB_LEDS.o \
 ./source/semihost_hardfault.o 
 
 C_DEPS += \
+./source/Delays.d \
+./source/PWM_functions.d \
 ./source/Quadcopter.d \
+./source/RGB_LEDS.d \
 ./source/semihost_hardfault.d 
 
 
