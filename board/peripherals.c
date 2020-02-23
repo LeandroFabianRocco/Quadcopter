@@ -64,11 +64,10 @@ instance:
       - parityMode: 'kUART_ParityDisabled'
       - stopBitCount: 'kUART_OneStopBit'
       - txFifoWatermark: '0'
-      - rxFifoWatermark: '1'
+      - rxFifoWatermark: '0'
       - idleType: 'kUART_IdleTypeStartBit'
       - enableTx: 'true'
       - enableRx: 'true'
-    - quick_selection: 'QuickSelection5'
   - interruptsCfg:
     - interrupts: 'kUART_RxDataRegFullInterruptEnable'
     - interrupt_vectors:
@@ -91,7 +90,7 @@ const uart_config_t UART4_config = {
   .parityMode = kUART_ParityDisabled,
   .stopBitCount = kUART_OneStopBit,
   .txFifoWatermark = 0,
-  .rxFifoWatermark = 1,
+  .rxFifoWatermark = 0,
   .idleType = kUART_IdleTypeStartBit,
   .enableTx = true,
   .enableRx = true

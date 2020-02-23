@@ -48,41 +48,28 @@
  *****************************************************************/
 uint8_t throttle_msb, throttle_lsb;
 uint8_t joystick_msb, joystick_lsb;
-uint8_t joystick;
-uint8_t throttle;
+static uint8_t joystick;
+static uint8_t throttle;
+
 /******************************************************************
  * UART4 interrupt handler
  *****************************************************************/
 void UART4_SERIAL_RX_TX_IRQHANDLER(void) {
-    uint8_t data;
+    uint8_t data[10] = {0};
     if ((kUART_RxDataRegFullFlag | kUART_RxOverrunFlag) & UART_GetStatusFlags(UART4))
     {
-    	data = UART_ReadByte(UART4);
-    	/*uint8_t MSBnibble = data & 0xF0;
-    	if (MSBnibble == 0xA0)
+    	UART_ReadBlocking(UART4, data, 10);
+
+    	for (uint8_t i=0; i<10; i++)
     	{
-    		throttle_msb = data;
-    	}
-    	else if (MSBnibble == 0xB0)
-    	{
-    		throttle_lsb = data;
-    	}
-    	else if (MSBnibble == 0xC0)
-    	{
-    		joystick_msb = data;
-    	}
-    	else if (MSBnibble == 0xD0)
-    	{
-    		joystick_lsb = data;
+    		if ((data[i] == 0x2A) && (data[i+1] == 0x23) && (data[i+4] == 0x2F) && (data[i+5] == 0x2B))
+    		{
+    			throttle = data[i+2];
+    			joystick = data[i+3];
+    		}
     	}
 
-    	uint8_t aux = throttle_msb<<4;
-
-    	joystick = joystick_msb<<4 && joystick_lsb;
-    	throttle = aux && throttle_lsb;*/
-
-    	PRINTF("Data = 0x%x\r\n", data);
-    	//PRINTF("Joystick = %5d; Throttle = %5d, Data = %x\r\n", joystick, throttle, data);
+		PRINTF("Joystick = 0x%x; Throttle = %3d\r\n", joystick, throttle);
     }
     /* Add for ARM errata 838869, affects Cortex-M4, Cortex-M4F Store immediate overlapping
       exception return operation might vector to incorrect interrupt */
@@ -107,6 +94,7 @@ int main(void) {
     /* Enter an infinite loop, just incrementing a counter. */
     while(1) {
         i++ ;
+        //PRINTF("Joystick = %5d; Throttle = %5d\r\n", joystick, throttle);
         /* 'Dummy' NOP to allow source level single stepping of
             tight while() loop */
         __asm volatile ("nop");
