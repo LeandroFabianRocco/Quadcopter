@@ -39,23 +39,50 @@
 #include "clock_config.h"
 #include "MK64F12.h"
 #include "fsl_debug_console.h"
-/* TODO: insert other include files here. */
+/******************************************************************
+ * Other includes
+ *****************************************************************/
 
-/* TODO: insert other definitions and declarations here. */
-
-/*
- * @brief   Application entry point.
- */
-
-/* UART4_RX_TX_IRQn interrupt handler */
+/******************************************************************
+ * Variable definitions
+ *****************************************************************/
+uint8_t throttle_msb, throttle_lsb;
+uint8_t joystick_msb, joystick_lsb;
+uint8_t joystick;
+uint8_t throttle;
+/******************************************************************
+ * UART4 interrupt handler
+ *****************************************************************/
 void UART4_SERIAL_RX_TX_IRQHANDLER(void) {
     uint8_t data;
-    /* If new data arrived. */
     if ((kUART_RxDataRegFullFlag | kUART_RxOverrunFlag) & UART_GetStatusFlags(UART4))
     {
     	data = UART_ReadByte(UART4);
+    	/*uint8_t MSBnibble = data & 0xF0;
+    	if (MSBnibble == 0xA0)
+    	{
+    		throttle_msb = data;
+    	}
+    	else if (MSBnibble == 0xB0)
+    	{
+    		throttle_lsb = data;
+    	}
+    	else if (MSBnibble == 0xC0)
+    	{
+    		joystick_msb = data;
+    	}
+    	else if (MSBnibble == 0xD0)
+    	{
+    		joystick_lsb = data;
+    	}
 
-    	PRINTF("Data = %5d\r\n", data);
+    	uint8_t aux = throttle_msb<<4;
+
+    	joystick = joystick_msb<<4 && joystick_lsb;
+    	throttle = aux && throttle_lsb;*/
+
+    	PRINTF("Data = 0x%x\r\n", data);
+    	//PRINTF("Joystick = %5d; Throttle = %5d, Data = %x\r\n", joystick, throttle, data);
     }
     /* Add for ARM errata 838869, affects Cortex-M4, Cortex-M4F Store immediate overlapping
       exception return operation might vector to incorrect interrupt */

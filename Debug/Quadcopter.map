@@ -283,6 +283,16 @@ Discarded input sections
  .text          0x0000000000000000        0x0 ./source/Quadcopter.o
  .data          0x0000000000000000        0x0 ./source/Quadcopter.o
  .bss           0x0000000000000000        0x0 ./source/Quadcopter.o
+ .bss.throttle_msb
+                0x0000000000000000        0x1 ./source/Quadcopter.o
+ .bss.throttle_lsb
+                0x0000000000000000        0x1 ./source/Quadcopter.o
+ .bss.joystick_msb
+                0x0000000000000000        0x1 ./source/Quadcopter.o
+ .bss.joystick_lsb
+                0x0000000000000000        0x1 ./source/Quadcopter.o
+ .bss.joystick  0x0000000000000000        0x1 ./source/Quadcopter.o
+ .bss.throttle  0x0000000000000000        0x1 ./source/Quadcopter.o
  .debug_macro   0x0000000000000000      0xad8 ./source/Quadcopter.o
  .debug_macro   0x0000000000000000       0x10 ./source/Quadcopter.o
  .debug_macro   0x0000000000000000      0x12e ./source/Quadcopter.o
@@ -6208,8 +6218,8 @@ END GROUP
  *(SORT_BY_ALIGNMENT(.rodata) SORT_BY_ALIGNMENT(.rodata.*) SORT_BY_ALIGNMENT(.constdata) SORT_BY_ALIGNMENT(.constdata.*))
  *fill*         0x000000000000391e        0x2 ff
  .rodata.UART4_RX_TX_IRQHandler.str1.4
-                0x0000000000003920        0xd ./source/Quadcopter.o
- *fill*         0x000000000000392d        0x3 ff
+                0x0000000000003920        0xe ./source/Quadcopter.o
+ *fill*         0x000000000000392e        0x2 ff
  .rodata.main.str1.4
                 0x0000000000003930        0xd ./source/Quadcopter.o
  *fill*         0x000000000000393d        0x3 ff
@@ -6415,7 +6425,7 @@ END GROUP
                 [!provide]                        PROVIDE (__start_bss_RAM = .)
                 [!provide]                        PROVIDE (__start_bss_SRAM_UPPER = .)
  *(SORT_BY_ALIGNMENT(.bss*))
- .bss.i.8426    0x0000000020000010        0x4 ./source/Quadcopter.o
+ .bss.i.8432    0x0000000020000010        0x4 ./source/Quadcopter.o
  .bss.g_xtal0Freq
                 0x0000000020000014        0x4 ./drivers/fsl_clock.o
                 0x0000000020000014                g_xtal0Freq
@@ -6536,43 +6546,43 @@ END GROUP
                 0x0000000000003e00                _image_size = (_image_end - _image_start)
 OUTPUT(Quadcopter.axf elf32-littlearm)
 
-.debug_info     0x0000000000000000    0x18797
+.debug_info     0x0000000000000000    0x18a95
  .debug_info    0x0000000000000000      0x92e ./startup/startup_mk64f12.o
- .debug_info    0x000000000000092e      0x9f6 ./source/Quadcopter.o
- .debug_info    0x0000000000001324       0x3c ./source/semihost_hardfault.o
- .debug_info    0x0000000000001360     0x21b2 ./drivers/fsl_clock.o
- .debug_info    0x0000000000003512     0x25b0 ./drivers/fsl_dspi.o
- .debug_info    0x0000000000005ac2     0x22d5 ./drivers/fsl_edma.o
- .debug_info    0x0000000000007d97     0x26c8 ./drivers/fsl_enet.o
- .debug_info    0x000000000000a45f     0x23ea ./drivers/fsl_flexcan.o
- .debug_info    0x000000000000c849     0x1ef4 ./drivers/fsl_i2c.o
- .debug_info    0x000000000000e73d     0x2f0d ./drivers/fsl_sai.o
- .debug_info    0x000000000001164a     0x2206 ./drivers/fsl_sdhc.o
- .debug_info    0x0000000000013850     0x1c98 ./drivers/fsl_uart.o
- .debug_info    0x00000000000154e8      0x69f ./device/system_MK64F12.o
- .debug_info    0x0000000000015b87      0x672 ./board/board.o
- .debug_info    0x00000000000161f9      0xcd8 ./board/clock_config.o
- .debug_info    0x0000000000016ed1      0xc19 ./board/peripherals.o
- .debug_info    0x0000000000017aea      0xcad ./board/pin_mux.o
+ .debug_info    0x000000000000092e      0xcf4 ./source/Quadcopter.o
+ .debug_info    0x0000000000001622       0x3c ./source/semihost_hardfault.o
+ .debug_info    0x000000000000165e     0x21b2 ./drivers/fsl_clock.o
+ .debug_info    0x0000000000003810     0x25b0 ./drivers/fsl_dspi.o
+ .debug_info    0x0000000000005dc0     0x22d5 ./drivers/fsl_edma.o
+ .debug_info    0x0000000000008095     0x26c8 ./drivers/fsl_enet.o
+ .debug_info    0x000000000000a75d     0x23ea ./drivers/fsl_flexcan.o
+ .debug_info    0x000000000000cb47     0x1ef4 ./drivers/fsl_i2c.o
+ .debug_info    0x000000000000ea3b     0x2f0d ./drivers/fsl_sai.o
+ .debug_info    0x0000000000011948     0x2206 ./drivers/fsl_sdhc.o
+ .debug_info    0x0000000000013b4e     0x1c98 ./drivers/fsl_uart.o
+ .debug_info    0x00000000000157e6      0x69f ./device/system_MK64F12.o
+ .debug_info    0x0000000000015e85      0x672 ./board/board.o
+ .debug_info    0x00000000000164f7      0xcd8 ./board/clock_config.o
+ .debug_info    0x00000000000171cf      0xc19 ./board/peripherals.o
+ .debug_info    0x0000000000017de8      0xcad ./board/pin_mux.o
 
-.debug_abbrev   0x0000000000000000     0x2ca7
+.debug_abbrev   0x0000000000000000     0x2ccd
  .debug_abbrev  0x0000000000000000      0x17a ./startup/startup_mk64f12.o
- .debug_abbrev  0x000000000000017a      0x231 ./source/Quadcopter.o
- .debug_abbrev  0x00000000000003ab       0x31 ./source/semihost_hardfault.o
- .debug_abbrev  0x00000000000003dc      0x371 ./drivers/fsl_clock.o
- .debug_abbrev  0x000000000000074d      0x399 ./drivers/fsl_dspi.o
- .debug_abbrev  0x0000000000000ae6      0x3fd ./drivers/fsl_edma.o
- .debug_abbrev  0x0000000000000ee3      0x2fc ./drivers/fsl_enet.o
- .debug_abbrev  0x00000000000011df      0x323 ./drivers/fsl_flexcan.o
- .debug_abbrev  0x0000000000001502      0x3a6 ./drivers/fsl_i2c.o
- .debug_abbrev  0x00000000000018a8      0x309 ./drivers/fsl_sai.o
- .debug_abbrev  0x0000000000001bb1      0x32b ./drivers/fsl_sdhc.o
- .debug_abbrev  0x0000000000001edc      0x358 ./drivers/fsl_uart.o
- .debug_abbrev  0x0000000000002234      0x170 ./device/system_MK64F12.o
- .debug_abbrev  0x00000000000023a4      0x1a0 ./board/board.o
- .debug_abbrev  0x0000000000002544      0x265 ./board/clock_config.o
- .debug_abbrev  0x00000000000027a9      0x229 ./board/peripherals.o
- .debug_abbrev  0x00000000000029d2      0x2d5 ./board/pin_mux.o
+ .debug_abbrev  0x000000000000017a      0x257 ./source/Quadcopter.o
+ .debug_abbrev  0x00000000000003d1       0x31 ./source/semihost_hardfault.o
+ .debug_abbrev  0x0000000000000402      0x371 ./drivers/fsl_clock.o
+ .debug_abbrev  0x0000000000000773      0x399 ./drivers/fsl_dspi.o
+ .debug_abbrev  0x0000000000000b0c      0x3fd ./drivers/fsl_edma.o
+ .debug_abbrev  0x0000000000000f09      0x2fc ./drivers/fsl_enet.o
+ .debug_abbrev  0x0000000000001205      0x323 ./drivers/fsl_flexcan.o
+ .debug_abbrev  0x0000000000001528      0x3a6 ./drivers/fsl_i2c.o
+ .debug_abbrev  0x00000000000018ce      0x309 ./drivers/fsl_sai.o
+ .debug_abbrev  0x0000000000001bd7      0x32b ./drivers/fsl_sdhc.o
+ .debug_abbrev  0x0000000000001f02      0x358 ./drivers/fsl_uart.o
+ .debug_abbrev  0x000000000000225a      0x170 ./device/system_MK64F12.o
+ .debug_abbrev  0x00000000000023ca      0x1a0 ./board/board.o
+ .debug_abbrev  0x000000000000256a      0x265 ./board/clock_config.o
+ .debug_abbrev  0x00000000000027cf      0x229 ./board/peripherals.o
+ .debug_abbrev  0x00000000000029f8      0x2d5 ./board/pin_mux.o
 
 .debug_aranges  0x0000000000000000     0x14d8
  .debug_aranges
@@ -6666,59 +6676,59 @@ OUTPUT(Quadcopter.axf elf32-littlearm)
  .debug_macro   0x0000000000001893      0x10a ./board/peripherals.o
  .debug_macro   0x000000000000199d      0x109 ./board/pin_mux.o
 
-.debug_line     0x0000000000000000     0xdc7b
+.debug_line     0x0000000000000000     0xdc7d
  .debug_line    0x0000000000000000      0x90e ./startup/startup_mk64f12.o
- .debug_line    0x000000000000090e      0x53b ./source/Quadcopter.o
- .debug_line    0x0000000000000e49       0x5a ./source/semihost_hardfault.o
- .debug_line    0x0000000000000ea3     0x14a1 ./drivers/fsl_clock.o
- .debug_line    0x0000000000002344     0x1796 ./drivers/fsl_dspi.o
- .debug_line    0x0000000000003ada     0x1288 ./drivers/fsl_edma.o
- .debug_line    0x0000000000004d62     0x111c ./drivers/fsl_enet.o
- .debug_line    0x0000000000005e7e     0x134d ./drivers/fsl_flexcan.o
- .debug_line    0x00000000000071cb     0x13cc ./drivers/fsl_i2c.o
- .debug_line    0x0000000000008597     0x1bee ./drivers/fsl_sai.o
- .debug_line    0x000000000000a185     0x10c4 ./drivers/fsl_sdhc.o
- .debug_line    0x000000000000b249     0x130a ./drivers/fsl_uart.o
- .debug_line    0x000000000000c553      0x3df ./device/system_MK64F12.o
- .debug_line    0x000000000000c932      0x48a ./board/board.o
- .debug_line    0x000000000000cdbc      0x4ec ./board/clock_config.o
- .debug_line    0x000000000000d2a8      0x3c0 ./board/peripherals.o
- .debug_line    0x000000000000d668      0x613 ./board/pin_mux.o
+ .debug_line    0x000000000000090e      0x53d ./source/Quadcopter.o
+ .debug_line    0x0000000000000e4b       0x5a ./source/semihost_hardfault.o
+ .debug_line    0x0000000000000ea5     0x14a1 ./drivers/fsl_clock.o
+ .debug_line    0x0000000000002346     0x1796 ./drivers/fsl_dspi.o
+ .debug_line    0x0000000000003adc     0x1288 ./drivers/fsl_edma.o
+ .debug_line    0x0000000000004d64     0x111c ./drivers/fsl_enet.o
+ .debug_line    0x0000000000005e80     0x134d ./drivers/fsl_flexcan.o
+ .debug_line    0x00000000000071cd     0x13cc ./drivers/fsl_i2c.o
+ .debug_line    0x0000000000008599     0x1bee ./drivers/fsl_sai.o
+ .debug_line    0x000000000000a187     0x10c4 ./drivers/fsl_sdhc.o
+ .debug_line    0x000000000000b24b     0x130a ./drivers/fsl_uart.o
+ .debug_line    0x000000000000c555      0x3df ./device/system_MK64F12.o
+ .debug_line    0x000000000000c934      0x48a ./board/board.o
+ .debug_line    0x000000000000cdbe      0x4ec ./board/clock_config.o
+ .debug_line    0x000000000000d2aa      0x3c0 ./board/peripherals.o
+ .debug_line    0x000000000000d66a      0x613 ./board/pin_mux.o
 
-.debug_str      0x0000000000000000    0x8999a
+.debug_str      0x0000000000000000    0x899e0
  .debug_str     0x0000000000000000     0x3646 ./startup/startup_mk64f12.o
                                        0x3725 (size before relaxing)
- .debug_str     0x0000000000003646    0x785ed ./source/Quadcopter.o
-                                      0x7b561 (size before relaxing)
- .debug_str     0x000000000007bc33       0x1f ./source/semihost_hardfault.o
+ .debug_str     0x0000000000003646    0x78e81 ./source/Quadcopter.o
+                                      0x7bdf5 (size before relaxing)
+ .debug_str     0x000000000007c4c7       0x1f ./source/semihost_hardfault.o
                                        0x2eb6 (size before relaxing)
- .debug_str     0x000000000007bc52     0x2373 ./drivers/fsl_clock.o
+ .debug_str     0x000000000007c4e6     0x1b25 ./drivers/fsl_clock.o
                                       0x7b767 (size before relaxing)
- .debug_str     0x000000000007dfc5     0x18d7 ./drivers/fsl_dspi.o
+ .debug_str     0x000000000007e00b     0x18d7 ./drivers/fsl_dspi.o
                                       0x7b5fd (size before relaxing)
- .debug_str     0x000000000007f89c     0x1079 ./drivers/fsl_edma.o
+ .debug_str     0x000000000007f8e2     0x1079 ./drivers/fsl_edma.o
                                       0x7b247 (size before relaxing)
- .debug_str     0x0000000000080915     0x1d38 ./drivers/fsl_enet.o
+ .debug_str     0x000000000008095b     0x1d38 ./drivers/fsl_enet.o
                                       0x7c028 (size before relaxing)
- .debug_str     0x000000000008264d     0x250b ./drivers/fsl_flexcan.o
+ .debug_str     0x0000000000082693     0x250b ./drivers/fsl_flexcan.o
                                       0x7c6ee (size before relaxing)
- .debug_str     0x0000000000084b58      0xc64 ./drivers/fsl_i2c.o
+ .debug_str     0x0000000000084b9e      0xc64 ./drivers/fsl_i2c.o
                                       0x7ae75 (size before relaxing)
- .debug_str     0x00000000000857bc     0x1248 ./drivers/fsl_sai.o
+ .debug_str     0x0000000000085802     0x1248 ./drivers/fsl_sai.o
                                       0x7b491 (size before relaxing)
- .debug_str     0x0000000000086a04     0x1800 ./drivers/fsl_sdhc.o
+ .debug_str     0x0000000000086a4a     0x1800 ./drivers/fsl_sdhc.o
                                       0x7ba0d (size before relaxing)
- .debug_str     0x0000000000088204      0x9ba ./drivers/fsl_uart.o
+ .debug_str     0x000000000008824a      0x9ba ./drivers/fsl_uart.o
                                       0x7afb2 (size before relaxing)
- .debug_str     0x0000000000088bbe      0x10a ./device/system_MK64F12.o
+ .debug_str     0x0000000000088c04      0x10a ./device/system_MK64F12.o
                                       0x78218 (size before relaxing)
- .debug_str     0x0000000000088cc8       0xbb ./board/board.o
+ .debug_str     0x0000000000088d0e       0xbb ./board/board.o
                                       0x7ab11 (size before relaxing)
- .debug_str     0x0000000000088d83      0x455 ./board/clock_config.o
+ .debug_str     0x0000000000088dc9      0x455 ./board/clock_config.o
                                       0x7a275 (size before relaxing)
- .debug_str     0x00000000000891d8       0x52 ./board/peripherals.o
+ .debug_str     0x000000000008921e       0x52 ./board/peripherals.o
                                       0x7a58e (size before relaxing)
- .debug_str     0x000000000008922a      0x770 ./board/pin_mux.o
+ .debug_str     0x0000000000089270      0x770 ./board/pin_mux.o
                                       0x7a2e6 (size before relaxing)
 
 .comment        0x0000000000000000       0x76
@@ -7954,6 +7964,9 @@ g_serialHandle                                    ./utilities/fsl_debug_console.
 g_xtal0Freq                                       ./drivers/fsl_clock.o
                                                   ./board/clock_config.o
 g_xtal32Freq                                      ./drivers/fsl_clock.o
+joystick                                          ./source/Quadcopter.o
+joystick_lsb                                      ./source/Quadcopter.o
+joystick_msb                                      ./source/Quadcopter.o
 main                                              ./source/Quadcopter.o
                                                   /usr/local/mcuxpressoide-11.1.0_3209/ide/plugins/com.nxp.mcuxpresso.tools.linux_11.1.0.201909161352/tools/bin/../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libcr_semihost_nf.a(_cr__main.o)
 malloc                                            /usr/local/mcuxpressoide-11.1.0_3209/ide/plugins/com.nxp.mcuxpresso.tools.linux_11.1.0.201909161352/tools/bin/../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libcr_c.a(alloc.o)
@@ -8013,3 +8026,6 @@ strlen                                            /usr/local/mcuxpressoide-11.1.
                                                   /usr/local/mcuxpressoide-11.1.0_3209/ide/plugins/com.nxp.mcuxpresso.tools.linux_11.1.0.201909161352/tools/bin/../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libcr_c.a(remove.o)
                                                   /usr/local/mcuxpressoide-11.1.0_3209/ide/plugins/com.nxp.mcuxpresso.tools.linux_11.1.0.201909161352/tools/bin/../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libcr_c.a(printf.o)
                                                   ./utilities/fsl_str.o
+throttle                                          ./source/Quadcopter.o
+throttle_lsb                                      ./source/Quadcopter.o
+throttle_msb                                      ./source/Quadcopter.o
