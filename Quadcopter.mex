@@ -883,16 +883,6 @@
                   <data type="Version">2.2.0</data>
                </feature>
             </dependency>
-            <dependency resourceType="SWComponent" resourceId="platform.drivers.ftm" description="FTM Driver not found in the toolchain/IDE project. Project will not compile!" problem_level="2" source="Peripherals">
-               <feature name="enabled" evaluation="equal">
-                  <data type="Boolean">true</data>
-               </feature>
-            </dependency>
-            <dependency resourceType="SWComponent" resourceId="platform.drivers.ftm" description="Unsupported version of the FTM Driver in the toolchain/IDE project. Required: ${required_value}, actual: ${actual_value}. Project might not compile correctly." problem_level="1" source="Peripherals">
-               <feature name="version" evaluation="compatible">
-                  <data type="Version">2.1.0</data>
-               </feature>
-            </dependency>
          </dependencies>
          <generated_project_files>
             <file path="peripherals.c" update_enabled="true"/>
@@ -921,34 +911,9 @@
                         <data type="Boolean">true</data>
                      </feature>
                   </dependency>
-                  <dependency resourceType="ClockOutput" resourceId="MCGFFCLK" description="MCGFFCLK is inactive. Problem must be resolved in another tool." problem_level="1" source="Peripherals:BOARD_InitPeripherals">
-                     <feature name="frequency" evaluation="greaterThan">
-                        <data type="Frequency" unit="Hz">0</data>
-                     </feature>
-                  </dependency>
-                  <dependency resourceType="PeripheralUnifiedSignal" resourceId="FTM0.tmr_ch.0" description="Signal CH0 of peripheral FTM0 is not routed Problem must be resolved in another tool." problem_level="1" source="Peripherals:BOARD_InitPeripherals">
-                     <feature name="routed" evaluation="equal">
-                        <data type="Boolean">true</data>
-                     </feature>
-                  </dependency>
-                  <dependency resourceType="PeripheralUnifiedSignal" resourceId="FTM0.tmr_ch.1" description="Signal CH1 of peripheral FTM0 is not routed Problem must be resolved in another tool." problem_level="1" source="Peripherals:BOARD_InitPeripherals">
-                     <feature name="routed" evaluation="equal">
-                        <data type="Boolean">true</data>
-                     </feature>
-                  </dependency>
-                  <dependency resourceType="PeripheralUnifiedSignal" resourceId="FTM0.tmr_ch.2" description="Signal CH2 of peripheral FTM0 is not routed Problem must be resolved in another tool." problem_level="1" source="Peripherals:BOARD_InitPeripherals">
-                     <feature name="routed" evaluation="equal">
-                        <data type="Boolean">true</data>
-                     </feature>
-                  </dependency>
-                  <dependency resourceType="PeripheralUnifiedSignal" resourceId="FTM0.tmr_ch.3" description="Signal CH3 of peripheral FTM0 is not routed Problem must be resolved in another tool." problem_level="1" source="Peripherals:BOARD_InitPeripherals">
-                     <feature name="routed" evaluation="equal">
-                        <data type="Boolean">true</data>
-                     </feature>
-                  </dependency>
                </dependencies>
                <instances>
-                  <instance name="UART4" uuid="f07fc373-c4dd-4fde-81f6-a24f5c6f00c0" type="uart" type_id="uart_88ab1eca0cddb7ee407685775de016d5" mode="interrupts" peripheral="UART4" enabled="true" comment="" custom_name_enabled="false">
+                  <instance name="UART4" uuid="02d589a0-1967-41f7-baec-ff570877b835" type="uart" type_id="uart_88ab1eca0cddb7ee407685775de016d5" mode="interrupts" peripheral="UART4" enabled="true" comment="" custom_name_enabled="false">
                      <config_set name="uartConfig_t">
                         <struct name="uartConfig">
                            <setting name="clockSource" value="BusInterfaceClock"/>
@@ -987,90 +952,6 @@
                         </struct>
                      </config_set>
                   </instance>
-                  <instance name="FTM0" uuid="605accd3-8089-4b50-b62c-dd6a53cc1132" type="ftm" type_id="ftm_04a15ae4af2b404bf2ae403c3dbe98b3" mode="EdgeAligned" peripheral="FTM0" enabled="true" comment="" custom_name_enabled="false">
-                     <config_set name="ftm_main_config">
-                        <struct name="ftm_config">
-                           <setting name="clockSource" value="kFTM_FixedClock"/>
-                           <setting name="clockSourceFreq" value="GetFreq"/>
-                           <setting name="prescale" value="kFTM_Prescale_Divide_1"/>
-                           <setting name="timerFrequency" value="50"/>
-                           <setting name="bdmMode" value="kFTM_BdmMode_0"/>
-                           <set name="pwmSyncMode">
-                              <selected>
-                                 <id>kFTM_SoftwareTrigger</id>
-                              </selected>
-                           </set>
-                           <set name="reloadPoints">
-                              <selected/>
-                           </set>
-                           <setting name="faultMode" value="kFTM_Fault_Disable"/>
-                           <setting name="faultFilterValue" value="0"/>
-                           <setting name="deadTimePrescale" value="kFTM_Deadtime_Prescale_1"/>
-                           <setting name="deadTimeValue" value="0"/>
-                           <set name="extTriggers">
-                              <selected/>
-                           </set>
-                           <set name="chnlInitState">
-                              <selected/>
-                           </set>
-                           <set name="chnlPolarity">
-                              <selected/>
-                           </set>
-                           <setting name="useGlobalTimeBase" value="false"/>
-                        </struct>
-                        <set name="timer_interrupts">
-                           <selected/>
-                        </set>
-                        <setting name="enable_irq" value="false"/>
-                        <struct name="ftm_interrupt">
-                           <setting name="IRQn" value="FTM0_IRQn"/>
-                           <setting name="enable_priority" value="false"/>
-                           <setting name="priority" value="0"/>
-                           <setting name="enable_custom_name" value="false"/>
-                        </struct>
-                        <setting name="EnableTimerInInit" value="true"/>
-                     </config_set>
-                     <config_set name="ftm_edge_aligned_mode">
-                        <array name="ftm_edge_aligned_channels_config">
-                           <struct name="0">
-                              <setting name="edge_aligned_mode" value="kFTM_EdgeAlignedPwm"/>
-                              <struct name="edge_aligned_pwm">
-                                 <setting name="chnlNumber" value="kFTM_Chnl_0"/>
-                                 <setting name="level" value="kFTM_HighTrue"/>
-                                 <setting name="dutyCyclePercent" value="5"/>
-                                 <setting name="enable_chan_irq" value="false"/>
-                              </struct>
-                           </struct>
-                           <struct name="1">
-                              <setting name="edge_aligned_mode" value="kFTM_EdgeAlignedPwm"/>
-                              <struct name="edge_aligned_pwm">
-                                 <setting name="chnlNumber" value="kFTM_Chnl_1"/>
-                                 <setting name="level" value="kFTM_HighTrue"/>
-                                 <setting name="dutyCyclePercent" value="5"/>
-                                 <setting name="enable_chan_irq" value="false"/>
-                              </struct>
-                           </struct>
-                           <struct name="2">
-                              <setting name="edge_aligned_mode" value="kFTM_EdgeAlignedPwm"/>
-                              <struct name="edge_aligned_pwm">
-                                 <setting name="chnlNumber" value="kFTM_Chnl_2"/>
-                                 <setting name="level" value="kFTM_HighTrue"/>
-                                 <setting name="dutyCyclePercent" value="5"/>
-                                 <setting name="enable_chan_irq" value="false"/>
-                              </struct>
-                           </struct>
-                           <struct name="3">
-                              <setting name="edge_aligned_mode" value="kFTM_EdgeAlignedPwm"/>
-                              <struct name="edge_aligned_pwm">
-                                 <setting name="chnlNumber" value="kFTM_Chnl_3"/>
-                                 <setting name="level" value="kFTM_HighTrue"/>
-                                 <setting name="dutyCyclePercent" value="5"/>
-                                 <setting name="enable_chan_irq" value="false"/>
-                              </struct>
-                           </struct>
-                        </array>
-                     </config_set>
-                  </instance>
                </instances>
             </functional_group>
          </functional_groups>
@@ -1078,7 +959,7 @@
             <component name="system" uuid="79f430f4-78a4-46ab-879c-3adafb517458" type_id="system">
                <config_set_global name="global_system_definitions"/>
             </component>
-            <component name="msg" uuid="d5d44482-dec2-46c9-bb73-c2f9c2a2cdd3" type_id="msg_6e2baaf3b97dbeef01c0043275f9a0e7">
+            <component name="msg" uuid="62fd1e8f-6922-4691-bd0c-360b12d07cf7" type_id="msg_6e2baaf3b97dbeef01c0043275f9a0e7">
                <config_set_global name="global_messages"/>
             </component>
          </components>

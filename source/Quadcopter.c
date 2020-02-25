@@ -39,79 +39,115 @@
 #include "clock_config.h"
 #include "MK64F12.h"
 #include "fsl_debug_console.h"
-/******************************************************************
- * Other includes
- *****************************************************************/
-#include "PWM_functions.h"
-/******************************************************************
- * Variable definitions
- *****************************************************************/
-uint8_t throttle_msb, throttle_lsb;
-uint8_t joystick_msb, joystick_lsb;
-static uint8_t joystick;
-static uint8_t throttle;
 
-//uint8_t rxIndex = 0;
-//uint8_t data[10] = {0};
+#include "fsl_uart.h"
 
-/******************************************************************
- * UART4 interrupt handler
- *****************************************************************/
-void UART4_SERIAL_RX_TX_IRQHANDLER(void) {
-	uint8_t data[10] = {0};
-    if ((kUART_RxDataRegFullFlag | kUART_RxOverrunFlag) & UART_GetStatusFlags(UART4))
+/*******************************************************************************
+ * Definitions
+ ******************************************************************************/
+/* UART instance and clock */
+#define DEMO_UART UART4
+#define DEMO_UART_CLKSRC UART4_CLK_SRC
+#define DEMO_UART_CLK_FREQ CLOCK_GetFreq(UART4_CLK_SRC)
+#define ECHO_BUFFER_LENGTH 10
+
+/*******************************************************************************
+ * Prototypes
+ ******************************************************************************/
+
+/* UART user callback */
+void UART_UserCallback(UART_Type *base, uart_handle_t *handle, status_t status, void *userData);
+
+/*******************************************************************************
+ * Variables
+ ******************************************************************************/
+uart_handle_t g_uartHandle;
+
+uint8_t g_tipString[] =
+    "Uart interrupt example\r\nBoard receives 8 characters then sends them out\r\nNow please input:\r\n";
+
+uint8_t g_txBuffer[ECHO_BUFFER_LENGTH] = {0};
+uint8_t g_rxBuffer[ECHO_BUFFER_LENGTH] = {0};
+volatile bool rxBufferEmpty            = true;
+volatile bool txBufferFull             = false;
+volatile bool txOnGoing                = false;
+volatile bool rxOnGoing                = false;
+
+/*******************************************************************************
+ * Code
+ ******************************************************************************/
+extern void UART4_DriverIRQHandler(void);
+
+/* UART user callback */
+void UART_UserCallback(UART_Type *base, uart_handle_t *handle, status_t status, void *userData)
+{
+    userData = userData;
+
+    if (kStatus_UART_TxIdle == status)
     {
-    	UART_ReadBlocking(UART4, data, 10);
-    	/*data[rxIndex] = UART_ReadByte(UART4);
-    	rxIndex++;
-
-    	if (rxIndex == 10)
-    		rxIndex = 0;*/
-
-    	for (uint8_t i=0; i<10; i++)
-    	{
-    		if ((data[i] == 0x2A) && (data[i+1] == 0x23) && (data[i+4] == 0x2F) && (data[i+5] == 0x2B))
-    		{
-    			throttle = data[i+2];
-    			joystick = data[i+3];
-    		}
-    	}
-		PRINTF("Joystick = 0x%x; Throttle = %3d\r\n", joystick, throttle);
+        txBufferFull = false;
+        txOnGoing    = false;
     }
-    /* Add for ARM errata 838869, affects Cortex-M4, Cortex-M4F Store immediate overlapping
-      exception return operation might vector to incorrect interrupt */
-	#if defined __CORTEX_M && (__CORTEX_M == 4U)
-		__DSB();
-	#endif
+
+    if (kStatus_UART_RxIdle == status)
+    {
+        rxBufferEmpty = false;
+        rxOnGoing     = false;
+    }
 }
 
+/*!
+ * @brief Main function
+ */
+int main(void)
+{
+    uart_config_t config;
+    uart_transfer_t receiveXfer;
+
+    BOARD_InitPins();
+    BOARD_BootClockRUN();
+
+    /*
+     * config.baudRate_Bps = 115200U;
+     * config.parityMode = kUART_ParityDisabled;
+     * config.stopBitCount = kUART_OneStopBit;
+     * config.txFifoWatermark = 0;
+     * config.rxFifoWatermark = 1;
+     * config.enableTx = false;
+     * config.enableRx = false;
+     */
+    UART_GetDefaultConfig(&config);
+    config.baudRate_Bps = 9600;
+    config.enableTx     = true;
+    config.enableRx     = true;
+
+    UART_Init(DEMO_UART, &config, DEMO_UART_CLK_FREQ);
+    UART_TransferCreateHandle(DEMO_UART, &g_uartHandle, UART_UserCallback, NULL);
 
 
+    receiveXfer.data     = g_rxBuffer;
+    receiveXfer.dataSize = ECHO_BUFFER_LENGTH;
 
-int main(void) {
+    uint8_t joystick = 0, throttle = 0;
 
-  	/* Init board hardware. */
-    BOARD_InitBootPins();
-    BOARD_InitBootClocks();
-    BOARD_InitBootPeripherals();
-  	/* Init FSL debug console. */
-    BOARD_InitDebugConsole();
+    while (1)
+    {
+        /* If RX is idle and g_rxBuffer is empty, start to read data to g_rxBuffer. */
+        //if ((!rxOnGoing) && rxBufferEmpty)
+        //{
+            rxOnGoing = true;
+            UART_TransferReceiveNonBlocking(DEMO_UART, &g_uartHandle, &receiveXfer, NULL);
+            for (uint8_t i=0; i<10; i++)
+			{
+				if ((g_rxBuffer[i] == 0x2A) && (g_rxBuffer[i+1] == 0x23) && (g_rxBuffer[i+4] == 0x2F) && (g_rxBuffer[i+5] = 0x2B))
+				{
+					throttle = g_rxBuffer[i+2];
+					joystick = g_rxBuffer[i+3];
+				}
+			}
+            PRINTF("Throttle = %3d; Joystick = %3d\r\n", throttle, joystick);
+        //}
 
-    PRINTF("Hello World\n");
 
-    /* Force the counter to be placed into memory. */
-    volatile static int i = 0 ;
-    /* Enter an infinite loop, just incrementing a counter. */
-    while(1) {
-        i++ ;
-        set_pwm_CnV(throttle, PWM_CH0);
-        set_pwm_CnV(throttle, PWM_CH1);
-        set_pwm_CnV(throttle, PWM_CH2);
-        set_pwm_CnV(throttle, PWM_CH3);
-        //PRINTF("Joystick = %5d; Throttle = %5d\r\n", joystick, throttle);
-        /* 'Dummy' NOP to allow source level single stepping of
-            tight while() loop */
-        __asm volatile ("nop");
     }
-    return 0 ;
 }
