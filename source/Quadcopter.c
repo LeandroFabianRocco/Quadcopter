@@ -50,13 +50,7 @@
 #define DEMO_UART_CLK_FREQ CLOCK_GetFreq(UART4_CLK_SRC)
 #define DEMO_UART_IRQn UART4_RX_TX_IRQn
 #define DEMO_UART_IRQHandler UART4_RX_TX_IRQHandler
-
-
-/*! @brief Ring buffer size (Unit: Byte). */
-#define DEMO_RING_BUFFER_SIZE 16
-
-uint8_t g_tipString[] =
-    "Uart functional API interrupt example\r\nBoard receives characters then sends them out\r\nNow please input:\r\n";
+#define DEMO_RING_BUFFER_SIZE 4
 
 /*
   Ring buffer for data input and output, in this example, input data are saved
@@ -86,30 +80,21 @@ volatile bool rxOnGoing                = false;
 void DEMO_UART_IRQHandler(void)
 {
     uint8_t data;
-
-    /* If new data arrived. */
     if ((kUART_RxDataRegFullFlag | kUART_RxOverrunFlag) & UART_GetStatusFlags(DEMO_UART))
     {
         data = UART_ReadByte(DEMO_UART);
-
-        /* If ring buffer is not full, add data to ring buffer. */
-        if (((rxIndex + 1) % DEMO_RING_BUFFER_SIZE) != txIndex)
-        {
-            demoRingBuffer[rxIndex] = data;
-            rxIndex++;
-            rxIndex %= DEMO_RING_BUFFER_SIZE;
-        }
+		demoRingBuffer[rxIndex] = data;
+		rxIndex++;
+		rxIndex %= DEMO_RING_BUFFER_SIZE;
     }
     /* Add for ARM errata 838869, affects Cortex-M4, Cortex-M4F Store immediate overlapping
-      exception return operation might vector to incorrect interrupt */
+          exception return operation might vector to incorrect interrupt */
 #if defined __CORTEX_M && (__CORTEX_M == 4U)
     __DSB();
 #endif
 }
 
-/*!
- * @brief Main function
- */
+
 int main(void)
 {
 	uart_config_t config;
@@ -117,37 +102,19 @@ int main(void)
 	BOARD_InitPins();
 	BOARD_BootClockRUN();
 
-	/*
-	 * config.baudRate_Bps = 115200U;
-	 * config.parityMode = kUART_ParityDisabled;
-	 * config.stopBitCount = kUART_OneStopBit;
-	 * config.txFifoWatermark = 0;
-	 * config.rxFifoWatermark = 1;
-	 * config.enableTx = false;
-	 * config.enableRx = false;
-	 */
 	UART_GetDefaultConfig(&config);
 	config.baudRate_Bps = 9600;
-	config.enableTx     = true;
+	config.enableTx     = false;
 	config.enableRx     = true;
 
 	UART_Init(DEMO_UART, &config, DEMO_UART_CLK_FREQ);
 
-	/* Send g_tipString out. */
-	UART_WriteBlocking(DEMO_UART, g_tipString, sizeof(g_tipString) / sizeof(g_tipString[0]));
 
-	/* Enable RX interrupt. */
 	UART_EnableInterrupts(DEMO_UART, kUART_RxDataRegFullInterruptEnable | kUART_RxOverrunInterruptEnable);
 	EnableIRQ(DEMO_UART_IRQn);
 
 	while (1)
 	{
-		/* Send data only when UART TX register is empty and ring buffer has data to send out. */
-		while ((kUART_TxDataRegEmptyFlag & UART_GetStatusFlags(DEMO_UART)) && (rxIndex != txIndex))
-		{
-			UART_WriteByte(DEMO_UART, demoRingBuffer[txIndex]);
-			txIndex++;
-			txIndex %= DEMO_RING_BUFFER_SIZE;
-		}
+
 	}
 }
