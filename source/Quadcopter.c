@@ -45,29 +45,36 @@
 /*******************************************************************************
  * Definitions
  ******************************************************************************/
-/* UART instance and clock */
 #define DEMO_UART UART4
 #define DEMO_UART_CLKSRC UART4_CLK_SRC
 #define DEMO_UART_CLK_FREQ CLOCK_GetFreq(UART4_CLK_SRC)
-#define ECHO_BUFFER_LENGTH 10
+#define DEMO_UART_IRQn UART4_RX_TX_IRQn
+#define DEMO_UART_IRQHandler UART4_RX_TX_IRQHandler
 
-/*******************************************************************************
- * Prototypes
- ******************************************************************************/
 
-/* UART user callback */
-void UART_UserCallback(UART_Type *base, uart_handle_t *handle, status_t status, void *userData);
+/*! @brief Ring buffer size (Unit: Byte). */
+#define DEMO_RING_BUFFER_SIZE 16
+
+uint8_t g_tipString[] =
+    "Uart functional API interrupt example\r\nBoard receives characters then sends them out\r\nNow please input:\r\n";
+
+/*
+  Ring buffer for data input and output, in this example, input data are saved
+  to ring buffer in IRQ handler. The main function polls the ring buffer status,
+  if there are new data, then send them out.
+  Ring buffer full: (((rxIndex + 1) % DEMO_RING_BUFFER_SIZE) == txIndex)
+  Ring buffer empty: (rxIndex == txIndex)
+*/
+uint8_t demoRingBuffer[DEMO_RING_BUFFER_SIZE];
+volatile uint16_t txIndex; /* Index of the data to send out. */
+volatile uint16_t rxIndex; /* Index of the memory to save new arrived data. */
 
 /*******************************************************************************
  * Variables
  ******************************************************************************/
 uart_handle_t g_uartHandle;
 
-uint8_t g_tipString[] =
-    "Uart interrupt example\r\nBoard receives 8 characters then sends them out\r\nNow please input:\r\n";
 
-uint8_t g_txBuffer[ECHO_BUFFER_LENGTH] = {0};
-uint8_t g_rxBuffer[ECHO_BUFFER_LENGTH] = {0};
 volatile bool rxBufferEmpty            = true;
 volatile bool txBufferFull             = false;
 volatile bool txOnGoing                = false;
@@ -76,24 +83,28 @@ volatile bool rxOnGoing                = false;
 /*******************************************************************************
  * Code
  ******************************************************************************/
-extern void UART4_DriverIRQHandler(void);
-
-/* UART user callback */
-void UART_UserCallback(UART_Type *base, uart_handle_t *handle, status_t status, void *userData)
+void DEMO_UART_IRQHandler(void)
 {
-    userData = userData;
+    uint8_t data;
 
-    if (kStatus_UART_TxIdle == status)
+    /* If new data arrived. */
+    if ((kUART_RxDataRegFullFlag | kUART_RxOverrunFlag) & UART_GetStatusFlags(DEMO_UART))
     {
-        txBufferFull = false;
-        txOnGoing    = false;
-    }
+        data = UART_ReadByte(DEMO_UART);
 
-    if (kStatus_UART_RxIdle == status)
-    {
-        rxBufferEmpty = false;
-        rxOnGoing     = false;
+        /* If ring buffer is not full, add data to ring buffer. */
+        if (((rxIndex + 1) % DEMO_RING_BUFFER_SIZE) != txIndex)
+        {
+            demoRingBuffer[rxIndex] = data;
+            rxIndex++;
+            rxIndex %= DEMO_RING_BUFFER_SIZE;
+        }
     }
+    /* Add for ARM errata 838869, affects Cortex-M4, Cortex-M4F Store immediate overlapping
+      exception return operation might vector to incorrect interrupt */
+#if defined __CORTEX_M && (__CORTEX_M == 4U)
+    __DSB();
+#endif
 }
 
 /*!
@@ -101,53 +112,42 @@ void UART_UserCallback(UART_Type *base, uart_handle_t *handle, status_t status, 
  */
 int main(void)
 {
-    uart_config_t config;
-    uart_transfer_t receiveXfer;
+	uart_config_t config;
 
-    BOARD_InitPins();
-    BOARD_BootClockRUN();
+	BOARD_InitPins();
+	BOARD_BootClockRUN();
 
-    /*
-     * config.baudRate_Bps = 115200U;
-     * config.parityMode = kUART_ParityDisabled;
-     * config.stopBitCount = kUART_OneStopBit;
-     * config.txFifoWatermark = 0;
-     * config.rxFifoWatermark = 1;
-     * config.enableTx = false;
-     * config.enableRx = false;
-     */
-    UART_GetDefaultConfig(&config);
-    config.baudRate_Bps = 9600;
-    config.enableTx     = true;
-    config.enableRx     = true;
+	/*
+	 * config.baudRate_Bps = 115200U;
+	 * config.parityMode = kUART_ParityDisabled;
+	 * config.stopBitCount = kUART_OneStopBit;
+	 * config.txFifoWatermark = 0;
+	 * config.rxFifoWatermark = 1;
+	 * config.enableTx = false;
+	 * config.enableRx = false;
+	 */
+	UART_GetDefaultConfig(&config);
+	config.baudRate_Bps = 9600;
+	config.enableTx     = true;
+	config.enableRx     = true;
 
-    UART_Init(DEMO_UART, &config, DEMO_UART_CLK_FREQ);
-    UART_TransferCreateHandle(DEMO_UART, &g_uartHandle, UART_UserCallback, NULL);
+	UART_Init(DEMO_UART, &config, DEMO_UART_CLK_FREQ);
 
+	/* Send g_tipString out. */
+	UART_WriteBlocking(DEMO_UART, g_tipString, sizeof(g_tipString) / sizeof(g_tipString[0]));
 
-    receiveXfer.data     = g_rxBuffer;
-    receiveXfer.dataSize = ECHO_BUFFER_LENGTH;
+	/* Enable RX interrupt. */
+	UART_EnableInterrupts(DEMO_UART, kUART_RxDataRegFullInterruptEnable | kUART_RxOverrunInterruptEnable);
+	EnableIRQ(DEMO_UART_IRQn);
 
-    uint8_t joystick = 0, throttle = 0;
-
-    while (1)
-    {
-        /* If RX is idle and g_rxBuffer is empty, start to read data to g_rxBuffer. */
-        //if ((!rxOnGoing) && rxBufferEmpty)
-        //{
-            rxOnGoing = true;
-            UART_TransferReceiveNonBlocking(DEMO_UART, &g_uartHandle, &receiveXfer, NULL);
-            for (uint8_t i=0; i<10; i++)
-			{
-				if ((g_rxBuffer[i] == 0x2A) && (g_rxBuffer[i+1] == 0x23) && (g_rxBuffer[i+4] == 0x2F) && (g_rxBuffer[i+5] = 0x2B))
-				{
-					throttle = g_rxBuffer[i+2];
-					joystick = g_rxBuffer[i+3];
-				}
-			}
-            PRINTF("Throttle = %3d; Joystick = %3d\r\n", throttle, joystick);
-        //}
-
-
-    }
+	while (1)
+	{
+		/* Send data only when UART TX register is empty and ring buffer has data to send out. */
+		while ((kUART_TxDataRegEmptyFlag & UART_GetStatusFlags(DEMO_UART)) && (rxIndex != txIndex))
+		{
+			UART_WriteByte(DEMO_UART, demoRingBuffer[txIndex]);
+			txIndex++;
+			txIndex %= DEMO_RING_BUFFER_SIZE;
+		}
+	}
 }

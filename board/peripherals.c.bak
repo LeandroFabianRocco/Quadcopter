@@ -68,6 +68,7 @@ instance:
       - idleType: 'kUART_IdleTypeStartBit'
       - enableTx: 'true'
       - enableRx: 'true'
+    - quick_selection: 'QuickSelection5'
   - interruptsCfg:
     - interrupts: 'kUART_RxDataRegFullInterruptEnable'
     - interrupt_vectors:
