@@ -39,53 +39,37 @@
 #include "clock_config.h"
 #include "MK64F12.h"
 #include "fsl_debug_console.h"
-
 #include "fsl_uart.h"
 
 /*******************************************************************************
- * Definitions
+ * Variable definition
  ******************************************************************************/
-#define DEMO_UART UART4
-#define DEMO_UART_CLKSRC UART4_CLK_SRC
-#define DEMO_UART_CLK_FREQ CLOCK_GetFreq(UART4_CLK_SRC)
-#define DEMO_UART_IRQn UART4_RX_TX_IRQn
-#define DEMO_UART_IRQHandler UART4_RX_TX_IRQHandler
-#define DEMO_RING_BUFFER_SIZE 4
+#define UART4_CLK_FREQ CLOCK_GetFreq(UART4_CLK_SRC)
+#define UART4_IRQn UART4_RX_TX_IRQn
+#define UART4_IRQHandler UART4_RX_TX_IRQHandler
+#define RING_BUFFER_SIZE 16
 
-/*
-  Ring buffer for data input and output, in this example, input data are saved
-  to ring buffer in IRQ handler. The main function polls the ring buffer status,
-  if there are new data, then send them out.
-  Ring buffer full: (((rxIndex + 1) % DEMO_RING_BUFFER_SIZE) == txIndex)
-  Ring buffer empty: (rxIndex == txIndex)
-*/
-uint8_t demoRingBuffer[DEMO_RING_BUFFER_SIZE];
-volatile uint16_t txIndex; /* Index of the data to send out. */
-volatile uint16_t rxIndex; /* Index of the memory to save new arrived data. */
 
 /*******************************************************************************
- * Variables
+ * Variable declaration
  ******************************************************************************/
-uart_handle_t g_uartHandle;
+uint8_t demoRingBuffer[RING_BUFFER_SIZE];
+volatile uint16_t rxIndex;
+//uart_handle_t g_uartHandle;
 
-
-volatile bool rxBufferEmpty            = true;
-volatile bool txBufferFull             = false;
-volatile bool txOnGoing                = false;
-volatile bool rxOnGoing                = false;
 
 /*******************************************************************************
- * Code
+ * UART4 interrupt handler
  ******************************************************************************/
-void DEMO_UART_IRQHandler(void)
+void UART4_IRQHandler(void)
 {
     uint8_t data;
-    if ((kUART_RxDataRegFullFlag | kUART_RxOverrunFlag) & UART_GetStatusFlags(DEMO_UART))
+    if ((kUART_RxDataRegFullFlag | kUART_RxOverrunFlag) & UART_GetStatusFlags(UART4))
     {
-        data = UART_ReadByte(DEMO_UART);
+        data = UART_ReadByte(UART4);
 		demoRingBuffer[rxIndex] = data;
 		rxIndex++;
-		rxIndex %= DEMO_RING_BUFFER_SIZE;
+		rxIndex %= RING_BUFFER_SIZE;
     }
     /* Add for ARM errata 838869, affects Cortex-M4, Cortex-M4F Store immediate overlapping
           exception return operation might vector to incorrect interrupt */
@@ -95,26 +79,44 @@ void DEMO_UART_IRQHandler(void)
 }
 
 
+/*******************************************************************************
+ * MAIN function
+ ******************************************************************************/
 int main(void)
 {
-	uart_config_t config;
-
 	BOARD_InitPins();
 	BOARD_BootClockRUN();
 
+	// Local variable declaration
+	uart_config_t config;
+
+	// UART4 configuration
 	UART_GetDefaultConfig(&config);
 	config.baudRate_Bps = 9600;
 	config.enableTx     = false;
 	config.enableRx     = true;
+	UART_Init(UART4, &config, UART4_CLK_FREQ);
+	UART_EnableInterrupts(UART4, kUART_RxDataRegFullInterruptEnable | kUART_RxOverrunInterruptEnable);
+	EnableIRQ(UART4_IRQn);
 
-	UART_Init(DEMO_UART, &config, DEMO_UART_CLK_FREQ);
 
-
-	UART_EnableInterrupts(DEMO_UART, kUART_RxDataRegFullInterruptEnable | kUART_RxOverrunInterruptEnable);
-	EnableIRQ(DEMO_UART_IRQn);
-
+	// Main loop
 	while (1)
 	{
 
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -400,17 +400,6 @@ Discarded input sections
  .text          0x0000000000000000        0x0 ./source/Quadcopter.o
  .data          0x0000000000000000        0x0 ./source/Quadcopter.o
  .bss           0x0000000000000000        0x0 ./source/Quadcopter.o
- .bss.txIndex   0x0000000000000000        0x2 ./source/Quadcopter.o
- .bss.g_uartHandle
-                0x0000000000000000       0x30 ./source/Quadcopter.o
- .data.rxBufferEmpty
-                0x0000000000000000        0x1 ./source/Quadcopter.o
- .bss.txBufferFull
-                0x0000000000000000        0x1 ./source/Quadcopter.o
- .bss.txOnGoing
-                0x0000000000000000        0x1 ./source/Quadcopter.o
- .bss.rxOnGoing
-                0x0000000000000000        0x1 ./source/Quadcopter.o
  .debug_macro   0x0000000000000000      0xad8 ./source/Quadcopter.o
  .debug_macro   0x0000000000000000       0x10 ./source/Quadcopter.o
  .debug_macro   0x0000000000000000      0x12e ./source/Quadcopter.o
@@ -5738,7 +5727,7 @@ END GROUP
                 0x00000000000001bc                __data_section_table_end = .
                 0x00000000000001bc                __bss_section_table = .
                 0x00000000000001bc        0x4 LONG 0x20000010 ADDR (.bss)
-                0x00000000000001c0        0x4 LONG 0x190 SIZEOF (.bss)
+                0x00000000000001c0        0x4 LONG 0x198 SIZEOF (.bss)
                 0x00000000000001c4        0x4 LONG 0x1fff0000 ADDR (.bss_RAM2)
                 0x00000000000001c8        0x4 LONG 0x0 SIZEOF (.bss_RAM2)
                 0x00000000000001cc        0x4 LONG 0x14000000 ADDR (.bss_RAM3)
@@ -6610,7 +6599,7 @@ END GROUP
                 [!provide]                        PROVIDE (__end_bss_RAM3 = .)
                 [!provide]                        PROVIDE (__end_bss_FLEX_RAM = .)
 
-.bss            0x0000000020000010      0x190
+.bss            0x0000000020000010      0x198
                 0x0000000020000010                _bss = .
                 [!provide]                        PROVIDE (__start_bss_RAM = .)
                 [!provide]                        PROVIDE (__start_bss_SRAM_UPPER = .)
@@ -6619,71 +6608,71 @@ END GROUP
                 0x0000000020000010        0x4 ./source/Delays.o
                 0x0000000020000010                g_systickCounter
  .bss.demoRingBuffer
-                0x0000000020000014        0x4 ./source/Quadcopter.o
+                0x0000000020000014       0x10 ./source/Quadcopter.o
                 0x0000000020000014                demoRingBuffer
  .bss.g_xtal0Freq
-                0x0000000020000018        0x4 ./drivers/fsl_clock.o
-                0x0000000020000018                g_xtal0Freq
+                0x0000000020000024        0x4 ./drivers/fsl_clock.o
+                0x0000000020000024                g_xtal0Freq
  .bss.g_xtal32Freq
-                0x000000002000001c        0x4 ./drivers/fsl_clock.o
-                0x000000002000001c                g_xtal32Freq
+                0x0000000020000028        0x4 ./drivers/fsl_clock.o
+                0x0000000020000028                g_xtal32Freq
  .bss.g_dspiHandle
-                0x0000000020000020        0xc ./drivers/fsl_dspi.o
+                0x000000002000002c        0xc ./drivers/fsl_dspi.o
  .bss.s_dspiMasterIsr
-                0x000000002000002c        0x4 ./drivers/fsl_dspi.o
+                0x0000000020000038        0x4 ./drivers/fsl_dspi.o
  .bss.s_dspiSlaveIsr
-                0x0000000020000030        0x4 ./drivers/fsl_dspi.o
+                0x000000002000003c        0x4 ./drivers/fsl_dspi.o
  .bss.s_EDMAHandle
-                0x0000000020000034       0x40 ./drivers/fsl_edma.o
+                0x0000000020000040       0x40 ./drivers/fsl_edma.o
  .bss.s_ENETHandle
-                0x0000000020000074        0x4 ./drivers/fsl_enet.o
- .bss.s_enetTxIsr
-                0x0000000020000078        0x4 ./drivers/fsl_enet.o
- .bss.s_enetRxIsr
-                0x000000002000007c        0x4 ./drivers/fsl_enet.o
- .bss.s_enetErrIsr
                 0x0000000020000080        0x4 ./drivers/fsl_enet.o
- .bss.s_enetTsIsr
+ .bss.s_enetTxIsr
                 0x0000000020000084        0x4 ./drivers/fsl_enet.o
+ .bss.s_enetRxIsr
+                0x0000000020000088        0x4 ./drivers/fsl_enet.o
+ .bss.s_enetErrIsr
+                0x000000002000008c        0x4 ./drivers/fsl_enet.o
+ .bss.s_enetTsIsr
+                0x0000000020000090        0x4 ./drivers/fsl_enet.o
  .bss.s_flexcanHandle
-                0x0000000020000088        0x4 ./drivers/fsl_flexcan.o
+                0x0000000020000094        0x4 ./drivers/fsl_flexcan.o
  .bss.s_flexcanIsr
-                0x000000002000008c        0x4 ./drivers/fsl_flexcan.o
+                0x0000000020000098        0x4 ./drivers/fsl_flexcan.o
  .bss.s_i2cHandle
-                0x0000000020000090        0xc ./drivers/fsl_i2c.o
+                0x000000002000009c        0xc ./drivers/fsl_i2c.o
  .bss.s_i2cMasterIsr
-                0x000000002000009c        0x4 ./drivers/fsl_i2c.o
+                0x00000000200000a8        0x4 ./drivers/fsl_i2c.o
  .bss.s_i2cSlaveIsr
-                0x00000000200000a0        0x4 ./drivers/fsl_i2c.o
+                0x00000000200000ac        0x4 ./drivers/fsl_i2c.o
  .bss.s_saiHandle
-                0x00000000200000a4        0x8 ./drivers/fsl_sai.o
+                0x00000000200000b0        0x8 ./drivers/fsl_sai.o
  .bss.s_saiTxIsr
-                0x00000000200000ac        0x4 ./drivers/fsl_sai.o
+                0x00000000200000b8        0x4 ./drivers/fsl_sai.o
  .bss.s_saiRxIsr
-                0x00000000200000b0        0x4 ./drivers/fsl_sai.o
+                0x00000000200000bc        0x4 ./drivers/fsl_sai.o
  .bss.s_sdhcHandle
-                0x00000000200000b4        0x4 ./drivers/fsl_sdhc.o
+                0x00000000200000c0        0x4 ./drivers/fsl_sdhc.o
  .bss.s_sdhcIsr
-                0x00000000200000b8        0x4 ./drivers/fsl_sdhc.o
+                0x00000000200000c4        0x4 ./drivers/fsl_sdhc.o
  .bss.s_uartHandle
-                0x00000000200000bc       0x18 ./drivers/fsl_uart.o
+                0x00000000200000c8       0x18 ./drivers/fsl_uart.o
  .bss.s_uartIsr
-                0x00000000200000d4        0x4 ./drivers/fsl_uart.o
- .bss.__Ciob    0x00000000200000d8       0xb4 /usr/local/mcuxpressoide-11.1.0_3209/ide/plugins/com.nxp.mcuxpresso.tools.linux_11.1.0.201909161352/tools/bin/../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libcr_semihost_nf.a(__ciob.o)
-                0x00000000200000d8                __Ciob
+                0x00000000200000e0        0x4 ./drivers/fsl_uart.o
+ .bss.__Ciob    0x00000000200000e4       0xb4 /usr/local/mcuxpressoide-11.1.0_3209/ide/plugins/com.nxp.mcuxpresso.tools.linux_11.1.0.201909161352/tools/bin/../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libcr_semihost_nf.a(__ciob.o)
+                0x00000000200000e4                __Ciob
  .bss.__end_of_heap
-                0x000000002000018c        0x4 /usr/local/mcuxpressoide-11.1.0_3209/ide/plugins/com.nxp.mcuxpresso.tools.linux_11.1.0.201909161352/tools/bin/../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libcr_c.a(__init_alloc.o)
-                0x000000002000018c                __end_of_heap
- .bss.__heaps   0x0000000020000190        0x4 /usr/local/mcuxpressoide-11.1.0_3209/ide/plugins/com.nxp.mcuxpresso.tools.linux_11.1.0.201909161352/tools/bin/../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libcr_c.a(__init_alloc.o)
-                0x0000000020000190                __heaps
- .bss.errno     0x0000000020000194        0x4 /usr/local/mcuxpressoide-11.1.0_3209/ide/plugins/com.nxp.mcuxpresso.tools.linux_11.1.0.201909161352/tools/bin/../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libcr_c.a(errno.o)
-                0x0000000020000194                errno
- .bss.rxIndex   0x0000000020000198        0x2 ./source/Quadcopter.o
-                0x0000000020000198                rxIndex
+                0x0000000020000198        0x4 /usr/local/mcuxpressoide-11.1.0_3209/ide/plugins/com.nxp.mcuxpresso.tools.linux_11.1.0.201909161352/tools/bin/../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libcr_c.a(__init_alloc.o)
+                0x0000000020000198                __end_of_heap
+ .bss.__heaps   0x000000002000019c        0x4 /usr/local/mcuxpressoide-11.1.0_3209/ide/plugins/com.nxp.mcuxpresso.tools.linux_11.1.0.201909161352/tools/bin/../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libcr_c.a(__init_alloc.o)
+                0x000000002000019c                __heaps
+ .bss.errno     0x00000000200001a0        0x4 /usr/local/mcuxpressoide-11.1.0_3209/ide/plugins/com.nxp.mcuxpresso.tools.linux_11.1.0.201909161352/tools/bin/../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libcr_c.a(errno.o)
+                0x00000000200001a0                errno
+ .bss.rxIndex   0x00000000200001a4        0x2 ./source/Quadcopter.o
+                0x00000000200001a4                rxIndex
  *(SORT_BY_ALIGNMENT(COMMON))
-                0x00000000200001a0                . = ALIGN (0x8)
- *fill*         0x000000002000019a        0x6 
-                0x00000000200001a0                _ebss = .
+                0x00000000200001a8                . = ALIGN (0x8)
+ *fill*         0x00000000200001a6        0x2 
+                0x00000000200001a8                _ebss = .
                 [!provide]                        PROVIDE (__end_bss_RAM = .)
                 [!provide]                        PROVIDE (__end_bss_SRAM_UPPER = .)
                 [!provide]                        PROVIDE (end = .)
@@ -6710,29 +6699,29 @@ END GROUP
                 [!provide]                        PROVIDE (__end_noinit_RAM3 = .)
                 [!provide]                        PROVIDE (__end_noinit_FLEX_RAM = .)
 
-.noinit         0x00000000200001a0        0x0
-                0x00000000200001a0                _noinit = .
+.noinit         0x00000000200001a8        0x0
+                0x00000000200001a8                _noinit = .
                 [!provide]                        PROVIDE (__start_noinit_RAM = .)
                 [!provide]                        PROVIDE (__start_noinit_SRAM_UPPER = .)
  *(SORT_BY_ALIGNMENT(.noinit*))
-                0x00000000200001a0                . = ALIGN (0x8)
-                0x00000000200001a0                _end_noinit = .
+                0x00000000200001a8                . = ALIGN (0x8)
+                0x00000000200001a8                _end_noinit = .
                 [!provide]                        PROVIDE (__end_noinit_RAM = .)
                 [!provide]                        PROVIDE (__end_noinit_SRAM_UPPER = .)
                 0x0000000000001000                _HeapSize = 0x1000
 
-.heap           0x00000000200001a0     0x1000
-                0x00000000200001a0                _pvHeapStart = .
-                0x00000000200011a0                . = (. + _HeapSize)
- *fill*         0x00000000200001a0     0x1000 
-                0x00000000200011a0                . = ALIGN (0x8)
-                0x00000000200011a0                _pvHeapLimit = .
+.heap           0x00000000200001a8     0x1000
+                0x00000000200001a8                _pvHeapStart = .
+                0x00000000200011a8                . = (. + _HeapSize)
+ *fill*         0x00000000200001a8     0x1000 
+                0x00000000200011a8                . = ALIGN (0x8)
+                0x00000000200011a8                _pvHeapLimit = .
                 0x0000000000001000                _StackSize = 0x1000
 
 .heap2stackfill
-                0x00000000200011a0     0x1000
-                0x00000000200021a0                . = (. + _StackSize)
- *fill*         0x00000000200011a0     0x1000 
+                0x00000000200011a8     0x1000
+                0x00000000200021a8                . = (. + _StackSize)
+ *fill*         0x00000000200011a8     0x1000 
 
 .stack          0x000000002002f000        0x0
                 0x000000002002f000                _vStackBase = .
@@ -6743,41 +6732,41 @@ END GROUP
                 0x0000000000003040                _image_size = (_image_end - _image_start)
 OUTPUT(Quadcopter.axf elf32-littlearm)
 
-.debug_info     0x0000000000000000    0x18814
+.debug_info     0x0000000000000000    0x18685
  .debug_info    0x0000000000000000      0x92e ./startup/startup_mk64f12.o
  .debug_info    0x000000000000092e      0x9b7 ./source/Delays.o
- .debug_info    0x00000000000012e5     0x1346 ./source/Quadcopter.o
- .debug_info    0x000000000000262b       0x3c ./source/semihost_hardfault.o
- .debug_info    0x0000000000002667     0x21b2 ./drivers/fsl_clock.o
- .debug_info    0x0000000000004819     0x25b0 ./drivers/fsl_dspi.o
- .debug_info    0x0000000000006dc9     0x22d5 ./drivers/fsl_edma.o
- .debug_info    0x000000000000909e     0x26c8 ./drivers/fsl_enet.o
- .debug_info    0x000000000000b766     0x23ea ./drivers/fsl_flexcan.o
- .debug_info    0x000000000000db50     0x1ef4 ./drivers/fsl_i2c.o
- .debug_info    0x000000000000fa44     0x2f0d ./drivers/fsl_sai.o
- .debug_info    0x0000000000012951     0x2206 ./drivers/fsl_sdhc.o
- .debug_info    0x0000000000014b57     0x1c98 ./drivers/fsl_uart.o
- .debug_info    0x00000000000167ef      0x69f ./device/system_MK64F12.o
- .debug_info    0x0000000000016e8e      0xcd8 ./board/clock_config.o
- .debug_info    0x0000000000017b66      0xcae ./board/pin_mux.o
+ .debug_info    0x00000000000012e5     0x11b7 ./source/Quadcopter.o
+ .debug_info    0x000000000000249c       0x3c ./source/semihost_hardfault.o
+ .debug_info    0x00000000000024d8     0x21b2 ./drivers/fsl_clock.o
+ .debug_info    0x000000000000468a     0x25b0 ./drivers/fsl_dspi.o
+ .debug_info    0x0000000000006c3a     0x22d5 ./drivers/fsl_edma.o
+ .debug_info    0x0000000000008f0f     0x26c8 ./drivers/fsl_enet.o
+ .debug_info    0x000000000000b5d7     0x23ea ./drivers/fsl_flexcan.o
+ .debug_info    0x000000000000d9c1     0x1ef4 ./drivers/fsl_i2c.o
+ .debug_info    0x000000000000f8b5     0x2f0d ./drivers/fsl_sai.o
+ .debug_info    0x00000000000127c2     0x2206 ./drivers/fsl_sdhc.o
+ .debug_info    0x00000000000149c8     0x1c98 ./drivers/fsl_uart.o
+ .debug_info    0x0000000000016660      0x69f ./device/system_MK64F12.o
+ .debug_info    0x0000000000016cff      0xcd8 ./board/clock_config.o
+ .debug_info    0x00000000000179d7      0xcae ./board/pin_mux.o
 
-.debug_abbrev   0x0000000000000000     0x2b75
+.debug_abbrev   0x0000000000000000     0x2b65
  .debug_abbrev  0x0000000000000000      0x17a ./startup/startup_mk64f12.o
  .debug_abbrev  0x000000000000017a      0x1f1 ./source/Delays.o
- .debug_abbrev  0x000000000000036b      0x2c6 ./source/Quadcopter.o
- .debug_abbrev  0x0000000000000631       0x31 ./source/semihost_hardfault.o
- .debug_abbrev  0x0000000000000662      0x371 ./drivers/fsl_clock.o
- .debug_abbrev  0x00000000000009d3      0x399 ./drivers/fsl_dspi.o
- .debug_abbrev  0x0000000000000d6c      0x3fd ./drivers/fsl_edma.o
- .debug_abbrev  0x0000000000001169      0x2fc ./drivers/fsl_enet.o
- .debug_abbrev  0x0000000000001465      0x323 ./drivers/fsl_flexcan.o
- .debug_abbrev  0x0000000000001788      0x3a6 ./drivers/fsl_i2c.o
- .debug_abbrev  0x0000000000001b2e      0x309 ./drivers/fsl_sai.o
- .debug_abbrev  0x0000000000001e37      0x32b ./drivers/fsl_sdhc.o
- .debug_abbrev  0x0000000000002162      0x358 ./drivers/fsl_uart.o
- .debug_abbrev  0x00000000000024ba      0x170 ./device/system_MK64F12.o
- .debug_abbrev  0x000000000000262a      0x265 ./board/clock_config.o
- .debug_abbrev  0x000000000000288f      0x2e6 ./board/pin_mux.o
+ .debug_abbrev  0x000000000000036b      0x2b6 ./source/Quadcopter.o
+ .debug_abbrev  0x0000000000000621       0x31 ./source/semihost_hardfault.o
+ .debug_abbrev  0x0000000000000652      0x371 ./drivers/fsl_clock.o
+ .debug_abbrev  0x00000000000009c3      0x399 ./drivers/fsl_dspi.o
+ .debug_abbrev  0x0000000000000d5c      0x3fd ./drivers/fsl_edma.o
+ .debug_abbrev  0x0000000000001159      0x2fc ./drivers/fsl_enet.o
+ .debug_abbrev  0x0000000000001455      0x323 ./drivers/fsl_flexcan.o
+ .debug_abbrev  0x0000000000001778      0x3a6 ./drivers/fsl_i2c.o
+ .debug_abbrev  0x0000000000001b1e      0x309 ./drivers/fsl_sai.o
+ .debug_abbrev  0x0000000000001e27      0x32b ./drivers/fsl_sdhc.o
+ .debug_abbrev  0x0000000000002152      0x358 ./drivers/fsl_uart.o
+ .debug_abbrev  0x00000000000024aa      0x170 ./device/system_MK64F12.o
+ .debug_abbrev  0x000000000000261a      0x265 ./board/clock_config.o
+ .debug_abbrev  0x000000000000287f      0x2e6 ./board/pin_mux.o
 
 .debug_aranges  0x0000000000000000     0x14c0
  .debug_aranges
@@ -6831,36 +6820,36 @@ OUTPUT(Quadcopter.axf elf32-littlearm)
  .debug_ranges  0x00000000000012f0       0x70 ./board/clock_config.o
  .debug_ranges  0x0000000000001360       0x78 ./board/pin_mux.o
 
-.debug_macro    0x0000000000000000     0x171d
+.debug_macro    0x0000000000000000     0x1711
  .debug_macro   0x0000000000000000       0x29 ./startup/startup_mk64f12.o
  .debug_macro   0x0000000000000029       0xfe ./source/Delays.o
  .debug_macro   0x0000000000000127       0x1c ./source/Delays.o
  .debug_macro   0x0000000000000143       0x22 ./source/Delays.o
- .debug_macro   0x0000000000000165      0x1af ./source/Quadcopter.o
- .debug_macro   0x0000000000000314       0xd8 ./source/Quadcopter.o
- .debug_macro   0x00000000000003ec      0x1f1 ./source/Quadcopter.o
- .debug_macro   0x00000000000005dd       0x2e ./source/Quadcopter.o
- .debug_macro   0x000000000000060b       0x10 ./source/Quadcopter.o
- .debug_macro   0x000000000000061b       0x11 ./source/semihost_hardfault.o
- .debug_macro   0x000000000000062c      0x1ba ./drivers/fsl_clock.o
- .debug_macro   0x00000000000007e6      0x103 ./drivers/fsl_dspi.o
- .debug_macro   0x00000000000008e9       0x3a ./drivers/fsl_dspi.o
- .debug_macro   0x0000000000000923      0x109 ./drivers/fsl_edma.o
- .debug_macro   0x0000000000000a2c       0x10 ./drivers/fsl_edma.o
- .debug_macro   0x0000000000000a3c      0x1db ./drivers/fsl_enet.o
- .debug_macro   0x0000000000000c17       0xc3 ./drivers/fsl_enet.o
- .debug_macro   0x0000000000000cda      0x1ab ./drivers/fsl_flexcan.o
- .debug_macro   0x0000000000000e85       0xd0 ./drivers/fsl_flexcan.o
- .debug_macro   0x0000000000000f55      0x103 ./drivers/fsl_i2c.o
- .debug_macro   0x0000000000001058       0x1c ./drivers/fsl_i2c.o
- .debug_macro   0x0000000000001074      0x109 ./drivers/fsl_sai.o
- .debug_macro   0x000000000000117d       0x11 ./drivers/fsl_sai.o
- .debug_macro   0x000000000000118e      0x121 ./drivers/fsl_sdhc.o
- .debug_macro   0x00000000000012af       0x64 ./drivers/fsl_sdhc.o
- .debug_macro   0x0000000000001313      0x10a ./drivers/fsl_uart.o
- .debug_macro   0x000000000000141d       0x98 ./device/system_MK64F12.o
- .debug_macro   0x00000000000014b5      0x15f ./board/clock_config.o
- .debug_macro   0x0000000000001614      0x109 ./board/pin_mux.o
+ .debug_macro   0x0000000000000165      0x1a3 ./source/Quadcopter.o
+ .debug_macro   0x0000000000000308       0xd8 ./source/Quadcopter.o
+ .debug_macro   0x00000000000003e0      0x1f1 ./source/Quadcopter.o
+ .debug_macro   0x00000000000005d1       0x2e ./source/Quadcopter.o
+ .debug_macro   0x00000000000005ff       0x10 ./source/Quadcopter.o
+ .debug_macro   0x000000000000060f       0x11 ./source/semihost_hardfault.o
+ .debug_macro   0x0000000000000620      0x1ba ./drivers/fsl_clock.o
+ .debug_macro   0x00000000000007da      0x103 ./drivers/fsl_dspi.o
+ .debug_macro   0x00000000000008dd       0x3a ./drivers/fsl_dspi.o
+ .debug_macro   0x0000000000000917      0x109 ./drivers/fsl_edma.o
+ .debug_macro   0x0000000000000a20       0x10 ./drivers/fsl_edma.o
+ .debug_macro   0x0000000000000a30      0x1db ./drivers/fsl_enet.o
+ .debug_macro   0x0000000000000c0b       0xc3 ./drivers/fsl_enet.o
+ .debug_macro   0x0000000000000cce      0x1ab ./drivers/fsl_flexcan.o
+ .debug_macro   0x0000000000000e79       0xd0 ./drivers/fsl_flexcan.o
+ .debug_macro   0x0000000000000f49      0x103 ./drivers/fsl_i2c.o
+ .debug_macro   0x000000000000104c       0x1c ./drivers/fsl_i2c.o
+ .debug_macro   0x0000000000001068      0x109 ./drivers/fsl_sai.o
+ .debug_macro   0x0000000000001171       0x11 ./drivers/fsl_sai.o
+ .debug_macro   0x0000000000001182      0x121 ./drivers/fsl_sdhc.o
+ .debug_macro   0x00000000000012a3       0x64 ./drivers/fsl_sdhc.o
+ .debug_macro   0x0000000000001307      0x10a ./drivers/fsl_uart.o
+ .debug_macro   0x0000000000001411       0x98 ./device/system_MK64F12.o
+ .debug_macro   0x00000000000014a9      0x15f ./board/clock_config.o
+ .debug_macro   0x0000000000001608      0x109 ./board/pin_mux.o
 
 .debug_line     0x0000000000000000     0xd875
  .debug_line    0x0000000000000000      0x90e ./startup/startup_mk64f12.o
@@ -6880,38 +6869,38 @@ OUTPUT(Quadcopter.axf elf32-littlearm)
  .debug_line    0x000000000000cd72      0x4ec ./board/clock_config.o
  .debug_line    0x000000000000d25e      0x617 ./board/pin_mux.o
 
-.debug_str      0x0000000000000000    0x89a0d
+.debug_str      0x0000000000000000    0x8998a
  .debug_str     0x0000000000000000     0x365b ./startup/startup_mk64f12.o
                                        0x3725 (size before relaxing)
  .debug_str     0x000000000000365b    0x76eef ./source/Delays.o
                                       0x79ebd (size before relaxing)
- .debug_str     0x000000000007a54a     0x29e9 ./source/Quadcopter.o
-                                      0x7c834 (size before relaxing)
- .debug_str     0x000000000007cf33       0x1f ./source/semihost_hardfault.o
+ .debug_str     0x000000000007a54a     0x2899 ./source/Quadcopter.o
+                                      0x7c6d4 (size before relaxing)
+ .debug_str     0x000000000007cde3       0x1f ./source/semihost_hardfault.o
                                        0x2eb6 (size before relaxing)
- .debug_str     0x000000000007cf52     0x19b6 ./drivers/fsl_clock.o
+ .debug_str     0x000000000007ce02     0x19b6 ./drivers/fsl_clock.o
                                       0x7b767 (size before relaxing)
- .debug_str     0x000000000007e908     0x13f7 ./drivers/fsl_dspi.o
+ .debug_str     0x000000000007e7b8     0x1424 ./drivers/fsl_dspi.o
                                       0x7b5fd (size before relaxing)
- .debug_str     0x000000000007fcff     0x1079 ./drivers/fsl_edma.o
+ .debug_str     0x000000000007fbdc     0x1079 ./drivers/fsl_edma.o
                                       0x7b247 (size before relaxing)
- .debug_str     0x0000000000080d78     0x1d33 ./drivers/fsl_enet.o
+ .debug_str     0x0000000000080c55     0x1d33 ./drivers/fsl_enet.o
                                       0x7c028 (size before relaxing)
- .debug_str     0x0000000000082aab     0x250b ./drivers/fsl_flexcan.o
+ .debug_str     0x0000000000082988     0x250b ./drivers/fsl_flexcan.o
                                       0x7c6ee (size before relaxing)
- .debug_str     0x0000000000084fb6      0xc64 ./drivers/fsl_i2c.o
+ .debug_str     0x0000000000084e93      0xc64 ./drivers/fsl_i2c.o
                                       0x7ae75 (size before relaxing)
- .debug_str     0x0000000000085c1a     0x1248 ./drivers/fsl_sai.o
+ .debug_str     0x0000000000085af7     0x1248 ./drivers/fsl_sai.o
                                       0x7b491 (size before relaxing)
- .debug_str     0x0000000000086e62     0x1800 ./drivers/fsl_sdhc.o
+ .debug_str     0x0000000000086d3f     0x1800 ./drivers/fsl_sdhc.o
                                       0x7ba0d (size before relaxing)
- .debug_str     0x0000000000088662      0x72b ./drivers/fsl_uart.o
+ .debug_str     0x000000000008853f      0x7cb ./drivers/fsl_uart.o
                                       0x7afb2 (size before relaxing)
- .debug_str     0x0000000000088d8d       0xbb ./device/system_MK64F12.o
+ .debug_str     0x0000000000088d0a       0xbb ./device/system_MK64F12.o
                                       0x78218 (size before relaxing)
- .debug_str     0x0000000000088e48      0x455 ./board/clock_config.o
+ .debug_str     0x0000000000088dc5      0x455 ./board/clock_config.o
                                       0x7a275 (size before relaxing)
- .debug_str     0x000000000008929d      0x770 ./board/pin_mux.o
+ .debug_str     0x000000000008921a      0x770 ./board/pin_mux.o
                                       0x7a386 (size before relaxing)
 
 .comment        0x0000000000000000       0x76
@@ -8158,7 +8147,6 @@ g_dspiDummyData                                   ./drivers/fsl_dspi.o
 g_pfnVectors                                      ./startup/startup_mk64f12.o
 g_serialHandle                                    ./utilities/fsl_debug_console.o
 g_systickCounter                                  ./source/Delays.o
-g_uartHandle                                      ./source/Quadcopter.o
 g_xtal0Freq                                       ./drivers/fsl_clock.o
                                                   ./board/clock_config.o
 g_xtal32Freq                                      ./drivers/fsl_clock.o
@@ -8210,9 +8198,7 @@ realloc                                           /usr/local/mcuxpressoide-11.1.
 remove                                            /usr/local/mcuxpressoide-11.1.0_3209/ide/plugins/com.nxp.mcuxpresso.tools.linux_11.1.0.201909161352/tools/bin/../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libcr_c.a(remove.o)
                                                   /usr/local/mcuxpressoide-11.1.0_3209/ide/plugins/com.nxp.mcuxpresso.tools.linux_11.1.0.201909161352/tools/bin/../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libcr_c.a(fclose.o)
 rename                                            /usr/local/mcuxpressoide-11.1.0_3209/ide/plugins/com.nxp.mcuxpresso.tools.linux_11.1.0.201909161352/tools/bin/../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libcr_c.a(remove.o)
-rxBufferEmpty                                     ./source/Quadcopter.o
 rxIndex                                           ./source/Quadcopter.o
-rxOnGoing                                         ./source/Quadcopter.o
 s_enetClock                                       ./drivers/fsl_enet.o
 set_pwm_CnV                                       ./source/PWM_functions.o
 setvbuf                                           /usr/local/mcuxpressoide-11.1.0_3209/ide/plugins/com.nxp.mcuxpresso.tools.linux_11.1.0.201909161352/tools/bin/../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libcr_c.a(setvbuf.o)
@@ -8223,6 +8209,3 @@ strlen                                            /usr/local/mcuxpressoide-11.1.
                                                   /usr/local/mcuxpressoide-11.1.0_3209/ide/plugins/com.nxp.mcuxpresso.tools.linux_11.1.0.201909161352/tools/bin/../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libcr_c.a(remove.o)
                                                   ./utilities/fsl_str.o
 throttle_init                                     ./source/PWM_functions.o
-txBufferFull                                      ./source/Quadcopter.o
-txIndex                                           ./source/Quadcopter.o
-txOnGoing                                         ./source/Quadcopter.o
