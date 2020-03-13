@@ -40,6 +40,7 @@
 #include "MK64F12.h"
 #include "fsl_debug_console.h"
 #include "fsl_uart.h"
+#include "Delays.h"
 
 /*******************************************************************************
  * Variable definition
@@ -47,15 +48,15 @@
 #define UART4_CLK_FREQ CLOCK_GetFreq(UART4_CLK_SRC)
 #define UART4_IRQn UART4_RX_TX_IRQn
 #define UART4_IRQHandler UART4_RX_TX_IRQHandler
-#define RING_BUFFER_SIZE 16
+#define RING_BUFFER_SIZE 4
 
 
 /*******************************************************************************
  * Variable declaration
  ******************************************************************************/
-uint8_t demoRingBuffer[RING_BUFFER_SIZE];
+uint8_t RingBuffer[RING_BUFFER_SIZE];
 volatile uint16_t rxIndex;
-//uart_handle_t g_uartHandle;
+uint8_t joystick, throttle;
 
 
 /*******************************************************************************
@@ -67,7 +68,7 @@ void UART4_IRQHandler(void)
     if ((kUART_RxDataRegFullFlag | kUART_RxOverrunFlag) & UART_GetStatusFlags(UART4))
     {
         data = UART_ReadByte(UART4);
-		demoRingBuffer[rxIndex] = data;
+		RingBuffer[rxIndex] = data;
 		rxIndex++;
 		rxIndex %= RING_BUFFER_SIZE;
     }
@@ -86,6 +87,7 @@ int main(void)
 {
 	BOARD_InitPins();
 	BOARD_BootClockRUN();
+	SysTick_init();
 
 	// Local variable declaration
 	uart_config_t config;
@@ -103,7 +105,29 @@ int main(void)
 	// Main loop
 	while (1)
 	{
-
+		SysTick_DelayTicks(50U);
+		// 0x23, 0xXX, 0xXX, 0x2F
+		if (RingBuffer[0] == 0x23)
+		{
+			throttle = RingBuffer[1];
+			joystick = RingBuffer[2];
+		}
+		else if (RingBuffer[1] == 0x23)
+		{
+			throttle = RingBuffer[2];
+			joystick = RingBuffer[3];
+		}
+		else if (RingBuffer[2] == 0x23)
+		{
+			throttle = RingBuffer[3];
+			joystick = RingBuffer[0];
+		}
+		else if (RingBuffer[3] == 0x23)
+		{
+			throttle = RingBuffer[0];
+			joystick = RingBuffer[1];
+		}
+		PRINTF("joystick = 0x%x; throttle = 0x%x \r\n", joystick, throttle);
 	}
 }
 

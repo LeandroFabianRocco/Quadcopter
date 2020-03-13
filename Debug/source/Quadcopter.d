@@ -22,7 +22,9 @@ source/Quadcopter.o source/Quadcopter.d: ../source/Quadcopter.c \
  /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/component/serial_manager/serial_manager.h \
  /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/component/serial_manager/serial_port_uart.h \
  /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/component/uart/uart.h \
- /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/drivers/fsl_uart.h
+ /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/drivers/fsl_uart.h \
+ ../source/Delays.h \
+ /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/drivers/fsl_clock.h
 
 /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/board/board.h:
 
@@ -71,3 +73,7 @@ source/Quadcopter.o source/Quadcopter.d: ../source/Quadcopter.c \
 /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/component/uart/uart.h:
 
 /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/drivers/fsl_uart.h:
+
+../source/Delays.h:
+
+/home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/drivers/fsl_clock.h:
