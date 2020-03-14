@@ -24,7 +24,8 @@ source/Quadcopter.o source/Quadcopter.d: ../source/Quadcopter.c \
  /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/component/uart/uart.h \
  /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/drivers/fsl_uart.h \
  ../source/Delays.h \
- /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/drivers/fsl_clock.h
+ /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/drivers/fsl_clock.h \
+ ../source/RGB_LEDS.h
 
 /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/board/board.h:
 
@@ -77,3 +78,5 @@ source/Quadcopter.o source/Quadcopter.d: ../source/Quadcopter.c \
 ../source/Delays.h:
 
 /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/drivers/fsl_clock.h:
+
+../source/RGB_LEDS.h:

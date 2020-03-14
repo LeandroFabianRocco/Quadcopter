@@ -41,6 +41,7 @@
 #include "fsl_debug_console.h"
 #include "fsl_uart.h"
 #include "Delays.h"
+#include "RGB_LEDS.h"
 
 /*******************************************************************************
  * Variable definition
@@ -88,6 +89,8 @@ int main(void)
 	BOARD_InitPins();
 	BOARD_BootClockRUN();
 	SysTick_init();
+	// Inicializo el LED RGB
+	RGB_LED_init();
 
 	// Local variable declaration
 	uart_config_t config;
@@ -105,7 +108,7 @@ int main(void)
 	// Main loop
 	while (1)
 	{
-		SysTick_DelayTicks(50U);
+		SysTick_DelayTicks(1000U);
 		// 0x23, 0xXX, 0xXX, 0x2F
 		if (RingBuffer[0] == 0x23)
 		{
@@ -128,6 +131,7 @@ int main(void)
 			joystick = RingBuffer[1];
 		}
 		PRINTF("joystick = 0x%x; throttle = 0x%x \r\n", joystick, throttle);
+		RedLEDtoggle();
 	}
 }
 

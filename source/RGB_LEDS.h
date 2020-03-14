@@ -34,4 +34,17 @@
  ******************************************************************************************************************/
 void RGB_LED_init(void);
 
+void RedLEDon(void);
+void RedLEDoff(void);
+void GreenLEDon(void);
+void GreenLEDoff(void);
+void BlueLEDon(void);
+void BlueLEDoff(void);
+
+void RedLEDtoggle(void);
+void GreenLEDtoggle(void);
+void BlueLEDtoggle(void);
+
+
+
 #endif /* RGB_LEDS_H_ */

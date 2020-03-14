@@ -148,6 +148,9 @@ BOARD_InitPins:
   - {pin_num: '72', peripheral: FTM0, signal: 'CH, 1', pin_signal: ADC0_SE4b/CMP1_IN0/PTC2/SPI0_PCS2/UART1_CTS_b/FTM0_CH1/FB_AD12/I2S0_TX_FS}
   - {pin_num: '77', peripheral: FTM0, signal: 'CH, 2', pin_signal: PTC5/LLWU_P9/SPI0_SCK/LPTMR0_ALT2/I2S0_RXD0/FB_AD10/CMP0_OUT/FTM0_CH2}
   - {pin_num: '76', peripheral: FTM0, signal: 'CH, 3', pin_signal: PTC4/LLWU_P8/SPI0_PCS0/UART1_TX/FTM0_CH3/FB_AD11/CMP1_OUT}
+  - {pin_num: '33', peripheral: GPIOE, signal: 'GPIO, 26', pin_signal: PTE26/ENET_1588_CLKIN/UART4_CTS_b/RTC_CLKOUT/USB_CLKIN, identifier: ''}
+  - {pin_num: '67', peripheral: GPIOB, signal: 'GPIO, 21', pin_signal: PTB21/SPI2_SCK/FB_AD30/CMP1_OUT, identifier: ''}
+  - {pin_num: '68', peripheral: GPIOB, signal: 'GPIO, 22', pin_signal: PTB22/SPI2_SOUT/FB_AD29/CMP2_OUT, identifier: ''}
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS ***********
  */
 /* clang-format on */
@@ -162,8 +165,12 @@ void BOARD_InitPins(void)
 {
     /* Port A Clock Gate Control: Clock enabled */
     CLOCK_EnableClock(kCLOCK_PortA);
+    /* Port B Clock Gate Control: Clock enabled */
+    CLOCK_EnableClock(kCLOCK_PortB);
     /* Port C Clock Gate Control: Clock enabled */
     CLOCK_EnableClock(kCLOCK_PortC);
+    /* Port E Clock Gate Control: Clock enabled */
+    CLOCK_EnableClock(kCLOCK_PortE);
 
     /* PORTA2 (pin 36) is configured as TRACE_SWO */
     PORT_SetPinMux(PORTA, 2U, kPORT_MuxAlt7);
@@ -183,6 +190,12 @@ void BOARD_InitPins(void)
                       * is configured as a digital output. */
                      | PORT_PCR_DSE(kPORT_LowDriveStrength));
 
+    /* PORTB21 (pin 67) is configured as PTB21 */
+    PORT_SetPinMux(PORTB, 21U, kPORT_MuxAsGpio);
+
+    /* PORTB22 (pin 68) is configured as PTB22 */
+    PORT_SetPinMux(PORTB, 22U, kPORT_MuxAsGpio);
+
     /* PORTC1 (pin 71) is configured as FTM0_CH0 */
     PORT_SetPinMux(BOARD_PWM0_PORT, BOARD_PWM0_PIN, kPORT_MuxAlt4);
 
@@ -200,6 +213,9 @@ void BOARD_InitPins(void)
 
     /* PORTC5 (pin 77) is configured as FTM0_CH2 */
     PORT_SetPinMux(BOARD_PWM2_PORT, BOARD_PWM2_PIN, kPORT_MuxAlt7);
+
+    /* PORTE26 (pin 33) is configured as PTE26 */
+    PORT_SetPinMux(PORTE, 26U, kPORT_MuxAsGpio);
 }
 
 /* clang-format off */
