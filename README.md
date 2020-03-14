@@ -14,15 +14,15 @@ Look **Deployment** to know hot to deploy the project.
 #### Hardware
 The BLDC motor is the following:
 
-![Aquí la descripción de la imagen por si no carga](https://github.com/leandroGHsoft/Quadcopter/tree/master/images/motor.jpg)
+![Aquí la descripción de la imagen por si no carga](https://github.com/leandroGHsoft/Quadcopter/blob/master/images/motor.jpg)
 
 and the ESC controller is:
 
-![Aquí la descripción de la imagen por si no carga](https://github.com/leandroGHsoft/Quadcopter/tree/master/imagesesc.jpg)
+![Aquí la descripción de la imagen por si no carga](https://github.com/leandroGHsoft/Quadcopter/blob/master/imagesesc.jpg)
 
 The FRDM-K64F board is from NXP and is shown in the next figure:
 
-![Aquí la descripción de la imagen por si no carga](https://github.com/leandroGHsoft/Quadcopter/tree/master/imagesfrdm-k64f.jpg)
+![Aquí la descripción de la imagen por si no carga](https://github.com/leandroGHsoft/Quadcopter/blob/master/imagesfrdm-k64f.jpg)
 
 _What things do you need to install the software and how to install them_
 
