@@ -12,7 +12,9 @@
  ************************************************************************/
 void set_pwm_CnV(uint32_t value, uint8_t ch)
 {
-	FTM_MODULE->CONTROLS[ch].CnV = (uint32_t) (value * 18.55 + 97);
+	float x1 = value + 97;
+	uint32_t v = (uint32_t)x1;
+	FTM_MODULE->CONTROLS[ch].CnV = v;
 	FTM_SetSoftwareTrigger(FTM_MODULE, true);
 }
 
