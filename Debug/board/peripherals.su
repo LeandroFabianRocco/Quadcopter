@@ -1,2 +1,4 @@
-peripherals.c:45:6:BOARD_InitPeripherals	4	static
-peripherals.c:52:6:BOARD_InitBootPeripherals	8	static
+fsl_ftm.h:670:20:FTM_StartTimer	24	static
+peripherals.c:154:6:FTM0_init	16	static
+peripherals.c:163:6:BOARD_InitPeripherals	8	static
+peripherals.c:172:6:BOARD_InitBootPeripherals	8	static

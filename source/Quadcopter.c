@@ -42,6 +42,7 @@
 #include "fsl_uart.h"
 #include "Delays.h"
 #include "RGB_LEDS.h"
+#include "PWM_functions.h"
 
 /*******************************************************************************
  * Variable definition
@@ -88,6 +89,7 @@ int main(void)
 {
 	BOARD_InitPins();
 	BOARD_BootClockRUN();
+	BOARD_InitBootPeripherals();
 	SysTick_init();
 	// Inicializo el LED RGB
 	RGB_LED_init();
@@ -108,7 +110,7 @@ int main(void)
 	// Main loop
 	while (1)
 	{
-		SysTick_DelayTicks(1000U);
+		SysTick_DelayTicks(20U);
 		// 0x23, 0xXX, 0xXX, 0x2F
 		if (RingBuffer[0] == 0x23)
 		{
@@ -130,8 +132,35 @@ int main(void)
 			throttle = RingBuffer[0];
 			joystick = RingBuffer[1];
 		}
-		PRINTF("joystick = 0x%x; throttle = 0x%x \r\n", joystick, throttle);
-		RedLEDtoggle();
+		//PRINTF("joystick = 0x%x; throttle = 0x%x \r\n", joystick, throttle);
+		if (joystick == 0x01)
+		{
+			RedLEDon();
+			GreenLEDoff();
+			BlueLEDoff();
+		}
+		else if (joystick == 0x04)
+		{
+			RedLEDoff();
+			GreenLEDon();
+			BlueLEDoff();
+		}
+		else if (joystick == 0x10)
+		{
+			RedLEDoff();
+			GreenLEDoff();
+			BlueLEDon();
+		}
+		else if (joystick == 0x00)
+		{
+			RedLEDoff();
+			GreenLEDoff();
+			BlueLEDoff();
+		}
+		set_pwm_CnV(throttle, PWM_CH0);
+		set_pwm_CnV(throttle, PWM_CH1);
+		set_pwm_CnV(throttle, PWM_CH2);
+		set_pwm_CnV(throttle, PWM_CH3);
 	}
 }
 
