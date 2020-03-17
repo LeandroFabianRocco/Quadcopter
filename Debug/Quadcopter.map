@@ -426,11 +426,11 @@ Discarded input sections
  .bss           0x0000000000000000        0x0 ./source/RGB_LEDS.o
  .text.GPIO_PortToggle
                 0x0000000000000000       0x1c ./source/RGB_LEDS.o
- .text.RedLEDtoggle
+ .text.toggleRedLED
                 0x0000000000000000       0x18 ./source/RGB_LEDS.o
- .text.GreenLEDtoggle
+ .text.toggleGreenLED
                 0x0000000000000000       0x18 ./source/RGB_LEDS.o
- .text.BlueLEDtoggle
+ .text.toggleBlueLED
                 0x0000000000000000       0x18 ./source/RGB_LEDS.o
  .debug_macro   0x0000000000000000      0xad8 ./source/RGB_LEDS.o
  .debug_macro   0x0000000000000000      0x23c ./source/RGB_LEDS.o
@@ -6868,28 +6868,28 @@ OUTPUT(Quadcopter.axf elf32-littlearm)
  .debug_macro   0x0000000000002043      0x10a ./board/peripherals.o
  .debug_macro   0x000000000000214d      0x109 ./board/pin_mux.o
 
-.debug_line     0x0000000000000000     0xf87b
+.debug_line     0x0000000000000000     0xf880
  .debug_line    0x0000000000000000      0x90e ./startup/startup_mk64f12.o
  .debug_line    0x000000000000090e      0x3eb ./source/Delays.o
  .debug_line    0x0000000000000cf9      0x443 ./source/PWM_functions.o
  .debug_line    0x000000000000113c      0x646 ./source/Quadcopter.o
- .debug_line    0x0000000000001782      0x4d9 ./source/RGB_LEDS.o
- .debug_line    0x0000000000001c5b       0x5a ./source/semihost_hardfault.o
- .debug_line    0x0000000000001cb5     0x14a1 ./drivers/fsl_clock.o
- .debug_line    0x0000000000003156     0x1796 ./drivers/fsl_dspi.o
- .debug_line    0x00000000000048ec     0x1288 ./drivers/fsl_edma.o
- .debug_line    0x0000000000005b74     0x111c ./drivers/fsl_enet.o
- .debug_line    0x0000000000006c90     0x134d ./drivers/fsl_flexcan.o
- .debug_line    0x0000000000007fdd      0xece ./drivers/fsl_ftm.o
- .debug_line    0x0000000000008eab      0x3cd ./drivers/fsl_gpio.o
- .debug_line    0x0000000000009278     0x13cc ./drivers/fsl_i2c.o
- .debug_line    0x000000000000a644     0x1bee ./drivers/fsl_sai.o
- .debug_line    0x000000000000c232     0x10c4 ./drivers/fsl_sdhc.o
- .debug_line    0x000000000000d2f6     0x130a ./drivers/fsl_uart.o
- .debug_line    0x000000000000e600      0x3df ./device/system_MK64F12.o
- .debug_line    0x000000000000e9df      0x4ec ./board/clock_config.o
- .debug_line    0x000000000000eecb      0x394 ./board/peripherals.o
- .debug_line    0x000000000000f25f      0x61c ./board/pin_mux.o
+ .debug_line    0x0000000000001782      0x4de ./source/RGB_LEDS.o
+ .debug_line    0x0000000000001c60       0x5a ./source/semihost_hardfault.o
+ .debug_line    0x0000000000001cba     0x14a1 ./drivers/fsl_clock.o
+ .debug_line    0x000000000000315b     0x1796 ./drivers/fsl_dspi.o
+ .debug_line    0x00000000000048f1     0x1288 ./drivers/fsl_edma.o
+ .debug_line    0x0000000000005b79     0x111c ./drivers/fsl_enet.o
+ .debug_line    0x0000000000006c95     0x134d ./drivers/fsl_flexcan.o
+ .debug_line    0x0000000000007fe2      0xece ./drivers/fsl_ftm.o
+ .debug_line    0x0000000000008eb0      0x3cd ./drivers/fsl_gpio.o
+ .debug_line    0x000000000000927d     0x13cc ./drivers/fsl_i2c.o
+ .debug_line    0x000000000000a649     0x1bee ./drivers/fsl_sai.o
+ .debug_line    0x000000000000c237     0x10c4 ./drivers/fsl_sdhc.o
+ .debug_line    0x000000000000d2fb     0x130a ./drivers/fsl_uart.o
+ .debug_line    0x000000000000e605      0x3df ./device/system_MK64F12.o
+ .debug_line    0x000000000000e9e4      0x4ec ./board/clock_config.o
+ .debug_line    0x000000000000eed0      0x394 ./board/peripherals.o
+ .debug_line    0x000000000000f264      0x61c ./board/pin_mux.o
 
 .debug_str      0x0000000000000000    0x8ae80
  .debug_str     0x0000000000000000     0x364b ./startup/startup_mk64f12.o
@@ -7155,7 +7155,6 @@ BlueLEDoff                                        ./source/RGB_LEDS.o
                                                   ./source/Quadcopter.o
 BlueLEDon                                         ./source/RGB_LEDS.o
                                                   ./source/Quadcopter.o
-BlueLEDtoggle                                     ./source/RGB_LEDS.o
 BusFault_Handler                                  ./startup/startup_mk64f12.o
 CAN0_Bus_Off_IRQHandler                           ./startup/startup_mk64f12.o
 CAN0_DriverIRQHandler                             ./drivers/fsl_flexcan.o
@@ -7593,7 +7592,6 @@ GreenLEDoff                                       ./source/RGB_LEDS.o
                                                   ./source/Quadcopter.o
 GreenLEDon                                        ./source/RGB_LEDS.o
                                                   ./source/Quadcopter.o
-GreenLEDtoggle                                    ./source/RGB_LEDS.o
 HAL_UartDeinit                                    ./component/uart/uart_adapter.o
                                                   ./component/serial_manager/serial_port_uart.o
 HAL_UartEnterLowpower                             ./component/uart/uart_adapter.o
@@ -7758,7 +7756,6 @@ RedLEDoff                                         ./source/RGB_LEDS.o
                                                   ./source/Quadcopter.o
 RedLEDon                                          ./source/RGB_LEDS.o
                                                   ./source/Quadcopter.o
-RedLEDtoggle                                      ./source/RGB_LEDS.o
 Reserved71_DriverIRQHandler                       ./startup/startup_mk64f12.o
 Reserved71_IRQHandler                             ./startup/startup_mk64f12.o
 ResetISR                                          ./startup/startup_mk64f12.o
@@ -8259,3 +8256,6 @@ strlen                                            /usr/local/mcuxpressoide-11.1.
                                                   ./utilities/fsl_str.o
 throttle                                          ./source/Quadcopter.o
 throttle_init                                     ./source/PWM_functions.o
+toggleBlueLED                                     ./source/RGB_LEDS.o
+toggleGreenLED                                    ./source/RGB_LEDS.o
+toggleRedLED                                      ./source/RGB_LEDS.o

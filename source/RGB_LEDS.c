@@ -1,13 +1,19 @@
-/*
+/************************************************************
  * RGB_LEDS.c
  *
  *  Created on: 14 abr. 2019
  *      Author: leandro
- */
+ ***********************************************************/
 
 #include "RGB_LEDS.h"
 
-
+/*********************************************************************************************
+ * @brief RGB LED initialization
+ *
+ * @param void
+ *
+ * @return void
+ *********************************************************************************************/
 void RGB_LED_init(void)
 {
 	// Define the init structure for the output LEDs pins
@@ -24,33 +30,76 @@ void RGB_LED_init(void)
 }
 
 
-
+/*********************************************************************************************
+ * @brief Turning on RED LED
+ *
+ * @param void
+ *
+ * @return void
+ *********************************************************************************************/
 void RedLEDon(void)
 {
 	GPIO_PortClear(RED_LED_GPIO, 1u << RED_LED);
 }
 
+/*********************************************************************************************
+ * @brief Turning off RED LED
+ *
+ * @param void
+ *
+ * @return void
+ *********************************************************************************************/
 void RedLEDoff(void)
 {
 	GPIO_PortSet(RED_LED_GPIO, 1u << RED_LED);
 }
 
+
+/*********************************************************************************************
+ * @brief Turning on GREEN LED
+ *
+ * @param void
+ *
+ * @return void
+ *********************************************************************************************/
 void GreenLEDon(void)
 {
 	GPIO_PortClear(GREEN_LED_GPIO, 1u << GREEN_LED);
 }
 
+/*********************************************************************************************
+ * @brief Turning off GREEN LED
+ *
+ * @param void
+ *
+ * @return void
+ *********************************************************************************************/
 void GreenLEDoff(void)
 {
 	GPIO_PortSet(GREEN_LED_GPIO, 1u << GREEN_LED);
 }
 
 
+/*********************************************************************************************
+ * @brief Turning on BLUE LED
+ *
+ * @param void
+ *
+ * @return void
+ *********************************************************************************************/
 void BlueLEDon(void)
 {
 	GPIO_PortClear(BLUE_LED_GPIO, 1u << BLUE_LED);
 }
 
+
+/*********************************************************************************************
+ * @brief Turning off BLUE LED
+ *
+ * @param void
+ *
+ * @return void
+ *********************************************************************************************/
 void BlueLEDoff(void)
 {
 	GPIO_PortSet(BLUE_LED_GPIO, 1u << BLUE_LED);
@@ -58,19 +107,39 @@ void BlueLEDoff(void)
 
 
 
-void RedLEDtoggle(void)
+/*********************************************************************************************
+ * @brief Toggle RED LED
+ *
+ * @param void
+ *
+ * @return void
+ *********************************************************************************************/
+void toggleRedLED(void)
 {
 	GPIO_PortToggle(RED_LED_GPIO, 1u << RED_LED);
 }
 
-
-void GreenLEDtoggle(void)
+/*********************************************************************************************
+ * @brief Toggle GREEN LED
+ *
+ * @param void
+ *
+ * @return void
+ *********************************************************************************************/
+void toggleGreenLED(void)
 {
 	GPIO_PortToggle(GREEN_LED_GPIO, 1u << GREEN_LED);
 }
 
 
-void BlueLEDtoggle(void)
+/*********************************************************************************************
+ * @brief Toggle BLUE LED
+ *
+ * @param void
+ *
+ * @return void
+ *********************************************************************************************/
+void toggleBlueLED(void)
 {
 	GPIO_PortToggle(BLUE_LED_GPIO, 1u << BLUE_LED);
 }
