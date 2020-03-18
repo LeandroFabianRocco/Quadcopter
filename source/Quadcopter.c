@@ -57,7 +57,7 @@
 #define RING_BUFFER_SIZE 4
 
 // Move constant
-#define MOOVE 20
+#define MOOVE 10
 
 /*******************************************************************************
  * Variable declaration
@@ -130,7 +130,7 @@ int main(void)
 	// Main loop
 	while (1)
 	{
-		SysTick_DelayTicks(20U);
+		//SysTick_DelayTicks(20U);
 		// 0x23, 0xXX, 0xXX, 0x2F
 		if (RingBuffer[0] == 0x23)
 		{
@@ -221,7 +221,6 @@ int main(void)
 				M3 = throttle;
 				M4 = throttle;
 		}
-
 
 		set_pwm_CnV(M1, PWM_CH0);
 		set_pwm_CnV(M2, PWM_CH1);

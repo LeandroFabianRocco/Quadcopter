@@ -58,7 +58,7 @@ instance:
 - config_sets:
   - ftm_main_config:
     - ftm_config:
-      - clockSource: 'kFTM_SystemClock'
+      - clockSource: 'kFTM_FixedClock'
       - clockSourceFreq: 'GetFreq'
       - prescale: 'kFTM_Prescale_Divide_1'
       - timerFrequency: '50'
@@ -154,7 +154,7 @@ const ftm_chnl_pwm_signal_param_t FTM0_pwmSignalParams[] = {
 void FTM0_init(void) {
   FTM_Init(FTM0_PERIPHERAL, &FTM0_config);
   FTM_SetupPwm(FTM0_PERIPHERAL, FTM0_pwmSignalParams, sizeof(FTM0_pwmSignalParams) / sizeof(ftm_chnl_pwm_signal_param_t), kFTM_EdgeAlignedPwm, 50U, FTM0_CLOCK_SOURCE);
-  FTM_StartTimer(FTM0_PERIPHERAL, kFTM_SystemClock);
+  FTM_StartTimer(FTM0_PERIPHERAL, kFTM_FixedClock);
 }
 
 /***********************************************************************************************************************
