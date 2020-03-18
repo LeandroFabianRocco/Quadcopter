@@ -1,4 +1,4 @@
-/*
+/********************************************************************************************
  * Copyright 2016-2020 NXP
  * All rights reserved.
  *
@@ -26,7 +26,7 @@
  * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
+ ********************************************************************************************/
  
 /**
  * @file    Quadcopter.c
@@ -47,18 +47,29 @@
 /*******************************************************************************
  * Variable definition
  ******************************************************************************/
+
+// UART4 definitions
 #define UART4_CLK_FREQ CLOCK_GetFreq(UART4_CLK_SRC)
 #define UART4_IRQn UART4_RX_TX_IRQn
 #define UART4_IRQHandler UART4_RX_TX_IRQHandler
 #define RING_BUFFER_SIZE 4
 
+// Moove constant
+#define MOVE 20
 
 /*******************************************************************************
  * Variable declaration
  ******************************************************************************/
+
+// UART4 variables
 uint8_t RingBuffer[RING_BUFFER_SIZE];
 volatile uint16_t rxIndex;
+
+// Joystick and throttle values
 uint8_t joystick, throttle;
+
+// Variables to controlling the BLDC motors
+volatile uint8_t M1, M2, M3, M4;
 
 
 /*******************************************************************************
@@ -132,35 +143,81 @@ int main(void)
 			throttle = RingBuffer[0];
 			joystick = RingBuffer[1];
 		}
-		//PRINTF("joystick = 0x%x; throttle = 0x%x \r\n", joystick, throttle);
-		if (joystick == 0x01)
+
+
+		switch(joystick)
 		{
-			RedLEDon();
-			GreenLEDoff();
-			BlueLEDoff();
+			case 0x01: // UP
+				RedLEDon();
+				GreenLEDoff();
+				BlueLEDoff();
+				M1 = throttle + MOVE;
+				M2 = throttle;
+				M3 = throttle - MOVE;
+				M4 = throttle;
+				break;
+			case 0x02: // UP-RIGHT
+				RedLEDon();
+				GreenLEDon();
+				BlueLEDoff();
+				break;
+			case 0x04: // RIGHT
+				RedLEDoff();
+				GreenLEDon();
+				BlueLEDoff();
+				M1 = throttle;
+				M2 = throttle - MOVE;
+				M3 = throttle;
+				M4 = throttle + MOVE;
+				break;
+			case 0x08: // DOWN-RIGHT
+				RedLEDon();
+				GreenLEDoff();
+				BlueLEDon();
+				break;
+			case 0x10: // DOWN
+				RedLEDoff();
+				GreenLEDoff();
+				BlueLEDon();
+				M1 = throttle - MOVE;
+				M2 = throttle;
+				M3 = throttle + MOVE;
+				M4 = throttle;
+				break;
+			case 0x20: // DOWN-LEFT
+				RedLEDoff();
+				GreenLEDon();
+				BlueLEDon();
+				break;
+			case 0x40: // LEFT
+				RedLEDon();
+				GreenLEDon();
+				BlueLEDon();
+				M1 = throttle;
+				M2 = throttle + MOVE;
+				M3 = throttle;
+				M4 = throttle - MOVE;
+				break;
+			case 0x80: // UP-LEFT
+				RedLEDon();
+				GreenLEDoff();
+				BlueLEDon();
+				break;
+			default:
+				RedLEDoff();
+				GreenLEDoff();
+				BlueLEDoff();
+				M1 = throttle;
+				M2 = throttle;
+				M3 = throttle;
+				M4 = throttle;
 		}
-		else if (joystick == 0x04)
-		{
-			RedLEDoff();
-			GreenLEDon();
-			BlueLEDoff();
-		}
-		else if (joystick == 0x10)
-		{
-			RedLEDoff();
-			GreenLEDoff();
-			BlueLEDon();
-		}
-		else if (joystick == 0x00)
-		{
-			RedLEDoff();
-			GreenLEDoff();
-			BlueLEDoff();
-		}
-		set_pwm_CnV(throttle, PWM_CH0);
-		set_pwm_CnV(throttle, PWM_CH1);
-		set_pwm_CnV(throttle, PWM_CH2);
-		set_pwm_CnV(throttle, PWM_CH3);
+
+
+		set_pwm_CnV(M1, PWM_CH0);
+		set_pwm_CnV(M2, PWM_CH1);
+		set_pwm_CnV(M3, PWM_CH2);
+		set_pwm_CnV(M4, PWM_CH3);
 	}
 }
 

@@ -12,6 +12,8 @@
  ************************************************************************/
 void set_pwm_CnV(uint32_t value, uint8_t ch)
 {
+	if (value > 100)
+		value = 100;
 	float x1 = value + 97;
 	uint32_t v = (uint32_t)x1;
 	FTM_MODULE->CONTROLS[ch].CnV = v;
