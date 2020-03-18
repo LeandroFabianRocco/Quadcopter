@@ -43,6 +43,8 @@
 #include "Delays.h"
 #include "RGB_LEDS.h"
 #include "PWM_functions.h"
+#include "MPU6050.h"
+#include "FXOS8700CQ.h"
 
 /*******************************************************************************
  * Variable definition
@@ -54,8 +56,8 @@
 #define UART4_IRQHandler UART4_RX_TX_IRQHandler
 #define RING_BUFFER_SIZE 4
 
-// Moove constant
-#define MOVE 20
+// Move constant
+#define MOOVE 20
 
 /*******************************************************************************
  * Variable declaration
@@ -117,6 +119,13 @@ int main(void)
 	UART_EnableInterrupts(UART4, kUART_RxDataRegFullInterruptEnable | kUART_RxOverrunInterruptEnable);
 	EnableIRQ(UART4_IRQn);
 
+	// FXOS8700 initialization and configuration
+	FXOS8700CQ_Init();
+	FXOS8700CQ_Configure_Device();
+
+	// MPU6050 initialization and configuration
+    MPU6050_Init();
+    MPU6050_Configure_Device();
 
 	// Main loop
 	while (1)
@@ -151,9 +160,9 @@ int main(void)
 				RedLEDon();
 				GreenLEDoff();
 				BlueLEDoff();
-				M1 = throttle + MOVE;
+				M1 = throttle + MOOVE;
 				M2 = throttle;
-				M3 = throttle - MOVE;
+				M3 = throttle - MOOVE;
 				M4 = throttle;
 				break;
 			case 0x02: // UP-RIGHT
@@ -166,9 +175,9 @@ int main(void)
 				GreenLEDon();
 				BlueLEDoff();
 				M1 = throttle;
-				M2 = throttle - MOVE;
+				M2 = throttle - MOOVE;
 				M3 = throttle;
-				M4 = throttle + MOVE;
+				M4 = throttle + MOOVE;
 				break;
 			case 0x08: // DOWN-RIGHT
 				RedLEDon();
@@ -179,9 +188,9 @@ int main(void)
 				RedLEDoff();
 				GreenLEDoff();
 				BlueLEDon();
-				M1 = throttle - MOVE;
+				M1 = throttle - MOOVE;
 				M2 = throttle;
-				M3 = throttle + MOVE;
+				M3 = throttle + MOOVE;
 				M4 = throttle;
 				break;
 			case 0x20: // DOWN-LEFT
@@ -194,9 +203,9 @@ int main(void)
 				GreenLEDon();
 				BlueLEDon();
 				M1 = throttle;
-				M2 = throttle + MOVE;
+				M2 = throttle + MOOVE;
 				M3 = throttle;
-				M4 = throttle - MOVE;
+				M4 = throttle - MOOVE;
 				break;
 			case 0x80: // UP-LEFT
 				RedLEDon();

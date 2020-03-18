@@ -5,6 +5,8 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
 ../source/Delays.c \
+../source/FXOS8700CQ.c \
+../source/MPU6050.c \
 ../source/PWM_functions.c \
 ../source/Quadcopter.c \
 ../source/RGB_LEDS.c \
@@ -12,6 +14,8 @@ C_SRCS += \
 
 OBJS += \
 ./source/Delays.o \
+./source/FXOS8700CQ.o \
+./source/MPU6050.o \
 ./source/PWM_functions.o \
 ./source/Quadcopter.o \
 ./source/RGB_LEDS.o \
@@ -19,6 +23,8 @@ OBJS += \
 
 C_DEPS += \
 ./source/Delays.d \
+./source/FXOS8700CQ.d \
+./source/MPU6050.d \
 ./source/PWM_functions.d \
 ./source/Quadcopter.d \
 ./source/RGB_LEDS.d \
