@@ -10,8 +10,11 @@
  * Included files
  **********************************************************************************************************************/
 #include "fsl_common.h"
+#include "fsl_uart.h"
 #include "fsl_clock.h"
-#include "fsl_ftm.h"
+#include "fsl_gpio.h"
+#include "fsl_port.h"
+#include "fsl_rtc.h"
 
 #if defined(__cplusplus)
 extern "C" {
@@ -22,18 +25,26 @@ extern "C" {
  **********************************************************************************************************************/
 /* Definitions for BOARD_InitPeripherals functional group */
 /* Definition of peripheral ID */
-#define FTM0_PERIPHERAL FTM0
+#define UART4_PERIPHERAL UART4
 /* Definition of the clock source frequency */
-#define FTM0_CLOCK_SOURCE CLOCK_GetFreq(kCLOCK_McgFixedFreqClk)
-/* FTM0 interrupt vector ID (number). */
-#define FTM0_IRQN FTM0_IRQn
-/* FTM0 interrupt handler identifier. */
-#define FTM0_IRQHANDLER FTM0_IRQHandler
+#define UART4_CLOCK_SOURCE CLOCK_GetFreq(UART4_CLK_SRC)
+/* Alias for GPIOC peripheral */
+#define GPIOC_GPIO GPIOC
+/* Alias for GPIOA peripheral */
+#define GPIOA_GPIO GPIOA
+/* Definition of peripheral ID */
+#define UART0_PERIPHERAL UART0
+/* Definition of the clock source frequency */
+#define UART0_CLOCK_SOURCE CLOCK_GetFreq(UART0_CLK_SRC)
+/* Definition of peripheral ID */
+#define RTC_PERIPHERAL RTC
 
 /***********************************************************************************************************************
  * Global variables
  **********************************************************************************************************************/
-extern const ftm_config_t FTM0_config;
+extern const uart_config_t UART4_config;
+extern const uart_config_t UART0_config;
+extern const rtc_config_t RTC_config;
 
 /***********************************************************************************************************************
  * Initialization functions

@@ -43,8 +43,8 @@
 #include "Delays.h"
 #include "RGB_LEDS.h"
 #include "PWM_functions.h"
-#include "MPU6050.h"
-#include "FXOS8700CQ.h"
+//#include "MPU6050.h"
+//#include "FXOS8700CQ.h"
 
 /*******************************************************************************
  * Variable definition
@@ -102,10 +102,12 @@ int main(void)
 {
 	BOARD_InitPins();
 	BOARD_BootClockRUN();
-	BOARD_InitBootPeripherals();
+	//BOARD_InitBootPeripherals();
 	SysTick_init();
 	// Inicializo el LED RGB
 	RGB_LED_init();
+	// FTM init
+	FTM0_init();
 
 	// Local variable declaration
 	uart_config_t config;
@@ -120,12 +122,12 @@ int main(void)
 	EnableIRQ(UART4_IRQn);
 
 	// FXOS8700 initialization and configuration
-	FXOS8700CQ_Init();
-	FXOS8700CQ_Configure_Device();
+	//FXOS8700CQ_Init();
+	//FXOS8700CQ_Configure_Device();
 
 	// MPU6050 initialization and configuration
-    MPU6050_Init();
-    MPU6050_Configure_Device();
+    //MPU6050_Init();
+    //MPU6050_Configure_Device();
 
 	// Main loop
 	while (1)
@@ -222,10 +224,10 @@ int main(void)
 				M4 = throttle;
 		}
 
-		set_pwm_CnV(M1, PWM_CH0);
+		/*set_pwm_CnV(M1, PWM_CH0);
 		set_pwm_CnV(M2, PWM_CH1);
 		set_pwm_CnV(M3, PWM_CH2);
-		set_pwm_CnV(M4, PWM_CH3);
+		set_pwm_CnV(M4, PWM_CH3);*/
 	}
 }
 

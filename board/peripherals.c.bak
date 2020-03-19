@@ -43,118 +43,203 @@ component:
  * BOARD_InitPeripherals functional group
  **********************************************************************************************************************/
 /***********************************************************************************************************************
- * FTM0 initialization code
+ * UART4 initialization code
  **********************************************************************************************************************/
 /* clang-format off */
 /* TEXT BELOW IS USED AS SETTING FOR TOOLS *************************************
 instance:
-- name: 'FTM0'
-- type: 'ftm'
-- mode: 'EdgeAligned'
+- name: 'UART4'
+- type: 'uart'
+- mode: 'polling'
 - custom_name_enabled: 'false'
-- type_id: 'ftm_04a15ae4af2b404bf2ae403c3dbe98b3'
+- type_id: 'uart_88ab1eca0cddb7ee407685775de016d5'
 - functional_group: 'BOARD_InitPeripherals'
-- peripheral: 'FTM0'
+- peripheral: 'UART4'
 - config_sets:
-  - ftm_main_config:
-    - ftm_config:
-      - clockSource: 'kFTM_FixedClock'
+  - uartConfig_t:
+    - uartConfig:
+      - clockSource: 'BusInterfaceClock'
       - clockSourceFreq: 'GetFreq'
-      - prescale: 'kFTM_Prescale_Divide_1'
-      - timerFrequency: '50'
-      - bdmMode: 'kFTM_BdmMode_0'
-      - pwmSyncMode: 'kFTM_SoftwareTrigger'
-      - reloadPoints: ''
-      - faultMode: 'kFTM_Fault_Disable'
-      - faultFilterValue: '0'
-      - deadTimePrescale: 'kFTM_Deadtime_Prescale_1'
-      - deadTimeValue: '0'
-      - extTriggers: ''
-      - chnlInitState: ''
-      - chnlPolarity: ''
-      - useGlobalTimeBase: 'false'
-    - timer_interrupts: ''
+      - baudRate_Bps: '115200'
+      - parityMode: 'kUART_ParityDisabled'
+      - stopBitCount: 'kUART_OneStopBit'
+      - txFifoWatermark: '0'
+      - rxFifoWatermark: '1'
+      - idleType: 'kUART_IdleTypeStartBit'
+      - enableTx: 'true'
+      - enableRx: 'true'
+    - quick_selection: 'QuickSelection1'
+ * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
+/* clang-format on */
+const uart_config_t UART4_config = {
+  .baudRate_Bps = 115200,
+  .parityMode = kUART_ParityDisabled,
+  .stopBitCount = kUART_OneStopBit,
+  .txFifoWatermark = 0,
+  .rxFifoWatermark = 1,
+  .idleType = kUART_IdleTypeStartBit,
+  .enableTx = true,
+  .enableRx = true
+};
+
+void UART4_init(void) {
+  UART_Init(UART4_PERIPHERAL, &UART4_config, UART4_CLOCK_SOURCE);
+}
+
+/***********************************************************************************************************************
+ * GPIOC initialization code
+ **********************************************************************************************************************/
+/* clang-format off */
+/* TEXT BELOW IS USED AS SETTING FOR TOOLS *************************************
+instance:
+- name: 'GPIOC'
+- type: 'gpio'
+- mode: 'GPIO'
+- custom_name_enabled: 'false'
+- type_id: 'gpio_5920c5e026e8e974e6dc54fbd5e22ad7'
+- functional_group: 'BOARD_InitPeripherals'
+- peripheral: 'GPIOC'
+- config_sets:
+  - fsl_gpio:
     - enable_irq: 'false'
-    - ftm_interrupt:
-      - IRQn: 'FTM0_IRQn'
+    - port_interrupt:
+      - IRQn: 'PORTC_IRQn'
       - enable_priority: 'false'
       - priority: '0'
       - enable_custom_name: 'false'
-    - EnableTimerInInit: 'true'
-  - ftm_edge_aligned_mode:
-    - ftm_edge_aligned_channels_config:
-      - 0:
-        - edge_aligned_mode: 'kFTM_EdgeAlignedPwm'
-        - edge_aligned_pwm:
-          - chnlNumber: 'kFTM_Chnl_0'
-          - level: 'kFTM_HighTrue'
-          - dutyCyclePercent: '5'
-          - enable_chan_irq: 'false'
-      - 1:
-        - edge_aligned_mode: 'kFTM_EdgeAlignedPwm'
-        - edge_aligned_pwm:
-          - chnlNumber: 'kFTM_Chnl_1'
-          - level: 'kFTM_HighTrue'
-          - dutyCyclePercent: '5'
-          - enable_chan_irq: 'false'
-      - 2:
-        - edge_aligned_mode: 'kFTM_EdgeAlignedPwm'
-        - edge_aligned_pwm:
-          - chnlNumber: 'kFTM_Chnl_2'
-          - level: 'kFTM_HighTrue'
-          - dutyCyclePercent: '5'
-          - enable_chan_irq: 'false'
-      - 3:
-        - edge_aligned_mode: 'kFTM_EdgeAlignedPwm'
-        - edge_aligned_pwm:
-          - chnlNumber: 'kFTM_Chnl_3'
-          - level: 'kFTM_HighTrue'
-          - dutyCyclePercent: '5'
-          - enable_chan_irq: 'false'
+    - quick_selection: 'QS_GPIO_1'
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
 /* clang-format on */
-const ftm_config_t FTM0_config = {
-  .prescale = kFTM_Prescale_Divide_1,
-  .bdmMode = kFTM_BdmMode_0,
-  .pwmSyncMode = kFTM_SoftwareTrigger,
-  .reloadPoints = 0,
-  .faultMode = kFTM_Fault_Disable,
-  .faultFilterValue = 0,
-  .deadTimePrescale = kFTM_Deadtime_Prescale_1,
-  .deadTimeValue = 0,
-  .extTriggers = 0,
-  .chnlInitState = 0,
-  .chnlPolarity = 0,
-  .useGlobalTimeBase = false
+
+void GPIOC_init(void) {
+  /* Make sure, the clock gate for port C is enabled (e. g. in pin_mux.c) */
+}
+
+/***********************************************************************************************************************
+ * GPIOA initialization code
+ **********************************************************************************************************************/
+/* clang-format off */
+/* TEXT BELOW IS USED AS SETTING FOR TOOLS *************************************
+instance:
+- name: 'GPIOA'
+- type: 'gpio'
+- mode: 'GPIO'
+- custom_name_enabled: 'false'
+- type_id: 'gpio_5920c5e026e8e974e6dc54fbd5e22ad7'
+- functional_group: 'BOARD_InitPeripherals'
+- peripheral: 'GPIOA'
+- config_sets:
+  - fsl_gpio:
+    - enable_irq: 'false'
+    - port_interrupt:
+      - IRQn: 'PORTA_IRQn'
+      - enable_priority: 'false'
+      - priority: '0'
+      - enable_custom_name: 'false'
+    - quick_selection: 'QS_GPIO_1'
+ * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
+/* clang-format on */
+
+void GPIOA_init(void) {
+  /* Make sure, the clock gate for port A is enabled (e. g. in pin_mux.c) */
+}
+
+/***********************************************************************************************************************
+ * UART0 initialization code
+ **********************************************************************************************************************/
+/* clang-format off */
+/* TEXT BELOW IS USED AS SETTING FOR TOOLS *************************************
+instance:
+- name: 'UART0'
+- type: 'uart'
+- mode: 'polling'
+- custom_name_enabled: 'false'
+- type_id: 'uart_88ab1eca0cddb7ee407685775de016d5'
+- functional_group: 'BOARD_InitPeripherals'
+- peripheral: 'UART0'
+- config_sets:
+  - uartConfig_t:
+    - uartConfig:
+      - clockSource: 'BusInterfaceClock'
+      - clockSourceFreq: 'GetFreq'
+      - baudRate_Bps: '115200'
+      - parityMode: 'kUART_ParityDisabled'
+      - stopBitCount: 'kUART_OneStopBit'
+      - txFifoWatermark: '0'
+      - rxFifoWatermark: '1'
+      - idleType: 'kUART_IdleTypeStartBit'
+      - enableTx: 'true'
+      - enableRx: 'true'
+    - quick_selection: 'QuickSelection1'
+ * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
+/* clang-format on */
+const uart_config_t UART0_config = {
+  .baudRate_Bps = 115200,
+  .parityMode = kUART_ParityDisabled,
+  .stopBitCount = kUART_OneStopBit,
+  .txFifoWatermark = 0,
+  .rxFifoWatermark = 1,
+  .idleType = kUART_IdleTypeStartBit,
+  .enableTx = true,
+  .enableRx = true
 };
 
-const ftm_chnl_pwm_signal_param_t FTM0_pwmSignalParams[] = { 
-  {
-    .chnlNumber = kFTM_Chnl_0,
-    .level = kFTM_HighTrue,
-    .dutyCyclePercent = 5
-  },
-  {
-    .chnlNumber = kFTM_Chnl_1,
-    .level = kFTM_HighTrue,
-    .dutyCyclePercent = 5
-  },
-  {
-    .chnlNumber = kFTM_Chnl_2,
-    .level = kFTM_HighTrue,
-    .dutyCyclePercent = 5
-  },
-  {
-    .chnlNumber = kFTM_Chnl_3,
-    .level = kFTM_HighTrue,
-    .dutyCyclePercent = 5
-  }
+void UART0_init(void) {
+  UART_Init(UART0_PERIPHERAL, &UART0_config, UART0_CLOCK_SOURCE);
+}
+
+/***********************************************************************************************************************
+ * RTC initialization code
+ **********************************************************************************************************************/
+/* clang-format off */
+/* TEXT BELOW IS USED AS SETTING FOR TOOLS *************************************
+instance:
+- name: 'RTC'
+- type: 'rtc'
+- mode: 'general'
+- custom_name_enabled: 'false'
+- type_id: 'rtc_603f70732a5387a85b5715615cba9e65'
+- functional_group: 'BOARD_InitPeripherals'
+- peripheral: 'RTC'
+- config_sets:
+  - fsl_rtc:
+    - clockConfig_t: []
+    - rtc_config:
+      - updateMode: 'false'
+      - supervisorAccess: 'false'
+      - compensationIntervalInt: '1'
+      - compensationTimeInt: '0'
+      - setDateTime: 'false'
+      - setAlarm: 'false'
+      - start: 'false'
+    - interruptsCfg:
+      - interruptSources: ''
+      - isSecondsInterruptEnabled: 'false'
+      - secondsInterrupt:
+        - IRQn: 'RTC_Seconds_IRQn'
+        - enable_priority: 'false'
+        - priority: '1'
+        - enable_custom_name: 'false'
+      - isInterruptEnabled: 'false'
+      - commonInterrupt:
+        - IRQn: 'RTC_IRQn'
+        - enable_priority: 'false'
+        - priority: '0'
+        - enable_custom_name: 'false'
+    - quick_selection: 'QuickSelection1'
+ * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
+/* clang-format on */
+const rtc_config_t RTC_config = {
+  .wakeupSelect = false,
+  .updateMode = false,
+  .supervisorAccess = false,
+  .compensationInterval = 0x0U,
+  .compensationTime = 0x0U
 };
 
-void FTM0_init(void) {
-  FTM_Init(FTM0_PERIPHERAL, &FTM0_config);
-  FTM_SetupPwm(FTM0_PERIPHERAL, FTM0_pwmSignalParams, sizeof(FTM0_pwmSignalParams) / sizeof(ftm_chnl_pwm_signal_param_t), kFTM_EdgeAlignedPwm, 50U, FTM0_CLOCK_SOURCE);
-  FTM_StartTimer(FTM0_PERIPHERAL, kFTM_FixedClock);
+void RTC_init(void) {
+  /* RTC initialization */
+  RTC_Init(RTC_PERIPHERAL, &RTC_config);
 }
 
 /***********************************************************************************************************************
@@ -163,7 +248,11 @@ void FTM0_init(void) {
 void BOARD_InitPeripherals(void)
 {
   /* Initialize components */
-  FTM0_init();
+  UART4_init();
+  GPIOC_init();
+  GPIOA_init();
+  UART0_init();
+  RTC_init();
 }
 
 /***********************************************************************************************************************

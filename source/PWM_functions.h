@@ -25,6 +25,8 @@
 #define PWM_CH2 2U
 #define PWM_CH3 3U
 
+#define FTM_SOURCE_CLOCK CLOCK_GetFreq(kCLOCK_McgFixedFreqClk)
+
 #define MAX_THROTTLE 196U
 #define MIN_THROTTLE 97U
 
@@ -34,5 +36,7 @@
 void set_pwm_CnV(uint32_t value, uint8_t ch);
 
 void throttle_init(void);
+
+void FTM0_init(void);
 
 #endif /* PWM_FUNCTIONS_H_ */
