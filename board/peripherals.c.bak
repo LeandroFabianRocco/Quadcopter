@@ -66,7 +66,7 @@ instance:
         - channel_id: ''
         - channelNumber: '0'
         - enableChain: 'false'
-        - timerPeriod: '500ms'
+        - timerPeriod: '20ms'
         - startTimer: 'true'
         - enableInterrupt: 'true'
         - interrupt:

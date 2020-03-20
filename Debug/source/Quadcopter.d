@@ -15,6 +15,7 @@ source/Quadcopter.o source/Quadcopter.d: ../source/Quadcopter.c \
  /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/drivers/fsl_gpio.h \
  /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/drivers/fsl_port.h \
  /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/board/peripherals.h \
+ /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/drivers/fsl_i2c.h \
  /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/drivers/fsl_pit.h \
  /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/board/pin_mux.h \
  /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/board/clock_config.h \
@@ -27,7 +28,8 @@ source/Quadcopter.o source/Quadcopter.d: ../source/Quadcopter.c \
  ../source/Delays.h \
  /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/drivers/fsl_clock.h \
  ../source/RGB_LEDS.h ../source/PWM_functions.h \
- /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/drivers/fsl_ftm.h
+ /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/drivers/fsl_ftm.h \
+ ../source/MPU6050.h ../source/FXOS8700CQ.h
 
 /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/board/board.h:
 
@@ -61,6 +63,8 @@ source/Quadcopter.o source/Quadcopter.d: ../source/Quadcopter.c \
 
 /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/board/peripherals.h:
 
+/home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/drivers/fsl_i2c.h:
+
 /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/drivers/fsl_pit.h:
 
 /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/board/pin_mux.h:
@@ -88,3 +92,7 @@ source/Quadcopter.o source/Quadcopter.d: ../source/Quadcopter.c \
 ../source/PWM_functions.h:
 
 /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/drivers/fsl_ftm.h:
+
+../source/MPU6050.h:
+
+../source/FXOS8700CQ.h:

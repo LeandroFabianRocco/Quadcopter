@@ -43,8 +43,8 @@
 #include "Delays.h"
 #include "RGB_LEDS.h"
 #include "PWM_functions.h"
-//#include "MPU6050.h"
-//#include "FXOS8700CQ.h"
+#include "MPU6050.h"
+#include "FXOS8700CQ.h"
 
 /*******************************************************************************
  * Variable definition
@@ -72,6 +72,7 @@ uint8_t joystick, throttle;
 
 // Variables to controlling the BLDC motors
 volatile uint8_t M1, M2, M3, M4;
+volatile uint8_t M1last, M2last, M3last, M4last;
 
 
 /*******************************************************************************
@@ -99,7 +100,27 @@ void UART4_IRQHandler(void)
 void PIT_0_IRQHANDLER(void)
 {
 	PIT_ClearStatusFlags(PIT, kPIT_Chnl_0, kPIT_TimerFlag);
-	toggleBlueLED();
+
+	if (M1last != M1)
+	{
+		set_pwm_CnV(FTM0, M1, PWM_CH0);
+		M1last = M1;
+	}
+	if (M2last != M2)
+	{
+		set_pwm_CnV(FTM0, M2, PWM_CH1);
+		M2last = M2;
+	}
+	if (M3last != M3)
+	{
+		set_pwm_CnV(FTM0, M3, PWM_CH2);
+		M3last = M3;
+	}
+	if (M4last != M4)
+	{
+		set_pwm_CnV(FTM0, M4, PWM_CH3);
+		M4last = M4;
+	}
 }
 
 
@@ -131,17 +152,17 @@ int main(void)
 	EnableIRQ(UART4_IRQn);
 
 	// FXOS8700 initialization and configuration
-	//FXOS8700CQ_Init();
-	//FXOS8700CQ_Configure_Device();
+	FXOS8700CQ_Init();
+	FXOS8700CQ_Configure_Device();
 
 	// MPU6050 initialization and configuration
-    //MPU6050_Init();
-    //MPU6050_Configure_Device();
+    MPU6050_Init();
+    MPU6050_Configure_Device();
 
 	// Main loop
 	while (1)
 	{
-		SysTick_DelayTicks(20U);
+		//SysTick_DelayTicks(20U);
 		// 0x23, 0xXX, 0xXX, 0x2F
 		if (RingBuffer[0] == 0x23)
 		{
@@ -224,19 +245,14 @@ int main(void)
 				BlueLEDon();
 				break;
 			default:
-				//RedLEDoff();
-				//GreenLEDoff();
-				//BlueLEDoff();
+				RedLEDoff();
+				GreenLEDoff();
+				BlueLEDoff();
 				M1 = throttle;
 				M2 = throttle;
 				M3 = throttle;
 				M4 = throttle;
 		}
-
-		set_pwm_CnV(FTM0, M1, PWM_CH0);
-		set_pwm_CnV(FTM0, M2, PWM_CH1);
-		set_pwm_CnV(FTM0, M3, PWM_CH2);
-		set_pwm_CnV(FTM0, M4, PWM_CH3);
 	}
 }
 
