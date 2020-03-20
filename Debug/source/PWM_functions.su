@@ -1,6 +1,4 @@
 fsl_ftm.h:670:20:FTM_StartTimer	24	static
 fsl_ftm.h:962:20:FTM_SetSoftwareTrigger	16	static
-fsl_gpio.h:175:20:GPIO_PortSet	16	static
-PWM_functions.c:13:6:set_pwm_CnV	24	static
-PWM_functions.c:27:6:throttle_init	8	static
-PWM_functions.c:42:6:FTM0_init	64	static
+PWM_functions.c:13:6:set_pwm_CnV	32	static
+PWM_functions.c:39:6:FTM0_init	64	static

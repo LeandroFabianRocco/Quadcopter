@@ -33,7 +33,7 @@
 /*************************************************************************
  * Prototipos
  ************************************************************************/
-void set_pwm_CnV(uint32_t value, uint8_t ch);
+void set_pwm_CnV(FTM_Type *base, uint32_t value, uint8_t ch);
 
 void throttle_init(void);
 

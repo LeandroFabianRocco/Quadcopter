@@ -132,7 +132,7 @@ int main(void)
 	// Main loop
 	while (1)
 	{
-		//SysTick_DelayTicks(20U);
+		SysTick_DelayTicks(20U);
 		// 0x23, 0xXX, 0xXX, 0x2F
 		if (RingBuffer[0] == 0x23)
 		{
@@ -224,10 +224,10 @@ int main(void)
 				M4 = throttle;
 		}
 
-		/*set_pwm_CnV(M1, PWM_CH0);
-		set_pwm_CnV(M2, PWM_CH1);
-		set_pwm_CnV(M3, PWM_CH2);
-		set_pwm_CnV(M4, PWM_CH3);*/
+		set_pwm_CnV(FTM0, M1, PWM_CH0);
+		set_pwm_CnV(FTM0, M2, PWM_CH1);
+		set_pwm_CnV(FTM0, M3, PWM_CH2);
+		set_pwm_CnV(FTM0, M4, PWM_CH3);
 	}
 }
 

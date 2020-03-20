@@ -10,25 +10,22 @@
 /*************************************************************************
  * Función para setear el valor de CnV de los canales del FTM
  ************************************************************************/
-void set_pwm_CnV(uint32_t value, uint8_t ch)
+void set_pwm_CnV(FTM_Type *base, uint32_t value, uint8_t ch)
 {
 	if (value > 100)
 		value = 100;
 	float x1 = value + 97;
 	uint32_t v = (uint32_t)x1;
-	FTM_MODULE->CONTROLS[ch].CnV = v;
-	FTM_SetSoftwareTrigger(FTM_MODULE, true);
+	base->CONTROLS[ch].CnV = v;
+	FTM_SetSoftwareTrigger(base, true);
 }
 
 
 /*************************************************************************
  * Configura el ESC para el rango de velocidades del PWM
  ************************************************************************/
-void throttle_init(void)
+/*void throttle_init(void)
 {
-	//GPIO_PortClear(BLUE_LED_GPIO, 1u << BLUE_LED);
-	//SysTick_DelayTicks(5000U); // Tiempo de espera para conectar la batería
-	// Configuro máximo throttle
 	set_pwm_CnV(MAX_THROTTLE, PWM_CH0);
 	set_pwm_CnV(MAX_THROTTLE, PWM_CH1);
 	SysTick_DelayTicks(5000U);
@@ -36,7 +33,7 @@ void throttle_init(void)
 	set_pwm_CnV(MIN_THROTTLE, PWM_CH0);
 	set_pwm_CnV(MIN_THROTTLE, PWM_CH1);
 	SysTick_DelayTicks(1000U);
-}
+}*/
 
 
 void FTM0_init(void)
