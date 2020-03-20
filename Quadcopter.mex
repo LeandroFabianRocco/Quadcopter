@@ -933,6 +933,18 @@
          <dcdx_configurations/>
       </dcdx>
       <periphs name="Peripherals" version="7.0" enabled="true" update_project_code="true">
+         <dependencies>
+            <dependency resourceType="SWComponent" resourceId="platform.drivers.pit" description="PIT Driver not found in the toolchain/IDE project. Project will not compile!" problem_level="2" source="Peripherals">
+               <feature name="enabled" evaluation="equal">
+                  <data type="Boolean">true</data>
+               </feature>
+            </dependency>
+            <dependency resourceType="SWComponent" resourceId="platform.drivers.pit" description="Unsupported version of the PIT Driver in the toolchain/IDE project. Required: ${required_value}, actual: ${actual_value}. Project might not compile correctly." problem_level="1" source="Peripherals">
+               <feature name="version" evaluation="equivalent">
+                  <data type="Version">2.0.0</data>
+               </feature>
+            </dependency>
+         </dependencies>
          <generated_project_files>
             <file path="peripherals.c" update_enabled="true"/>
             <file path="peripherals.h" update_enabled="true"/>
@@ -944,7 +956,13 @@
             <functional_group name="BOARD_InitPeripherals" uuid="8c2dbb81-2b5a-4f0e-b4e8-89d0096b4c0d" called_from_default_init="true" id_prefix="" core="core0">
                <description></description>
                <options/>
-               <dependencies/>
+               <dependencies>
+                  <dependency resourceType="ClockOutput" resourceId="Bus_clock" description="Bus clock is inactive. Problem must be resolved in another tool." problem_level="1" source="Peripherals:BOARD_InitPeripherals">
+                     <feature name="frequency" evaluation="greaterThan">
+                        <data type="Frequency" unit="Hz">0</data>
+                     </feature>
+                  </dependency>
+               </dependencies>
                <instances>
                   <instance name="FTM0" uuid="bc31f7be-d27a-4af4-9bec-5c44506fc6e5" type="ftm" type_id="ftm_04a15ae4af2b404bf2ae403c3dbe98b3" mode="EdgeAligned" peripheral="FTM0" enabled="false" comment="" custom_name_enabled="false">
                      <config_set name="ftm_main_config">
@@ -1030,6 +1048,28 @@
                         </array>
                      </config_set>
                   </instance>
+                  <instance name="GPIOA" uuid="c7d94a3e-9c88-4694-b0ff-b08c3fabf2f1" type="gpio" type_id="gpio_5920c5e026e8e974e6dc54fbd5e22ad7" mode="GPIO" peripheral="GPIOA" enabled="false" comment="" custom_name_enabled="false">
+                     <config_set name="fsl_gpio" quick_selection="QS_GPIO_1">
+                        <setting name="enable_irq" value="false"/>
+                        <struct name="port_interrupt">
+                           <setting name="IRQn" value="PORTA_IRQn"/>
+                           <setting name="enable_priority" value="false"/>
+                           <setting name="priority" value="0"/>
+                           <setting name="enable_custom_name" value="false"/>
+                        </struct>
+                     </config_set>
+                  </instance>
+                  <instance name="GPIOC" uuid="070e3872-082a-47f3-b999-b0d8554c8ea6" type="gpio" type_id="gpio_5920c5e026e8e974e6dc54fbd5e22ad7" mode="GPIO" peripheral="GPIOC" enabled="false" comment="" custom_name_enabled="false">
+                     <config_set name="fsl_gpio" quick_selection="QS_GPIO_1">
+                        <setting name="enable_irq" value="false"/>
+                        <struct name="port_interrupt">
+                           <setting name="IRQn" value="PORTC_IRQn"/>
+                           <setting name="enable_priority" value="false"/>
+                           <setting name="priority" value="0"/>
+                           <setting name="enable_custom_name" value="false"/>
+                        </struct>
+                     </config_set>
+                  </instance>
                   <instance name="I2C0" uuid="2ee11f0c-d9de-49d2-a398-adae70cb2c71" type="i2c" type_id="i2c_2566d7363e7e9aaedabb432110e372d7" mode="I2C_Polling" peripheral="I2C0" enabled="false" comment="" custom_name_enabled="false">
                      <config_set name="fsl_i2c">
                         <setting name="i2c_mode" value="kI2C_Master"/>
@@ -1056,58 +1096,29 @@
                         </struct>
                      </config_set>
                   </instance>
-                  <instance name="UART4" uuid="baffe5b5-7b27-4f77-bcd8-dc4eaf051a78" type="uart" type_id="uart_88ab1eca0cddb7ee407685775de016d5" mode="polling" peripheral="UART4" enabled="false" comment="" custom_name_enabled="false">
-                     <config_set name="uartConfig_t" quick_selection="QuickSelection1">
-                        <struct name="uartConfig">
+                  <instance name="PIT" uuid="e9e79c53-5def-4bea-acc1-d4ce6f12856a" type="pit" type_id="pit_a4782ba5223c8a2527ba91aeb2bc4159" mode="LPTMR_GENERAL" peripheral="PIT" enabled="true" comment="" custom_name_enabled="false">
+                     <config_set name="fsl_pit">
+                        <setting name="enableRunInDebug" value="true"/>
+                        <struct name="timingConfig">
                            <setting name="clockSource" value="BusInterfaceClock"/>
                            <setting name="clockSourceFreq" value="GetFreq"/>
-                           <setting name="baudRate_Bps" value="115200"/>
-                           <setting name="parityMode" value="kUART_ParityDisabled"/>
-                           <setting name="stopBitCount" value="kUART_OneStopBit"/>
-                           <setting name="txFifoWatermark" value="0"/>
-                           <setting name="rxFifoWatermark" value="1"/>
-                           <setting name="idleType" value="kUART_IdleTypeStartBit"/>
-                           <setting name="enableTx" value="true"/>
-                           <setting name="enableRx" value="true"/>
                         </struct>
-                     </config_set>
-                  </instance>
-                  <instance name="GPIOC" uuid="070e3872-082a-47f3-b999-b0d8554c8ea6" type="gpio" type_id="gpio_5920c5e026e8e974e6dc54fbd5e22ad7" mode="GPIO" peripheral="GPIOC" enabled="false" comment="" custom_name_enabled="false">
-                     <config_set name="fsl_gpio" quick_selection="QS_GPIO_1">
-                        <setting name="enable_irq" value="false"/>
-                        <struct name="port_interrupt">
-                           <setting name="IRQn" value="PORTC_IRQn"/>
-                           <setting name="enable_priority" value="false"/>
-                           <setting name="priority" value="0"/>
-                           <setting name="enable_custom_name" value="false"/>
-                        </struct>
-                     </config_set>
-                  </instance>
-                  <instance name="GPIOA" uuid="c7d94a3e-9c88-4694-b0ff-b08c3fabf2f1" type="gpio" type_id="gpio_5920c5e026e8e974e6dc54fbd5e22ad7" mode="GPIO" peripheral="GPIOA" enabled="false" comment="" custom_name_enabled="false">
-                     <config_set name="fsl_gpio" quick_selection="QS_GPIO_1">
-                        <setting name="enable_irq" value="false"/>
-                        <struct name="port_interrupt">
-                           <setting name="IRQn" value="PORTA_IRQn"/>
-                           <setting name="enable_priority" value="false"/>
-                           <setting name="priority" value="0"/>
-                           <setting name="enable_custom_name" value="false"/>
-                        </struct>
-                     </config_set>
-                  </instance>
-                  <instance name="UART0" uuid="43683267-9a63-4f88-8704-bf4c48e0dc49" type="uart" type_id="uart_88ab1eca0cddb7ee407685775de016d5" mode="polling" peripheral="UART0" enabled="false" comment="" custom_name_enabled="false">
-                     <config_set name="uartConfig_t" quick_selection="QuickSelection1">
-                        <struct name="uartConfig">
-                           <setting name="clockSource" value="BusInterfaceClock"/>
-                           <setting name="clockSourceFreq" value="GetFreq"/>
-                           <setting name="baudRate_Bps" value="115200"/>
-                           <setting name="parityMode" value="kUART_ParityDisabled"/>
-                           <setting name="stopBitCount" value="kUART_OneStopBit"/>
-                           <setting name="txFifoWatermark" value="0"/>
-                           <setting name="rxFifoWatermark" value="1"/>
-                           <setting name="idleType" value="kUART_IdleTypeStartBit"/>
-                           <setting name="enableTx" value="true"/>
-                           <setting name="enableRx" value="true"/>
-                        </struct>
+                        <array name="channels">
+                           <struct name="0">
+                              <setting name="channel_id" value=""/>
+                              <setting name="channelNumber" value="0"/>
+                              <setting name="enableChain" value="false"/>
+                              <setting name="timerPeriod" value="20ms"/>
+                              <setting name="startTimer" value="true"/>
+                              <setting name="enableInterrupt" value="true"/>
+                              <struct name="interrupt">
+                                 <setting name="IRQn" value="PIT0_IRQn"/>
+                                 <setting name="enable_priority" value="false"/>
+                                 <setting name="priority" value="0"/>
+                                 <setting name="enable_custom_name" value="false"/>
+                              </struct>
+                           </struct>
+                        </array>
                      </config_set>
                   </instance>
                   <instance name="RTC" uuid="6b13f7a8-6561-4e69-9263-89b8e7b8d5d4" type="rtc" type_id="rtc_603f70732a5387a85b5715615cba9e65" mode="general" peripheral="RTC" enabled="false" comment="" custom_name_enabled="false">
@@ -1143,6 +1154,38 @@
                         </struct>
                      </config_set>
                   </instance>
+                  <instance name="UART0" uuid="43683267-9a63-4f88-8704-bf4c48e0dc49" type="uart" type_id="uart_88ab1eca0cddb7ee407685775de016d5" mode="polling" peripheral="UART0" enabled="false" comment="" custom_name_enabled="false">
+                     <config_set name="uartConfig_t" quick_selection="QuickSelection1">
+                        <struct name="uartConfig">
+                           <setting name="clockSource" value="BusInterfaceClock"/>
+                           <setting name="clockSourceFreq" value="GetFreq"/>
+                           <setting name="baudRate_Bps" value="115200"/>
+                           <setting name="parityMode" value="kUART_ParityDisabled"/>
+                           <setting name="stopBitCount" value="kUART_OneStopBit"/>
+                           <setting name="txFifoWatermark" value="0"/>
+                           <setting name="rxFifoWatermark" value="1"/>
+                           <setting name="idleType" value="kUART_IdleTypeStartBit"/>
+                           <setting name="enableTx" value="true"/>
+                           <setting name="enableRx" value="true"/>
+                        </struct>
+                     </config_set>
+                  </instance>
+                  <instance name="UART4" uuid="baffe5b5-7b27-4f77-bcd8-dc4eaf051a78" type="uart" type_id="uart_88ab1eca0cddb7ee407685775de016d5" mode="polling" peripheral="UART4" enabled="false" comment="" custom_name_enabled="false">
+                     <config_set name="uartConfig_t" quick_selection="QuickSelection1">
+                        <struct name="uartConfig">
+                           <setting name="clockSource" value="BusInterfaceClock"/>
+                           <setting name="clockSourceFreq" value="GetFreq"/>
+                           <setting name="baudRate_Bps" value="115200"/>
+                           <setting name="parityMode" value="kUART_ParityDisabled"/>
+                           <setting name="stopBitCount" value="kUART_OneStopBit"/>
+                           <setting name="txFifoWatermark" value="0"/>
+                           <setting name="rxFifoWatermark" value="1"/>
+                           <setting name="idleType" value="kUART_IdleTypeStartBit"/>
+                           <setting name="enableTx" value="true"/>
+                           <setting name="enableRx" value="true"/>
+                        </struct>
+                     </config_set>
+                  </instance>
                </instances>
             </functional_group>
          </functional_groups>
@@ -1150,7 +1193,7 @@
             <component name="system" uuid="79f430f4-78a4-46ab-879c-3adafb517458" type_id="system">
                <config_set_global name="global_system_definitions"/>
             </component>
-            <component name="msg" uuid="0bb3635c-8ac4-403a-bfb2-4c7e9d7b3567" type_id="msg_6e2baaf3b97dbeef01c0043275f9a0e7">
+            <component name="msg" uuid="33ef3f4f-c5ae-459c-8502-7a119d01771f" type_id="msg_6e2baaf3b97dbeef01c0043275f9a0e7">
                <config_set_global name="global_messages"/>
             </component>
          </components>

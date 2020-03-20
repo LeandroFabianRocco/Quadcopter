@@ -95,6 +95,15 @@ void UART4_IRQHandler(void)
 }
 
 
+
+void PIT_0_IRQHANDLER(void)
+{
+	PIT_ClearStatusFlags(PIT, kPIT_Chnl_0, kPIT_TimerFlag);
+	toggleBlueLED();
+}
+
+
+
 /*******************************************************************************
  * MAIN function
  ******************************************************************************/
@@ -102,7 +111,7 @@ int main(void)
 {
 	BOARD_InitPins();
 	BOARD_BootClockRUN();
-	//BOARD_InitBootPeripherals();
+	BOARD_InitBootPeripherals();
 	SysTick_init();
 	// Inicializo el LED RGB
 	RGB_LED_init();
@@ -215,9 +224,9 @@ int main(void)
 				BlueLEDon();
 				break;
 			default:
-				RedLEDoff();
-				GreenLEDoff();
-				BlueLEDoff();
+				//RedLEDoff();
+				//GreenLEDoff();
+				//BlueLEDoff();
 				M1 = throttle;
 				M2 = throttle;
 				M3 = throttle;
