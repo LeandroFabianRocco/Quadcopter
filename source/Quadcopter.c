@@ -72,8 +72,23 @@ volatile uint16_t rxIndex;
 uint8_t joystick, throttle;
 
 // Variables to controlling the BLDC motors
-volatile uint8_t M1, M2, M3, M4;
-volatile uint8_t M1last, M2last, M3last, M4last;
+volatile uint8_t Mfront, Mfront_last;	// Front motor
+volatile uint8_t Mleft, Mleft_last;		// Left motor
+volatile uint8_t Mback, Mback_last;		// Back motor
+volatile uint8_t Mright, Mright_last;	// Right motor
+
+// Reference for pitch angle
+volatile uint8_t pitch_ref = 0;
+
+// Reference for roll angle
+volatile uint8_t roll_ref = 0;
+
+
+// Pitch PID output
+volatile float pitchPID = 0;
+
+// Roll PID output
+volatile float rollPID = 0;
 
 
 /*******************************************************************************
@@ -104,27 +119,36 @@ void PIT_0_IRQHANDLER(void)
 {
 	PIT_ClearStatusFlags(PIT, kPIT_Chnl_0, kPIT_TimerFlag);
 
-	if (M1last != M1)
+	// Front motor
+	if (Mfront_last != Mfront)
 	{
-		set_pwm_CnV(FTM0, M1, PWM_CH0);
-		M1last = M1;
+		Mfront = throttle + pitchPID;// - yawPID;
+		set_pwm_CnV(FTM0, Mfront, PWM_CH0);
+		Mfront_last = Mfront;
 	}
-	if (M2last != M2)
+	// Back motor
+	if (Mback_last != Mback)
 	{
-		set_pwm_CnV(FTM0, M2, PWM_CH1);
-		M2last = M2;
+		Mback = throttle - pitchPID; // - yawPID;
+		set_pwm_CnV(FTM0, Mback, PWM_CH2);
+		Mback_last = Mback;
 	}
-	if (M3last != M3)
+	// Left motor
+	if (Mleft_last != Mleft)
 	{
-		set_pwm_CnV(FTM0, M3, PWM_CH2);
-		M3last = M3;
+		Mleft = throttle + rollPID; // + yawPID;
+		set_pwm_CnV(FTM0, Mleft, PWM_CH1);
+		Mleft_last = Mleft;
 	}
-	if (M4last != M4)
+	// Right motor
+	if (Mright_last != Mright)
 	{
-		set_pwm_CnV(FTM0, M4, PWM_CH3);
-		M4last = M4;
+		Mright = throttle - rollPID; // + yawPID;
+		set_pwm_CnV(FTM0, Mright, PWM_CH3);
+		Mright_last = Mright;
 	}
 }
+
 
 
 
@@ -195,10 +219,6 @@ int main(void)
 				RedLEDon();
 				GreenLEDoff();
 				BlueLEDoff();
-				M1 = throttle + MOOVE;
-				M2 = throttle;
-				M3 = throttle - MOOVE;
-				M4 = throttle;
 				break;
 			case 0x02: // UP-RIGHT
 				RedLEDon();
@@ -209,10 +229,6 @@ int main(void)
 				RedLEDoff();
 				GreenLEDon();
 				BlueLEDoff();
-				M1 = throttle;
-				M2 = throttle - MOOVE;
-				M3 = throttle;
-				M4 = throttle + MOOVE;
 				break;
 			case 0x08: // DOWN-RIGHT
 				RedLEDon();
@@ -223,10 +239,6 @@ int main(void)
 				RedLEDoff();
 				GreenLEDoff();
 				BlueLEDon();
-				M1 = throttle - MOOVE;
-				M2 = throttle;
-				M3 = throttle + MOOVE;
-				M4 = throttle;
 				break;
 			case 0x20: // DOWN-LEFT
 				RedLEDoff();
@@ -237,10 +249,6 @@ int main(void)
 				RedLEDon();
 				GreenLEDon();
 				BlueLEDon();
-				M1 = throttle;
-				M2 = throttle + MOOVE;
-				M3 = throttle;
-				M4 = throttle - MOOVE;
 				break;
 			case 0x80: // UP-LEFT
 				RedLEDon();
@@ -251,10 +259,6 @@ int main(void)
 				RedLEDoff();
 				GreenLEDoff();
 				BlueLEDoff();
-				M1 = throttle;
-				M2 = throttle;
-				M3 = throttle;
-				M4 = throttle;
 		}
 	}
 }
