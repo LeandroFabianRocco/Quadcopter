@@ -45,6 +45,7 @@
 #include "PWM_functions.h"
 #include "MPU6050.h"
 #include "FXOS8700CQ.h"
+#include "PIDcontroller.h"
 
 /*******************************************************************************
  * Variable definition
