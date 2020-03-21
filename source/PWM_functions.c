@@ -7,9 +7,15 @@
 
 #include "PWM_functions.h"
 
-/*************************************************************************
- * Función para setear el valor de CnV de los canales del FTM
- ************************************************************************/
+/*********************************************************************************************
+ * @brief Set the CnV field for PWM channels
+ *
+ * @param FTM peripheral base address.
+ * @param value received from Quadcopter control
+ * @param PWM channel
+ *
+ * @return void
+ *********************************************************************************************/
 void set_pwm_CnV(FTM_Type *base, uint32_t value, uint8_t ch)
 {
 	if (value > 100)
@@ -21,21 +27,13 @@ void set_pwm_CnV(FTM_Type *base, uint32_t value, uint8_t ch)
 }
 
 
-/*************************************************************************
- * Configura el ESC para el rango de velocidades del PWM
- ************************************************************************/
-/*void throttle_init(void)
-{
-	set_pwm_CnV(MAX_THROTTLE, PWM_CH0);
-	set_pwm_CnV(MAX_THROTTLE, PWM_CH1);
-	SysTick_DelayTicks(5000U);
-	GPIO_PortSet(BLUE_LED_GPIO, 1u << BLUE_LED);
-	set_pwm_CnV(MIN_THROTTLE, PWM_CH0);
-	set_pwm_CnV(MIN_THROTTLE, PWM_CH1);
-	SysTick_DelayTicks(1000U);
-}*/
-
-
+/*********************************************************************************************
+ * @brief FTM channels initialization
+ *
+ * @param void
+ *
+ * @return void
+ *********************************************************************************************/
 void FTM0_init(void)
 {
 	ftm_chnl_pwm_signal_param_t ftmParam[4];

@@ -96,7 +96,9 @@ void UART4_IRQHandler(void)
 }
 
 
-
+/*******************************************************************************
+ * 20 milliseconds interrupt
+ ******************************************************************************/
 void PIT_0_IRQHANDLER(void)
 {
 	PIT_ClearStatusFlags(PIT, kPIT_Chnl_0, kPIT_TimerFlag);

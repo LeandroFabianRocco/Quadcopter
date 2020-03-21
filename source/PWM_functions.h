@@ -17,7 +17,7 @@
 #include "RGB_LEDS.h"
 
 /*************************************************************************
- * Definiciones
+ * Definitions
  ************************************************************************/
 #define FTM_MODULE FTM0
 #define PWM_CH0 0U
@@ -30,13 +30,26 @@
 #define MAX_THROTTLE 196U
 #define MIN_THROTTLE 97U
 
-/*************************************************************************
- * Prototipos
- ************************************************************************/
+/*********************************************************************************************
+ * @brief Set the CnV field for PWM channels
+ *
+ * @param FTM peripheral base address.
+ * @param value received from Quadcopter control
+ * @param PWM channel
+ *
+ * @return void
+ *********************************************************************************************/
 void set_pwm_CnV(FTM_Type *base, uint32_t value, uint8_t ch);
 
-void throttle_init(void);
 
+/*********************************************************************************************
+ * @brief FTM channels initialization
+ *
+ * @param void
+ *
+ * @return void
+ *********************************************************************************************/
 void FTM0_init(void);
+
 
 #endif /* PWM_FUNCTIONS_H_ */
