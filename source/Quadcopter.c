@@ -91,8 +91,13 @@ volatile float pitchPID = 0;
 volatile float rollPID = 0;
 
 // Roll and pitch angles
-volatile float pitchAngle_new = 0, pitchAngle_last = 0;
-volatile float rollAngle_new = 0, rollAngle_last = 0;
+float pitchAngle_new = 0, pitchAngle_last = 0;
+float rollAngle_new = 0, rollAngle_last = 0;
+
+// MPU6050 Who_Am_I flag
+bool isThereAccelMPU = false;
+// FXOS8700CQ Who_Am_I angles
+bool isThereAccelFX = false;
 
 
 /*******************************************************************************
@@ -121,14 +126,17 @@ void UART4_IRQHandler(void)
  ******************************************************************************/
 void PIT_0_IRQHANDLER(void)
 {
-	PIT_ClearStatusFlags(PIT, kPIT_Chnl_0, kPIT_TimerFlag);
-
 	// Get angles
-	MPU6050_ComplementaryFilterAngles(rollAngle_last, pitchAngle_last, 0.02, &rollAngle_new, &pitchAngle_new);
+	if (isThereAccelMPU)
+	{
+		//MPU6050_ComplementaryFilterAngles(rollAngle_last, pitchAngle_last, 0.02, &rollAngle_new, &pitchAngle_new);
+		float x = MPU6050_GetXAngle();
+		PRINTF("roll = %3.2f, pitch = %3.2f\r\n", rollAngle_new, pitchAngle_new);
+	}
 
 	// Call PID controllers
-	pitchPID = PitchPID(pitchAngle_new, pitchAngle_last);
-	rollPID = RollPID(rollAngle_new, rollAngle_last);
+	//pitchPID = PitchPID(pitchAngle_new, pitchAngle_last);
+	//rollPID = RollPID(rollAngle_new, rollAngle_last);
 
 	// Front motor
 	Mfront = throttle + pitchPID;// - yawPID;
@@ -158,6 +166,8 @@ void PIT_0_IRQHANDLER(void)
 		set_pwm_CnV(FTM0, Mright, PWM_CH3);
 		Mright_last = Mright;
 	}
+
+	PIT_ClearStatusFlags(PIT, kPIT_Chnl_0, kPIT_TimerFlag);
 }
 
 
@@ -177,7 +187,7 @@ int main(void)
 	// FTM init
 	FTM0_init();
 
-	// Local variable declaration
+	// UART4 configuration variable
 	uart_config_t config;
 
 	// UART4 configuration
@@ -190,12 +200,14 @@ int main(void)
 	EnableIRQ(UART4_IRQn);
 
 	// FXOS8700 initialization and configuration
-	FXOS8700CQ_Init();
-	FXOS8700CQ_Configure_Device();
+	//FXOS8700CQ_Init();
+	//FXOS8700CQ_Configure_Device();
+	//isThereAccelFX = FXOS8700CQ_ReadSensorWhoAmI();
 
 	// MPU6050 initialization and configuration
     MPU6050_Init();
     MPU6050_Configure_Device();
+    isThereAccelMPU = MPU6050_ReadSensorWhoAmI();
 
 	// Main loop
 	while (1)

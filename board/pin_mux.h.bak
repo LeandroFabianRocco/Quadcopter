@@ -49,6 +49,27 @@ void BOARD_InitBootPins(void);
 #define BOARD_PWM3_PIN 4U     /*!<@brief PORTC pin index: 4 */
                               /* @} */
 
+/*! @name PORTE26 (number 33), J2[1]/D12[4]/LEDRGB_GREEN
+  @{ */
+#define BOARD_GREEN_LED_GPIO GPIOE /*!<@brief GPIO device name: GPIOE */
+#define BOARD_GREEN_LED_PORT PORTE /*!<@brief PORT device name: PORTE */
+#define BOARD_GREEN_LED_PIN 26U    /*!<@brief PORTE pin index: 26 */
+                                   /* @} */
+
+/*! @name PORTB21 (number 67), D12[3]/LEDRGB_BLUE
+  @{ */
+#define BOARD_BLUE_LED_GPIO GPIOB /*!<@brief GPIO device name: GPIOB */
+#define BOARD_BLUE_LED_PORT PORTB /*!<@brief PORT device name: PORTB */
+#define BOARD_BLUE_LED_PIN 21U    /*!<@brief PORTB pin index: 21 */
+                                  /* @} */
+
+/*! @name PORTB22 (number 68), D12[1]/LEDRGB_RED
+  @{ */
+#define BOARD_RED_LED_GPIO GPIOB /*!<@brief GPIO device name: GPIOB */
+#define BOARD_RED_LED_PORT PORTB /*!<@brief PORT device name: PORTB */
+#define BOARD_RED_LED_PIN 22U    /*!<@brief PORTB pin index: 22 */
+                                 /* @} */
+
 /*!
  * @brief Configures pin routing and optionally pin electrical features.
  *

@@ -25,6 +25,18 @@ extern "C" {
  */
 void BOARD_InitBootPins(void);
 
+/*! @name PORTC14 (number 86), J199[3]/BT_TX
+  @{ */
+#define BOARD_BT_TX_PORT PORTC /*!<@brief PORT device name: PORTC */
+#define BOARD_BT_TX_PIN 14U    /*!<@brief PORTC pin index: 14 */
+                               /* @} */
+
+/*! @name PORTC15 (number 87), J199[4]/BT_RX
+  @{ */
+#define BOARD_BT_Rx_PORT PORTC /*!<@brief PORT device name: PORTC */
+#define BOARD_BT_Rx_PIN 15U    /*!<@brief PORTC pin index: 15 */
+                               /* @} */
+
 /*! @name PORTC1 (number 71), J1[5]
   @{ */
 #define BOARD_PWM0_PORT PORTC /*!<@brief PORT device name: PORTC */
@@ -69,6 +81,30 @@ void BOARD_InitBootPins(void);
 #define BOARD_RED_LED_PORT PORTB /*!<@brief PORT device name: PORTB */
 #define BOARD_RED_LED_PIN 22U    /*!<@brief PORTB pin index: 22 */
                                  /* @} */
+
+/*! @name PORTE24 (number 31), J2[20]/U8[4]/I2C0_SCL
+  @{ */
+#define BOARD_I2C0_SCL_PORT PORTE /*!<@brief PORT device name: PORTE */
+#define BOARD_I2C0_SCL_PIN 24U    /*!<@brief PORTE pin index: 24 */
+                                  /* @} */
+
+/*! @name PORTE25 (number 32), J2[18]/U8[6]/I2C0_SDA
+  @{ */
+#define BOARD_I2C0_SDA_PORT PORTE /*!<@brief PORT device name: PORTE */
+#define BOARD_I2C0_SDA_PIN 25U    /*!<@brief PORTE pin index: 25 */
+                                  /* @} */
+
+/*! @name PORTC11 (number 83), J4[10]
+  @{ */
+#define BOARD_I2C1_SDA_PORT PORTC /*!<@brief PORT device name: PORTC */
+#define BOARD_I2C1_SDA_PIN 11U    /*!<@brief PORTC pin index: 11 */
+                                  /* @} */
+
+/*! @name PORTC10 (number 82), J4[12]
+  @{ */
+#define BOARD_I2C1_SCL_PORT PORTC /*!<@brief PORT device name: PORTC */
+#define BOARD_I2C1_SCL_PIN 10U    /*!<@brief PORTC pin index: 10 */
+                                  /* @} */
 
 /*!
  * @brief Configures pin routing and optionally pin electrical features.
