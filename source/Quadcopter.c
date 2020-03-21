@@ -90,6 +90,10 @@ volatile float pitchPID = 0;
 // Roll PID output
 volatile float rollPID = 0;
 
+// Roll and pitch angles
+volatile float pitchAngle_new = 0, pitchAngle_last = 0;
+volatile float rollAngle_new = 0, rollAngle_last = 0;
+
 
 /*******************************************************************************
  * UART4 interrupt handler
@@ -119,31 +123,38 @@ void PIT_0_IRQHANDLER(void)
 {
 	PIT_ClearStatusFlags(PIT, kPIT_Chnl_0, kPIT_TimerFlag);
 
+	// Get angles
+	MPU6050_ComplementaryFilterAngles(rollAngle_last, pitchAngle_last, 0.02, &rollAngle_new, &pitchAngle_new);
+
+	// Call PID controllers
+	pitchPID = PitchPID(pitchAngle_new, pitchAngle_last);
+	rollPID = RollPID(rollAngle_new, rollAngle_last);
+
 	// Front motor
+	Mfront = throttle + pitchPID;// - yawPID;
 	if (Mfront_last != Mfront)
 	{
-		Mfront = throttle + pitchPID;// - yawPID;
 		set_pwm_CnV(FTM0, Mfront, PWM_CH0);
 		Mfront_last = Mfront;
 	}
 	// Back motor
+	Mback = throttle - pitchPID; // - yawPID;
 	if (Mback_last != Mback)
 	{
-		Mback = throttle - pitchPID; // - yawPID;
 		set_pwm_CnV(FTM0, Mback, PWM_CH2);
 		Mback_last = Mback;
 	}
 	// Left motor
+	Mleft = throttle + rollPID; // + yawPID;
 	if (Mleft_last != Mleft)
 	{
-		Mleft = throttle + rollPID; // + yawPID;
 		set_pwm_CnV(FTM0, Mleft, PWM_CH1);
 		Mleft_last = Mleft;
 	}
 	// Right motor
+	Mright = throttle - rollPID; // + yawPID;
 	if (Mright_last != Mright)
 	{
-		Mright = throttle - rollPID; // + yawPID;
 		set_pwm_CnV(FTM0, Mright, PWM_CH3);
 		Mright_last = Mright;
 	}
