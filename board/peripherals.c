@@ -100,69 +100,20 @@ instance:
     - i2c_master_config:
       - enableMaster: 'true'
       - enableStopHold: 'false'
-      - baudRate_Bps: '400000'
+      - baudRate_Bps: '100000'
       - glitchFilterWidth: '0'
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
 /* clang-format on */
 const i2c_master_config_t I2C1_config = {
   .enableMaster = true,
   .enableStopHold = false,
-  .baudRate_Bps = 400000,
+  .baudRate_Bps = 100000,
   .glitchFilterWidth = 0
 };
 
 void I2C1_init(void) {
   /* Initialization function */
   I2C_MasterInit(I2C1_PERIPHERAL, &I2C1_config, I2C1_CLK_FREQ);
-}
-
-/***********************************************************************************************************************
- * PIT initialization code
- **********************************************************************************************************************/
-/* clang-format off */
-/* TEXT BELOW IS USED AS SETTING FOR TOOLS *************************************
-instance:
-- name: 'PIT'
-- type: 'pit'
-- mode: 'LPTMR_GENERAL'
-- custom_name_enabled: 'false'
-- type_id: 'pit_a4782ba5223c8a2527ba91aeb2bc4159'
-- functional_group: 'BOARD_InitPeripherals'
-- peripheral: 'PIT'
-- config_sets:
-  - fsl_pit:
-    - enableRunInDebug: 'true'
-    - timingConfig:
-      - clockSource: 'BusInterfaceClock'
-      - clockSourceFreq: 'BOARD_BootClockVLPR'
-    - channels:
-      - 0:
-        - channel_id: ''
-        - channelNumber: '0'
-        - enableChain: 'false'
-        - timerPeriod: '20ms'
-        - startTimer: 'false'
-        - enableInterrupt: 'true'
-        - interrupt:
-          - IRQn: 'PIT0_IRQn'
-          - enable_priority: 'false'
-          - priority: '0'
-          - enable_custom_name: 'false'
- * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
-/* clang-format on */
-const pit_config_t PIT_config = {
-  .enableRunInDebug = true
-};
-
-void PIT_init(void) {
-  /* Initialize the PIT. */
-  PIT_Init(PIT_PERIPHERAL, &PIT_config);
-  /* Set channel 0 period to 20 ms (80000 ticks). */
-  PIT_SetTimerPeriod(PIT_PERIPHERAL, PIT_0, PIT_0_TICKS);
-  /* Enable interrupts from channel 0. */
-  PIT_EnableInterrupts(PIT_PERIPHERAL, PIT_0, kPIT_TimerInterruptEnable);
-  /* Enable interrupt PIT_0_IRQN request in the NVIC */
-  EnableIRQ(PIT_0_IRQN);
 }
 
 /***********************************************************************************************************************
@@ -173,7 +124,6 @@ void BOARD_InitPeripherals(void)
   /* Initialize components */
   I2C0_init();
   I2C1_init();
-  PIT_init();
 }
 
 /***********************************************************************************************************************

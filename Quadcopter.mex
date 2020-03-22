@@ -960,16 +960,6 @@
                   <data type="Version">2.0.5</data>
                </feature>
             </dependency>
-            <dependency resourceType="SWComponent" resourceId="platform.drivers.pit" description="PIT Driver not found in the toolchain/IDE project. Project will not compile!" problem_level="2" source="Peripherals">
-               <feature name="enabled" evaluation="equal">
-                  <data type="Boolean">true</data>
-               </feature>
-            </dependency>
-            <dependency resourceType="SWComponent" resourceId="platform.drivers.pit" description="Unsupported version of the PIT Driver in the toolchain/IDE project. Required: ${required_value}, actual: ${actual_value}. Project might not compile correctly." problem_level="1" source="Peripherals">
-               <feature name="version" evaluation="equivalent">
-                  <data type="Version">2.0.0</data>
-               </feature>
-            </dependency>
          </dependencies>
          <generated_project_files>
             <file path="peripherals.c" update_enabled="true"/>
@@ -1009,11 +999,6 @@
                      </feature>
                   </dependency>
                   <dependency resourceType="ClockOutput" resourceId="Bus_clock" description="Bus clock is inactive. Problem must be resolved in another tool." problem_level="1" source="Peripherals:BOARD_InitPeripherals">
-                     <feature name="frequency" evaluation="greaterThan">
-                        <data type="Frequency" unit="Hz">0</data>
-                     </feature>
-                  </dependency>
-                  <dependency resourceType="ClockOutput" resourceId="Bus_clock" description="Bus clock is inactive. Problem must be resolved in another tool." problem_level="2" source="Peripherals:BOARD_InitPeripherals">
                      <feature name="frequency" evaluation="greaterThan">
                         <data type="Frequency" unit="Hz">0</data>
                      </feature>
@@ -1147,17 +1132,17 @@
                         <struct name="i2c_master_config">
                            <setting name="enableMaster" value="true"/>
                            <setting name="enableStopHold" value="false"/>
-                           <setting name="baudRate_Bps" value="400000"/>
+                           <setting name="baudRate_Bps" value="100000"/>
                            <setting name="glitchFilterWidth" value="0"/>
                         </struct>
                      </config_set>
                   </instance>
-                  <instance name="PIT" uuid="e9e79c53-5def-4bea-acc1-d4ce6f12856a" type="pit" type_id="pit_a4782ba5223c8a2527ba91aeb2bc4159" mode="LPTMR_GENERAL" peripheral="PIT" enabled="true" comment="" custom_name_enabled="false">
+                  <instance name="PIT" uuid="e9e79c53-5def-4bea-acc1-d4ce6f12856a" type="pit" type_id="pit_a4782ba5223c8a2527ba91aeb2bc4159" mode="LPTMR_GENERAL" peripheral="PIT" enabled="false" comment="" custom_name_enabled="false">
                      <config_set name="fsl_pit">
                         <setting name="enableRunInDebug" value="true"/>
                         <struct name="timingConfig">
                            <setting name="clockSource" value="BusInterfaceClock"/>
-                           <setting name="clockSourceFreq" value="BOARD_BootClockVLPR"/>
+                           <setting name="clockSourceFreq" value="GetFreq"/>
                         </struct>
                         <array name="channels">
                            <struct name="0">

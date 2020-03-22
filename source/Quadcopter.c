@@ -99,6 +99,9 @@ bool isThereAccelMPU = false;
 // FXOS8700CQ Who_Am_I angles
 bool isThereAccelFX = false;
 
+// Pitch and roll angles
+float pitch, roll;
+
 
 /*******************************************************************************
  * UART4 interrupt handler
@@ -130,8 +133,8 @@ void PIT_0_IRQHANDLER(void)
 	if (isThereAccelMPU)
 	{
 		//MPU6050_ComplementaryFilterAngles(rollAngle_last, pitchAngle_last, 0.02, &rollAngle_new, &pitchAngle_new);
-		//float x = MPU6050_GetXAngle();
-		//PRINTF("x = %4.2f\r\n", x);
+		float x = MPU6050_GetXAngle();
+		PRINTF("x = %4.2f\r\n", x);
 		//PRINTF("roll = %3.2f, pitch = %3.2f\r\n", rollAngle_new, pitchAngle_new);
 	}
 
@@ -168,7 +171,9 @@ void PIT_0_IRQHANDLER(void)
 		Mright_last = Mright;
 	}
 
-	PIT_ClearStatusFlags(PIT, kPIT_Chnl_0, kPIT_TimerFlag);
+	// Clear all PIT flags
+	//PIT_ClearStatusFlags(PIT_PERIPHERAL, kPIT_Chnl_0, kPIT_TimerFlag);
+	__DSB();
 }
 
 
@@ -212,10 +217,10 @@ int main(void)
 
     SysTick_DelayTicks(1000U);
     // Start PIT interrupt for each 20ms
-    if (isThereAccelMPU)
+    /*if (isThereAccelMPU)
     {
     	PIT_StartTimer(PIT_PERIPHERAL, PIT_0);
-    }
+    }*/
 
 	// Main loop
 	while (1)
@@ -245,8 +250,9 @@ int main(void)
 
 		if (isThereAccelMPU)
 		{
-			float x = MPU6050_GetXAngle();
-			PRINTF("x = %4.2f\r\n", x);
+			pitch = MPU6050_GetXAngle();
+			roll = MPU6050_GetYAngle();
+			PRINTF("x = %4.2f, y = %4.2f\r\n", pitch, roll);
 		}
 
 		switch(joystick)
