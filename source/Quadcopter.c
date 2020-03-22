@@ -130,8 +130,9 @@ void PIT_0_IRQHANDLER(void)
 	if (isThereAccelMPU)
 	{
 		//MPU6050_ComplementaryFilterAngles(rollAngle_last, pitchAngle_last, 0.02, &rollAngle_new, &pitchAngle_new);
-		float x = MPU6050_GetXAngle();
-		PRINTF("roll = %3.2f, pitch = %3.2f\r\n", rollAngle_new, pitchAngle_new);
+		//float x = MPU6050_GetXAngle();
+		//PRINTF("x = %4.2f\r\n", x);
+		//PRINTF("roll = %3.2f, pitch = %3.2f\r\n", rollAngle_new, pitchAngle_new);
 	}
 
 	// Call PID controllers
@@ -209,6 +210,13 @@ int main(void)
     MPU6050_Configure_Device();
     isThereAccelMPU = MPU6050_ReadSensorWhoAmI();
 
+    SysTick_DelayTicks(1000U);
+    // Start PIT interrupt for each 20ms
+    if (isThereAccelMPU)
+    {
+    	PIT_StartTimer(PIT_PERIPHERAL, PIT_0);
+    }
+
 	// Main loop
 	while (1)
 	{
@@ -235,6 +243,11 @@ int main(void)
 			joystick = RingBuffer[1];
 		}
 
+		if (isThereAccelMPU)
+		{
+			float x = MPU6050_GetXAngle();
+			PRINTF("x = %4.2f\r\n", x);
+		}
 
 		switch(joystick)
 		{

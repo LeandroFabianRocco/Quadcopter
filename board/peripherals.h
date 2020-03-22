@@ -41,9 +41,9 @@ extern "C" {
 /* Definition of clock source. */
 #define PIT_CLOCK_SOURCE kCLOCK_BusClk
 /* Definition of clock source frequency. */
-#define PIT_CLK_FREQ CLOCK_GetFreq(PIT_CLOCK_SOURCE)
+#define PIT_CLK_FREQ 4000000UL
 /* Definition of ticks count for channel 0 - deprecated. */
-#define PIT_0_TICKS USEC_TO_COUNT(20000U, PIT_CLK_FREQ) - 1U
+#define PIT_0_TICKS 79999U
 /* Definition of channel number for channel 0. */
 #define PIT_0 kPIT_Chnl_0
 /* PIT interrupt vector ID (number). */

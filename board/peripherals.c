@@ -134,14 +134,14 @@ instance:
     - enableRunInDebug: 'true'
     - timingConfig:
       - clockSource: 'BusInterfaceClock'
-      - clockSourceFreq: 'GetFreq'
+      - clockSourceFreq: 'BOARD_BootClockVLPR'
     - channels:
       - 0:
         - channel_id: ''
         - channelNumber: '0'
         - enableChain: 'false'
         - timerPeriod: '20ms'
-        - startTimer: 'true'
+        - startTimer: 'false'
         - enableInterrupt: 'true'
         - interrupt:
           - IRQn: 'PIT0_IRQn'
@@ -157,14 +157,12 @@ const pit_config_t PIT_config = {
 void PIT_init(void) {
   /* Initialize the PIT. */
   PIT_Init(PIT_PERIPHERAL, &PIT_config);
-  /* Set channel 0 period to N/A. */
+  /* Set channel 0 period to 20 ms (80000 ticks). */
   PIT_SetTimerPeriod(PIT_PERIPHERAL, PIT_0, PIT_0_TICKS);
   /* Enable interrupts from channel 0. */
   PIT_EnableInterrupts(PIT_PERIPHERAL, PIT_0, kPIT_TimerInterruptEnable);
   /* Enable interrupt PIT_0_IRQN request in the NVIC */
   EnableIRQ(PIT_0_IRQN);
-  /* Start channel 0. */
-  PIT_StartTimer(PIT_PERIPHERAL, PIT_0);
 }
 
 /***********************************************************************************************************************
