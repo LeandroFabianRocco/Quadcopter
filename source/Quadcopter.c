@@ -127,14 +127,14 @@ void UART4_IRQHandler(void)
 /*******************************************************************************
  * 20 milliseconds interrupt
  ******************************************************************************/
-void PIT_0_IRQHANDLER(void)
+void PIT_3_IRQHANDLER(void)
 {
 	// Get angles
 	if (isThereAccelMPU)
 	{
 		//MPU6050_ComplementaryFilterAngles(rollAngle_last, pitchAngle_last, 0.02, &rollAngle_new, &pitchAngle_new);
-		float x = MPU6050_GetXAngle();
-		PRINTF("x = %4.2f\r\n", x);
+		//float x = MPU6050_GetXAngle();
+		//PRINTF("x = %4.2f\r\n", x);
 		//PRINTF("roll = %3.2f, pitch = %3.2f\r\n", rollAngle_new, pitchAngle_new);
 	}
 
@@ -171,8 +171,10 @@ void PIT_0_IRQHANDLER(void)
 		Mright_last = Mright;
 	}
 
+	toggleGreenLED();
+
 	// Clear all PIT flags
-	//PIT_ClearStatusFlags(PIT_PERIPHERAL, kPIT_Chnl_0, kPIT_TimerFlag);
+	//PIT_ClearStatusFlags(PIT_PERIPHERAL, kPIT_Chnl_3, kPIT_TimerFlag);
 	__DSB();
 }
 
@@ -219,7 +221,7 @@ int main(void)
     // Start PIT interrupt for each 20ms
     /*if (isThereAccelMPU)
     {
-    	PIT_StartTimer(PIT_PERIPHERAL, PIT_0);
+    	PIT_StartTimer(PIT_PERIPHERAL, PIT_3);
     }*/
 
 	// Main loop
@@ -250,9 +252,9 @@ int main(void)
 
 		if (isThereAccelMPU)
 		{
-			pitch = MPU6050_GetXAngle();
-			roll = MPU6050_GetYAngle();
-			PRINTF("x = %4.2f, y = %4.2f\r\n", pitch, roll);
+			pitch = MPU6050_GetYAngle();
+			roll = MPU6050_GetXAngle();
+			PRINTF("roll = %4.2f, pitch = %4.2f\r\n", pitch, roll);
 		}
 
 		switch(joystick)

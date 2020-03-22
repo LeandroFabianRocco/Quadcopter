@@ -1147,13 +1147,13 @@
                         <array name="channels">
                            <struct name="0">
                               <setting name="channel_id" value=""/>
-                              <setting name="channelNumber" value="0"/>
+                              <setting name="channelNumber" value="3"/>
                               <setting name="enableChain" value="false"/>
                               <setting name="timerPeriod" value="20ms"/>
                               <setting name="startTimer" value="false"/>
                               <setting name="enableInterrupt" value="true"/>
                               <struct name="interrupt">
-                                 <setting name="IRQn" value="PIT0_IRQn"/>
+                                 <setting name="IRQn" value="PIT3_IRQn"/>
                                  <setting name="enable_priority" value="false"/>
                                  <setting name="priority" value="0"/>
                                  <setting name="enable_custom_name" value="false"/>
