@@ -4,10 +4,10 @@ MPU6050.c:65:6:MPU6050_ReadSensorWhoAmI	40	static
 MPU6050.c:129:6:MPU6050_Configure_Device	16	static
 MPU6050.c:165:6:MPU6050_WriteAccelReg	40	static
 MPU6050.c:210:6:MPU6050_ReadAccelRegs	48	static
-MPU6050.c:253:6:MPU6050_Read_Accel_Data	40	static
-MPU6050.c:271:6:MPU6050_Read_Gyro_Data	40	static
-MPU6050.c:290:6:MPU6050_GetAngularVelocity	32	static
-MPU6050.c:307:6:MPU6050_GetgAcceleration	24	static
-MPU6050.c:323:7:MPU6050_GetXAngle	48	static
-MPU6050.c:343:7:MPU6050_GetYAngle	48	static
-MPU6050.c:366:6:MPU6050_ComplementaryFilterAngles	64	static
+MPU6050.c:251:6:MPU6050_Read_Accel_Data	40	static
+MPU6050.c:269:6:MPU6050_Read_Gyro_Data	40	static
+MPU6050.c:288:6:MPU6050_GetAngularVelocity	32	static
+MPU6050.c:305:6:MPU6050_GetgAcceleration	24	static
+MPU6050.c:321:7:MPU6050_GetXAngle	48	static
+MPU6050.c:341:7:MPU6050_GetYAngle	48	static
+MPU6050.c:364:6:MPU6050_ComplementaryFilterAngles	64	static

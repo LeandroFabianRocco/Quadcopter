@@ -132,10 +132,9 @@ void PIT_3_IRQHANDLER(void)
 	// Get angles
 	if (isThereAccelMPU)
 	{
-		//MPU6050_ComplementaryFilterAngles(rollAngle_last, pitchAngle_last, 0.02, &rollAngle_new, &pitchAngle_new);
-		//float x = MPU6050_GetXAngle();
-		//PRINTF("x = %4.2f\r\n", x);
-		//PRINTF("roll = %3.2f, pitch = %3.2f\r\n", rollAngle_new, pitchAngle_new);
+		pitch = MPU6050_GetYAngle();
+		roll = MPU6050_GetXAngle();
+		PRINTF("roll = %4.2f, pitch = %4.2f\r\n", pitch, roll);
 	}
 
 	// Call PID controllers
@@ -174,7 +173,7 @@ void PIT_3_IRQHANDLER(void)
 	toggleGreenLED();
 
 	// Clear all PIT flags
-	//PIT_ClearStatusFlags(PIT_PERIPHERAL, kPIT_Chnl_3, kPIT_TimerFlag);
+	PIT_ClearStatusFlags(PIT_PERIPHERAL, kPIT_Chnl_3, kPIT_TimerFlag);
 	__DSB();
 }
 
@@ -219,10 +218,10 @@ int main(void)
 
     SysTick_DelayTicks(1000U);
     // Start PIT interrupt for each 20ms
-    /*if (isThereAccelMPU)
+    if (isThereAccelMPU)
     {
     	PIT_StartTimer(PIT_PERIPHERAL, PIT_3);
-    }*/
+    }
 
 	// Main loop
 	while (1)
@@ -250,12 +249,12 @@ int main(void)
 			joystick = RingBuffer[1];
 		}
 
-		if (isThereAccelMPU)
+		/*if (isThereAccelMPU)
 		{
 			pitch = MPU6050_GetYAngle();
 			roll = MPU6050_GetXAngle();
 			PRINTF("roll = %4.2f, pitch = %4.2f\r\n", pitch, roll);
-		}
+		}*/
 
 		switch(joystick)
 		{

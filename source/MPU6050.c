@@ -222,9 +222,7 @@ bool MPU6050_ReadAccelRegs(I2C_Type *base, uint8_t device_addr, uint8_t reg_addr
     I2C_MasterTransferNonBlocking(I2C1, &mpu_g_m_handle, &masterXfer);
 
     /*  wait for transfer completed. */
-    while ((!MPU6050_nakFlag) && (!MPU6050_completionFlag))
-    {
-    }
+    while ((!MPU6050_nakFlag) && (!MPU6050_completionFlag)){}
 
     MPU6050_nakFlag = false;
 
