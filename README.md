@@ -9,76 +9,57 @@ _These instructions will allow you to obtain a copy of the running project on yo
 Look **Deployment** to know hot to deploy the project.
 
 
-### Pre-requirements 📋
+## Hardware 🔧
 
-#### Hardware
-The BLDC motor is the following:
+The following images show the hardware used for this project, from the left to the right:
 
-![Aquí la descripción de la imagen por si no carga](https://github.com/leandroGHsoft/Quadcopter/blob/master/images/motor.jpg)![Aquí la descripción de la imagen por si no carga](https://github.com/leandroGHsoft/Quadcopter/blob/master/images/esc.jpg)![Aquí la descripción de la imagen por si no carga](https://github.com/leandroGHsoft/Quadcopter/blob/master/images/frdm-k64f.jpg)
+* EMAX CF2822 BLDC motor.
+* Skywalker 20-A ESC for each motor.
+* NXP FRDM-K64F development board with 3-axis accelerometer and magnetometer sensor.
+* MPU6050 accelerometer/gyroscope sensor.
+* HC-06 Bluetooth module to controlling the quadcopter througth an cellphone Android app.
 
-_What things do you need to install the software and how to install them_
+
+![NO IMAGE](https://github.com/leandroGHsoft/Quadcopter/blob/master/images/motor.jpg)![NO IMAGE](https://github.com/leandroGHsoft/Quadcopter/blob/master/images/esc.jpg)![NO IMAGE](https://github.com/leandroGHsoft/Quadcopter/blob/master/images/frdm-k64f.jpg)![NO IMAGE](https://github.com/leandroGHsoft/Quadcopter/blob/master/images/mpu6050.jpg)
+
+Below are some images of the quadrucopter being assembled.
+
+![NO IMAGE](https://github.com/leandroGHsoft/Quadcopter/blob/master/images/quad1.jpg)![NO IMAGE](https://github.com/leandroGHsoft/Quadcopter/blob/master/images/quad2.jpg)![NO IMAGE](https://github.com/leandroGHsoft/Quadcopter/blob/master/images/quad3.jpg)![NO IMAGE](https://github.com/leandroGHsoft/Quadcopter/blob/master/images/quad4.jpg)![NO IMAGE](https://github.com/leandroGHsoft/Quadcopter/blob/master/images/quad5.jpg)
+
+
+
+## Software 🛠️
+
+The project was developed and compilled using the following software:
+
+* MCUXpresso IDE v11.1.0 (Build 3209) (2019-12-12).
+* SDK_2.7.0_FRDM-K64F (Mcuxpresso 303 2019-12-19) created with NXP SDK Builder.
+
+
+## Android app :iphone:
+
+An Android app to controlling the Quadcopter using Bluetooth link was developed. The main activity app is show in the next image:
+
+![NO IMAGE](https://github.com/leandroGHsoft/Quadcopter/blob/master/images/app.png)
+
+The app have the following controls:
+
+* Circular seekbar to control throttle of quadcopter.
+* Joystick to controlling pitch, roll and yaw of quadcopter.
+* Switch button to turn on/off the bluetooth module.
+* Text box that shows the status of bluetooth module and some information for the user.
+
 
 ```
-Da un ejemplo
-```
-
-### Instalation 🔧
-
-_A series of step-by-step examples that tells you what to do to have a development environment running._
-
-
-```
-Da un ejemplo
-
-hasta finalizar
+The Android application code is in a private repository, which I will make public in the future. In the meantime, if you are interested in obtaining it, send me a private message.
 ```
 
 
-## Executing tests ⚙️
 
-_Explica como ejecutar las pruebas automatizadas para este sistema_
-
-### End-to-end test 🔩
-
-_Explica que verifican estas pruebas y por qué_
-
-```
-Da un ejemplo
-```
-
-## Deployment 📦
-
-_Agrega notas adicionales sobre como hacer deploy_
-
-## Built with 🛠️
-
-_Menciona las herramientas que utilizaste para crear tu proyecto_
-
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - El framework web usado
-* [Maven](https://maven.apache.org/) - Manejador de dependencias
-* [ROME](https://rometools.github.io/rome/) - Usado para generar RSS
-
-## Contributing 🖇️
-
-Por favor lee el [CONTRIBUTING.md](https://gist.github.com/villanuevand/xxxxxx) para detalles de nuestro código de conducta, y el proceso para enviarnos pull requests.
-
-## Wiki 📖
-
-Puedes encontrar mucho más de cómo utilizar este proyecto en nuestra [Wiki](https://github.com/tu/proyecto/wiki)
-
-## Versionado 📌
-
-Usamos [SemVer](http://semver.org/) para el versionado. Para todas las versiones disponibles, mira los [tags en este repositorio](https://github.com/tu/proyecto/tags).
-
-## Autores ✒️
-
-_Menciona a todos aquellos que ayudaron a levantar el proyecto desde sus inicios_
+## Author ✒️
 
 * **Lendro Fabian Rocco** - *Initial work* - [roccoleandro](https://github.com/leandroGHsoft)
 
 
-## Licencia 📄
-
-Este proyecto está bajo la Licencia (Tu Licencia) - mira el archivo [LICENSE.md](LICENSE.md) para detalles
 
 
