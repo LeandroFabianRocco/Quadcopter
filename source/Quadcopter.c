@@ -103,6 +103,10 @@ bool isThereAccelFX = false;
 float pitch, roll;
 
 
+// PIT flag
+bool pitflag = false;
+
+
 /*******************************************************************************
  * UART4 interrupt handler
  ******************************************************************************/
@@ -127,54 +131,126 @@ void UART4_IRQHandler(void)
 /*******************************************************************************
  * 20 milliseconds interrupt
  ******************************************************************************/
-void PIT_3_IRQHANDLER(void)
+void PIT_0_IRQHANDLER(void)
 {
-	// Get angles
-	if (isThereAccelMPU)
-	{
-		pitch = MPU6050_GetYAngle();
-		roll = MPU6050_GetXAngle();
-		PRINTF("roll = %4.2f, pitch = %4.2f\r\n", pitch, roll);
-	}
-
 	// Call PID controllers
 	//pitchPID = PitchPID(pitchAngle_new, pitchAngle_last);
 	//rollPID = RollPID(rollAngle_new, rollAngle_last);
 
 	// Front motor
-	Mfront = throttle + pitchPID;// - yawPID;
+	/*Mfront = throttle + pitchPID;// - yawPID;
 	if (Mfront_last != Mfront)
 	{
 		set_pwm_CnV(FTM0, Mfront, PWM_CH0);
 		Mfront_last = Mfront;
-	}
+	}*/
 	// Back motor
-	Mback = throttle - pitchPID; // - yawPID;
+	/*Mback = throttle - pitchPID; // - yawPID;
 	if (Mback_last != Mback)
 	{
 		set_pwm_CnV(FTM0, Mback, PWM_CH2);
 		Mback_last = Mback;
-	}
+	}*/
 	// Left motor
-	Mleft = throttle + rollPID; // + yawPID;
+	/*Mleft = throttle + rollPID; // + yawPID;
 	if (Mleft_last != Mleft)
 	{
 		set_pwm_CnV(FTM0, Mleft, PWM_CH1);
 		Mleft_last = Mleft;
-	}
+	}*/
 	// Right motor
-	Mright = throttle - rollPID; // + yawPID;
+	/*Mright = throttle - rollPID; // + yawPID;
 	if (Mright_last != Mright)
 	{
 		set_pwm_CnV(FTM0, Mright, PWM_CH3);
 		Mright_last = Mright;
-	}
+	}*/
 
 	toggleGreenLED();
 
 	// Clear all PIT flags
-	PIT_ClearStatusFlags(PIT_PERIPHERAL, kPIT_Chnl_3, kPIT_TimerFlag);
+	PIT_ClearStatusFlags(PIT_PERIPHERAL, kPIT_Chnl_0, kPIT_TimerFlag);
+	pitflag = true;
 	__DSB();
+}
+
+/*******************************************************************************
+ * Get throttle and jystick values
+ ******************************************************************************/
+void GetThrottle_and_Joystick(uint8_t *throttle, uint8_t *joystick)
+{
+	// 0x23, 0xXX, 0xXX, 0x2F
+	if (RingBuffer[0] == 0x23)
+	{
+		*throttle = RingBuffer[1];
+		*joystick = RingBuffer[2];
+	}
+	else if (RingBuffer[1] == 0x23)
+	{
+		*throttle = RingBuffer[2];
+		*joystick = RingBuffer[3];
+	}
+	else if (RingBuffer[2] == 0x23)
+	{
+		*throttle = RingBuffer[3];
+		*joystick = RingBuffer[0];
+	}
+	else if (RingBuffer[3] == 0x23)
+	{
+		*throttle = RingBuffer[0];
+		*joystick = RingBuffer[1];
+	}
+}
+
+void commands_to_motors(uint8_t *joystick)
+{
+	switch(*joystick)
+	{
+		case 0x01: // UP
+			RedLEDon();
+			GreenLEDoff();
+			BlueLEDoff();
+			break;
+		case 0x02: // UP-RIGHT
+			RedLEDon();
+			GreenLEDon();
+			BlueLEDoff();
+			break;
+		case 0x04: // RIGHT
+			RedLEDoff();
+			GreenLEDon();
+			BlueLEDoff();
+			break;
+		case 0x08: // DOWN-RIGHT
+			RedLEDon();
+			GreenLEDoff();
+			BlueLEDon();
+			break;
+		case 0x10: // DOWN
+			RedLEDoff();
+			GreenLEDoff();
+			BlueLEDon();
+			break;
+		case 0x20: // DOWN-LEFT
+			RedLEDoff();
+			GreenLEDon();
+			BlueLEDon();
+			break;
+		case 0x40: // LEFT
+			RedLEDon();
+			GreenLEDon();
+			BlueLEDon();
+			break;
+		case 0x80: // UP-LEFT
+			RedLEDon();
+			GreenLEDoff();
+			BlueLEDon();
+			break;
+		default:
+			RedLEDoff();
+			GreenLEDoff();
+			BlueLEDoff();
+	}
 }
 
 
@@ -216,92 +292,25 @@ int main(void)
     MPU6050_Configure_Device();
     isThereAccelMPU = MPU6050_ReadSensorWhoAmI();
 
-    SysTick_DelayTicks(1000U);
-    // Start PIT interrupt for each 20ms
+    //SysTick_DelayTicks(1000U);
+    // Start PIT interrupt for each 20ms if MPU sensor is found
     if (isThereAccelMPU)
     {
-    	PIT_StartTimer(PIT_PERIPHERAL, PIT_3);
+    	PIT_StartTimer(PIT_PERIPHERAL, PIT_0);
     }
 
 	// Main loop
 	while (1)
 	{
-		//SysTick_DelayTicks(20U);
-		// 0x23, 0xXX, 0xXX, 0x2F
-		if (RingBuffer[0] == 0x23)
+		GetThrottle_and_Joystick(&throttle, &joystick);
+		commands_to_motors(&joystick);
+		if ((pitflag == true) && (isThereAccelMPU))
 		{
-			throttle = RingBuffer[1];
-			joystick = RingBuffer[2];
-		}
-		else if (RingBuffer[1] == 0x23)
-		{
-			throttle = RingBuffer[2];
-			joystick = RingBuffer[3];
-		}
-		else if (RingBuffer[2] == 0x23)
-		{
-			throttle = RingBuffer[3];
-			joystick = RingBuffer[0];
-		}
-		else if (RingBuffer[3] == 0x23)
-		{
-			throttle = RingBuffer[0];
-			joystick = RingBuffer[1];
-		}
-
-		/*if (isThereAccelMPU)
-		{
+			pitflag = false;
+			// Get angles
 			pitch = MPU6050_GetYAngle();
 			roll = MPU6050_GetXAngle();
 			PRINTF("roll = %4.2f, pitch = %4.2f\r\n", pitch, roll);
-		}*/
-
-		switch(joystick)
-		{
-			case 0x01: // UP
-				RedLEDon();
-				GreenLEDoff();
-				BlueLEDoff();
-				break;
-			case 0x02: // UP-RIGHT
-				RedLEDon();
-				GreenLEDon();
-				BlueLEDoff();
-				break;
-			case 0x04: // RIGHT
-				RedLEDoff();
-				GreenLEDon();
-				BlueLEDoff();
-				break;
-			case 0x08: // DOWN-RIGHT
-				RedLEDon();
-				GreenLEDoff();
-				BlueLEDon();
-				break;
-			case 0x10: // DOWN
-				RedLEDoff();
-				GreenLEDoff();
-				BlueLEDon();
-				break;
-			case 0x20: // DOWN-LEFT
-				RedLEDoff();
-				GreenLEDon();
-				BlueLEDon();
-				break;
-			case 0x40: // LEFT
-				RedLEDon();
-				GreenLEDon();
-				BlueLEDon();
-				break;
-			case 0x80: // UP-LEFT
-				RedLEDon();
-				GreenLEDoff();
-				BlueLEDon();
-				break;
-			default:
-				RedLEDoff();
-				GreenLEDoff();
-				BlueLEDoff();
 		}
 	}
 }

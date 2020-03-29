@@ -42,14 +42,14 @@ extern "C" {
 #define PIT_CLOCK_SOURCE kCLOCK_BusClk
 /* Definition of clock source frequency. */
 #define PIT_CLK_FREQ CLOCK_GetFreq(PIT_CLOCK_SOURCE)
-/* Definition of ticks count for channel 3 - deprecated. */
-#define PIT_3_TICKS USEC_TO_COUNT(20000U, PIT_CLK_FREQ) - 1U
-/* Definition of channel number for channel 3. */
-#define PIT_3 kPIT_Chnl_3
+/* Definition of ticks count for channel 0 - deprecated. */
+#define PIT_0_TICKS USEC_TO_COUNT(1000000U, PIT_CLK_FREQ) - 1U
+/* Definition of channel number for channel 0. */
+#define PIT_0 kPIT_Chnl_0
 /* PIT interrupt vector ID (number). */
-#define PIT_3_IRQN PIT3_IRQn
+#define PIT_0_IRQN PIT0_IRQn
 /* PIT interrupt handler identifier. */
-#define PIT_3_IRQHANDLER PIT3_IRQHandler
+#define PIT_0_IRQHANDLER PIT0_IRQHandler
 
 /***********************************************************************************************************************
  * Global variables

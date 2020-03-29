@@ -1162,13 +1162,13 @@
                         <array name="channels">
                            <struct name="0">
                               <setting name="channel_id" value=""/>
-                              <setting name="channelNumber" value="3"/>
+                              <setting name="channelNumber" value="0"/>
                               <setting name="enableChain" value="false"/>
-                              <setting name="timerPeriod" value="20ms"/>
+                              <setting name="timerPeriod" value="1s"/>
                               <setting name="startTimer" value="false"/>
                               <setting name="enableInterrupt" value="true"/>
                               <struct name="interrupt">
-                                 <setting name="IRQn" value="PIT3_IRQn"/>
+                                 <setting name="IRQn" value="PIT0_IRQn"/>
                                  <setting name="enable_priority" value="false"/>
                                  <setting name="priority" value="0"/>
                                  <setting name="enable_custom_name" value="false"/>
@@ -1249,7 +1249,7 @@
             <component name="system" uuid="79f430f4-78a4-46ab-879c-3adafb517458" type_id="system">
                <config_set_global name="global_system_definitions"/>
             </component>
-            <component name="msg" uuid="9e9ff66c-dafe-432c-b2d9-ca28e32b911a" type_id="msg_6e2baaf3b97dbeef01c0043275f9a0e7">
+            <component name="msg" uuid="4be9a306-f7c3-45d8-add4-7b82b3e9ee9d" type_id="msg_6e2baaf3b97dbeef01c0043275f9a0e7">
                <config_set_global name="global_messages"/>
             </component>
          </components>

@@ -138,13 +138,13 @@ instance:
     - channels:
       - 0:
         - channel_id: ''
-        - channelNumber: '3'
+        - channelNumber: '0'
         - enableChain: 'false'
-        - timerPeriod: '20ms'
+        - timerPeriod: '1s'
         - startTimer: 'false'
         - enableInterrupt: 'true'
         - interrupt:
-          - IRQn: 'PIT3_IRQn'
+          - IRQn: 'PIT0_IRQn'
           - enable_priority: 'false'
           - priority: '0'
           - enable_custom_name: 'false'
@@ -157,12 +157,12 @@ const pit_config_t PIT_config = {
 void PIT_init(void) {
   /* Initialize the PIT. */
   PIT_Init(PIT_PERIPHERAL, &PIT_config);
-  /* Set channel 3 period to N/A. */
-  PIT_SetTimerPeriod(PIT_PERIPHERAL, PIT_3, PIT_3_TICKS);
-  /* Enable interrupts from channel 3. */
-  PIT_EnableInterrupts(PIT_PERIPHERAL, PIT_3, kPIT_TimerInterruptEnable);
-  /* Enable interrupt PIT_3_IRQN request in the NVIC */
-  EnableIRQ(PIT_3_IRQN);
+  /* Set channel 0 period to N/A. */
+  PIT_SetTimerPeriod(PIT_PERIPHERAL, PIT_0, PIT_0_TICKS);
+  /* Enable interrupts from channel 0. */
+  PIT_EnableInterrupts(PIT_PERIPHERAL, PIT_0, kPIT_TimerInterruptEnable);
+  /* Enable interrupt PIT_0_IRQN request in the NVIC */
+  EnableIRQ(PIT_0_IRQN);
 }
 
 /***********************************************************************************************************************
