@@ -4,9 +4,7 @@ This project is to control a quadcopter using a FRDM-K64F board and the MPU6050 
 
 ## Getting Started 🚀
 
-_These instructions will allow you to obtain a copy of the running project on your local machine for development and testing purposes._
-
-Look **Deployment** to know hot to deploy the project.
+At the first, you need to install MCUXpresso from NXP company and the SDK for the FRDM-K64F board with all peripheral drivers. Also, you need the MPU6050 accelerometer and gyroscope sensor to implement the PID (Proportional, Integral, Derivative) controller.
 
 
 ## Hardware 🔧
