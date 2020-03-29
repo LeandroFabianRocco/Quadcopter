@@ -106,12 +106,15 @@ float pitch, roll;
 // PIT flag
 bool pitflag = false;
 
+// UART4 flag
+bool uart4flag = false;
 
 /*******************************************************************************
  * UART4 interrupt handler
  ******************************************************************************/
 void UART4_IRQHandler(void)
 {
+	uart4flag = true;
     uint8_t data;
     if ((kUART_RxDataRegFullFlag | kUART_RxOverrunFlag) & UART_GetStatusFlags(UART4))
     {
@@ -144,28 +147,28 @@ void PIT_0_IRQHANDLER(void)
 /*******************************************************************************
  * Get throttle and jystick values
  ******************************************************************************/
-void GetThrottle_and_Joystick(uint8_t *throttle, uint8_t *joystick)
+void GetThrottle_and_Joystick(void)
 {
 	// 0x23, 0xXX, 0xXX, 0x2F
 	if (RingBuffer[0] == 0x23)
 	{
-		*throttle = RingBuffer[1];
-		*joystick = RingBuffer[2];
+		throttle = RingBuffer[1];
+		joystick = RingBuffer[2];
 	}
 	else if (RingBuffer[1] == 0x23)
 	{
-		*throttle = RingBuffer[2];
-		*joystick = RingBuffer[3];
+		throttle = RingBuffer[2];
+		joystick = RingBuffer[3];
 	}
 	else if (RingBuffer[2] == 0x23)
 	{
-		*throttle = RingBuffer[3];
-		*joystick = RingBuffer[0];
+		throttle = RingBuffer[3];
+		joystick = RingBuffer[0];
 	}
 	else if (RingBuffer[3] == 0x23)
 	{
-		*throttle = RingBuffer[0];
-		*joystick = RingBuffer[1];
+		throttle = RingBuffer[0];
+		joystick = RingBuffer[1];
 	}
 }
 
@@ -174,9 +177,9 @@ void GetThrottle_and_Joystick(uint8_t *throttle, uint8_t *joystick)
 /*******************************************************************************
  * Update motors values as function of joystick values
  ******************************************************************************/
-void commands_to_motors(uint8_t *joystick)
+void commands_to_motors(uint8_t joistick)
 {
-	switch(*joystick)
+	switch(joystick)
 	{
 		case 0x01: // UP
 			RedLEDon();
@@ -308,10 +311,14 @@ int main(void)
 	// Main loop
 	while (1)
 	{
-		GetThrottle_and_Joystick(&throttle, &joystick);
-		commands_to_motors(&joystick);
-		PRINTF("throttle = 0x%x");
-		if ((pitflag == true) && (isThereAccelMPU))
+		if (uart4flag == true)
+		{
+			GetThrottle_and_Joystick();
+			uart4flag = false;
+		}
+		commands_to_motors(joystick);
+		PRINTF("throttle = %3.5d\r\n", throttle);
+		/*if ((pitflag == true) && (isThereAccelMPU))
 		{
 			pitflag = false;
 			// Get angles
@@ -319,7 +326,7 @@ int main(void)
 			roll = MPU6050_GetXAngle();
 			//PRINTF("roll = %4.2f, pitch = %4.2f\r\n", pitch, roll);
 			MotorUpdate(throttle, pitchPID, rollPID);
-		}
+		}*/
 	}
 }
 
