@@ -242,13 +242,13 @@
                   </pin>
                   <pin peripheral="I2C1" signal="SDA" pin_num="83" pin_signal="ADC1_SE7b/PTC11/LLWU_P11/I2C1_SDA/FTM3_CH7/I2S0_RXD1/FB_RW_b">
                      <pin_features>
-                        <pin_feature name="pull_select" value="up"/>
+                        <pin_feature name="pull_select" value="down"/>
                         <pin_feature name="pull_enable" value="disable"/>
                      </pin_features>
                   </pin>
                   <pin peripheral="I2C1" signal="SCL" pin_num="82" pin_signal="ADC1_SE6b/PTC10/I2C1_SCL/FTM3_CH6/I2S0_RX_FS/FB_AD5">
                      <pin_features>
-                        <pin_feature name="pull_select" value="up"/>
+                        <pin_feature name="pull_select" value="down"/>
                         <pin_feature name="pull_enable" value="disable"/>
                      </pin_features>
                   </pin>
@@ -1146,9 +1146,9 @@
                         <setting name="clockSourceFreq" value="GetFreq"/>
                         <struct name="i2c_master_config">
                            <setting name="enableMaster" value="true"/>
-                           <setting name="enableStopHold" value="true"/>
-                           <setting name="baudRate_Bps" value="100000"/>
-                           <setting name="glitchFilterWidth" value="5"/>
+                           <setting name="enableStopHold" value="false"/>
+                           <setting name="baudRate_Bps" value="400000"/>
+                           <setting name="glitchFilterWidth" value="0"/>
                         </struct>
                      </config_set>
                   </instance>
@@ -1164,7 +1164,7 @@
                               <setting name="channel_id" value=""/>
                               <setting name="channelNumber" value="0"/>
                               <setting name="enableChain" value="false"/>
-                              <setting name="timerPeriod" value="1s"/>
+                              <setting name="timerPeriod" value="20ms"/>
                               <setting name="startTimer" value="false"/>
                               <setting name="enableInterrupt" value="true"/>
                               <struct name="interrupt">

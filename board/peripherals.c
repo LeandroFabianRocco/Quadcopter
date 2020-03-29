@@ -99,16 +99,16 @@ instance:
     - clockSourceFreq: 'GetFreq'
     - i2c_master_config:
       - enableMaster: 'true'
-      - enableStopHold: 'true'
-      - baudRate_Bps: '100000'
-      - glitchFilterWidth: '5'
+      - enableStopHold: 'false'
+      - baudRate_Bps: '400000'
+      - glitchFilterWidth: '0'
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
 /* clang-format on */
 const i2c_master_config_t I2C1_config = {
   .enableMaster = true,
-  .enableStopHold = true,
-  .baudRate_Bps = 100000,
-  .glitchFilterWidth = 5
+  .enableStopHold = false,
+  .baudRate_Bps = 400000,
+  .glitchFilterWidth = 0
 };
 
 void I2C1_init(void) {
@@ -140,7 +140,7 @@ instance:
         - channel_id: ''
         - channelNumber: '0'
         - enableChain: 'false'
-        - timerPeriod: '1s'
+        - timerPeriod: '20ms'
         - startTimer: 'false'
         - enableInterrupt: 'true'
         - interrupt:

@@ -5,6 +5,7 @@ fsl_pit.h:286:20:PIT_StartTimer	16	static
 fsl_uart.h:552:23:UART_ReadByte	16	static
 Quadcopter.c:113:6:UART4_RX_TX_IRQHandler	16	static
 Quadcopter.c:134:6:PIT0_IRQHandler	8	static
-Quadcopter.c:180:6:GetThrottle_and_Joystick	16	static
-Quadcopter.c:205:6:commands_to_motors	16	static
-Quadcopter.c:262:5:main	48	static
+Quadcopter.c:147:6:GetThrottle_and_Joystick	16	static
+Quadcopter.c:177:6:commands_to_motors	16	static
+Quadcopter.c:231:6:MotorUpdate	16	static
+Quadcopter.c:268:5:main	32	static

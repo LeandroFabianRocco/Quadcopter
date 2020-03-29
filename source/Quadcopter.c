@@ -133,44 +133,11 @@ void UART4_IRQHandler(void)
  ******************************************************************************/
 void PIT_0_IRQHANDLER(void)
 {
-	// Call PID controllers
-	//pitchPID = PitchPID(pitchAngle_new, pitchAngle_last);
-	//rollPID = RollPID(rollAngle_new, rollAngle_last);
-
-	// Front motor
-	/*Mfront = throttle + pitchPID;// - yawPID;
-	if (Mfront_last != Mfront)
-	{
-		set_pwm_CnV(FTM0, Mfront, PWM_CH0);
-		Mfront_last = Mfront;
-	}*/
-	// Back motor
-	/*Mback = throttle - pitchPID; // - yawPID;
-	if (Mback_last != Mback)
-	{
-		set_pwm_CnV(FTM0, Mback, PWM_CH2);
-		Mback_last = Mback;
-	}*/
-	// Left motor
-	/*Mleft = throttle + rollPID; // + yawPID;
-	if (Mleft_last != Mleft)
-	{
-		set_pwm_CnV(FTM0, Mleft, PWM_CH1);
-		Mleft_last = Mleft;
-	}*/
-	// Right motor
-	/*Mright = throttle - rollPID; // + yawPID;
-	if (Mright_last != Mright)
-	{
-		set_pwm_CnV(FTM0, Mright, PWM_CH3);
-		Mright_last = Mright;
-	}*/
-
-	toggleGreenLED();
-
 	// Clear all PIT flags
 	PIT_ClearStatusFlags(PIT_PERIPHERAL, kPIT_Chnl_0, kPIT_TimerFlag);
+
 	pitflag = true;
+
 	__DSB();
 }
 
@@ -202,6 +169,11 @@ void GetThrottle_and_Joystick(uint8_t *throttle, uint8_t *joystick)
 	}
 }
 
+
+
+/*******************************************************************************
+ * Update motors values as function of joystick values
+ ******************************************************************************/
 void commands_to_motors(uint8_t *joystick)
 {
 	switch(*joystick)
@@ -253,6 +225,40 @@ void commands_to_motors(uint8_t *joystick)
 	}
 }
 
+/*******************************************************************************
+ * Update motors values
+ ******************************************************************************/
+void MotorUpdate(uint8_t throttle, uint8_t pitchPID, uint8_t rollPID)
+{
+	// Front motor
+	Mfront = throttle + pitchPID;// - yawPID;
+	if (Mfront_last != Mfront)
+	{
+		set_pwm_CnV(FTM0, Mfront, PWM_CH0);
+		Mfront_last = Mfront;
+	}
+	// Back motor
+	Mback = throttle - pitchPID; // - yawPID;
+	if (Mback_last != Mback)
+	{
+		set_pwm_CnV(FTM0, Mback, PWM_CH2);
+		Mback_last = Mback;
+	}
+	// Left motor
+	Mleft = throttle + rollPID; // + yawPID;
+	if (Mleft_last != Mleft)
+	{
+		set_pwm_CnV(FTM0, Mleft, PWM_CH1);
+		Mleft_last = Mleft;
+	}
+	// Right motor
+	Mright = throttle - rollPID; // + yawPID;
+	if (Mright_last != Mright)
+	{
+		set_pwm_CnV(FTM0, Mright, PWM_CH3);
+		Mright_last = Mright;
+	}
+}
 
 
 
@@ -270,10 +276,13 @@ int main(void)
 	// FTM init
 	FTM0_init();
 
-	// UART4 configuration variable
-	uart_config_t config;
+	// MPU6050 initialization and configuration
+	MPU6050_Init();
+	MPU6050_Configure_Device();
+	isThereAccelMPU = MPU6050_ReadSensorWhoAmI();
 
 	// UART4 configuration
+	uart_config_t config;
 	UART_GetDefaultConfig(&config);
 	config.baudRate_Bps = 9600;
 	config.enableTx     = false;
@@ -287,10 +296,7 @@ int main(void)
 	//FXOS8700CQ_Configure_Device();
 	//isThereAccelFX = FXOS8700CQ_ReadSensorWhoAmI();
 
-	// MPU6050 initialization and configuration
-    MPU6050_Init();
-    MPU6050_Configure_Device();
-    isThereAccelMPU = MPU6050_ReadSensorWhoAmI();
+
 
     //SysTick_DelayTicks(1000U);
     // Start PIT interrupt for each 20ms if MPU sensor is found
@@ -304,13 +310,15 @@ int main(void)
 	{
 		GetThrottle_and_Joystick(&throttle, &joystick);
 		commands_to_motors(&joystick);
+		PRINTF("throttle = 0x%x");
 		if ((pitflag == true) && (isThereAccelMPU))
 		{
 			pitflag = false;
 			// Get angles
 			pitch = MPU6050_GetYAngle();
 			roll = MPU6050_GetXAngle();
-			PRINTF("roll = %4.2f, pitch = %4.2f\r\n", pitch, roll);
+			//PRINTF("roll = %4.2f, pitch = %4.2f\r\n", pitch, roll);
+			MotorUpdate(throttle, pitchPID, rollPID);
 		}
 	}
 }

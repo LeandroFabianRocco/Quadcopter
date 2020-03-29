@@ -153,8 +153,8 @@ BOARD_InitPins:
   - {pin_num: '68', peripheral: GPIOB, signal: 'GPIO, 22', pin_signal: PTB22/SPI2_SOUT/FB_AD29/CMP2_OUT, identifier: RED_LED, direction: OUTPUT}
   - {pin_num: '31', peripheral: I2C0, signal: SCL, pin_signal: ADC0_SE17/PTE24/UART4_TX/I2C0_SCL/EWM_OUT_b, identifier: I2C0_SCL}
   - {pin_num: '32', peripheral: I2C0, signal: SDA, pin_signal: ADC0_SE18/PTE25/UART4_RX/I2C0_SDA/EWM_IN, identifier: I2C0_SDA}
-  - {pin_num: '83', peripheral: I2C1, signal: SDA, pin_signal: ADC1_SE7b/PTC11/LLWU_P11/I2C1_SDA/FTM3_CH7/I2S0_RXD1/FB_RW_b, pull_select: up, pull_enable: disable}
-  - {pin_num: '82', peripheral: I2C1, signal: SCL, pin_signal: ADC1_SE6b/PTC10/I2C1_SCL/FTM3_CH6/I2S0_RX_FS/FB_AD5, pull_select: up, pull_enable: disable}
+  - {pin_num: '83', peripheral: I2C1, signal: SDA, pin_signal: ADC1_SE7b/PTC11/LLWU_P11/I2C1_SDA/FTM3_CH7/I2S0_RXD1/FB_RW_b, pull_select: down, pull_enable: disable}
+  - {pin_num: '82', peripheral: I2C1, signal: SCL, pin_signal: ADC1_SE6b/PTC10/I2C1_SCL/FTM3_CH6/I2S0_RX_FS/FB_AD5, pull_select: down, pull_enable: disable}
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS ***********
  */
 /* clang-format on */
@@ -231,9 +231,9 @@ void BOARD_InitPins(void)
                        /* Mask bits to zero which are setting */
                        (~(PORT_PCR_PS_MASK | PORT_PCR_PE_MASK | PORT_PCR_ISF_MASK)))
 
-                      /* Pull Select: Internal pullup resistor is enabled on the corresponding pin, if the
+                      /* Pull Select: Internal pulldown resistor is enabled on the corresponding pin, if the
                        * corresponding PE field is set. */
-                      | PORT_PCR_PS(kPORT_PullUp)
+                      | PORT_PCR_PS(kPORT_PullDown)
 
                       /* Pull Enable: Internal pullup or pulldown resistor is not enabled on the corresponding
                        * pin. */
@@ -246,9 +246,9 @@ void BOARD_InitPins(void)
                        /* Mask bits to zero which are setting */
                        (~(PORT_PCR_PS_MASK | PORT_PCR_PE_MASK | PORT_PCR_ISF_MASK)))
 
-                      /* Pull Select: Internal pullup resistor is enabled on the corresponding pin, if the
+                      /* Pull Select: Internal pulldown resistor is enabled on the corresponding pin, if the
                        * corresponding PE field is set. */
-                      | PORT_PCR_PS(kPORT_PullUp)
+                      | PORT_PCR_PS(kPORT_PullDown)
 
                       /* Pull Enable: Internal pullup or pulldown resistor is not enabled on the corresponding
                        * pin. */
