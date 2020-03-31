@@ -115,11 +115,10 @@ bool uart4flag = false;
 void UART4_IRQHandler(void)
 {
 	uart4flag = true;
-    uint8_t data;
+    //uint8_t data;
     if ((kUART_RxDataRegFullFlag | kUART_RxOverrunFlag) & UART_GetStatusFlags(UART4))
     {
-        data = UART_ReadByte(UART4);
-		RingBuffer[rxIndex] = data;
+    	RingBuffer[rxIndex] = UART_ReadByte(UART4);
 		rxIndex++;
 		rxIndex %= RING_BUFFER_SIZE;
     }
@@ -290,8 +289,10 @@ int main(void)
 	config.baudRate_Bps = 9600;
 	config.enableTx     = false;
 	config.enableRx     = true;
+	config.rxFifoWatermark = 1;
 	UART_Init(UART4, &config, UART4_CLK_FREQ);
 	UART_EnableInterrupts(UART4, kUART_RxDataRegFullInterruptEnable | kUART_RxOverrunInterruptEnable);
+	//UART_EnableInterrupts(UART4, kUART_RxDataRegFullInterruptEnable);
 	EnableIRQ(UART4_IRQn);
 
 	// FXOS8700 initialization and configuration
@@ -317,7 +318,8 @@ int main(void)
 			uart4flag = false;
 		}
 		commands_to_motors(joystick);
-		PRINTF("throttle = %3.5d\r\n", throttle);
+		//PRINTF("throttle = %3.5d\r\n", throttle);
+		PRINTF("0x%x, 0x%x, 0x%x, 0x%x\r\n", RingBuffer[3], RingBuffer[2], RingBuffer[1], RingBuffer[0]);
 		/*if ((pitflag == true) && (isThereAccelMPU))
 		{
 			pitflag = false;
