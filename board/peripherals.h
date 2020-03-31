@@ -48,6 +48,8 @@ extern "C" {
 #define PIT_0 kPIT_Chnl_0
 /* PIT interrupt vector ID (number). */
 #define PIT_0_IRQN PIT0_IRQn
+/* PIT interrupt vector priority. */
+#define PIT_0_IRQ_PRIORITY 0
 /* PIT interrupt handler identifier. */
 #define PIT_0_IRQHANDLER PIT0_IRQHandler
 

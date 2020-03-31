@@ -52,21 +52,29 @@
  ******************************************************************************/
 
 // UART4 definitions
-#define UART4_CLK_FREQ CLOCK_GetFreq(UART4_CLK_SRC)
-#define UART4_IRQn UART4_RX_TX_IRQn
-#define UART4_IRQHandler UART4_RX_TX_IRQHandler
-#define RING_BUFFER_SIZE 4
+#define UART UART4
+#define UART_CLKSRC UART4_CLK_SRC
+#define UART_CLK_FREQ CLOCK_GetFreq(UART4_CLK_SRC)
+#define RX_RING_BUFFER_SIZE 10U
 
 // Move constant
 #define MOOVE 10
 
 /*******************************************************************************
- * Variable declaration
+ * Prototypes
+ ******************************************************************************/
+/* UART user callback */
+void UART_UserCallback(UART_Type *base, uart_handle_t *handle, status_t status, void *userData);
+
+
+/*******************************************************************************
+ * Variables declaration
  ******************************************************************************/
 
 // UART4 variables
-uint8_t RingBuffer[RING_BUFFER_SIZE];
-volatile uint16_t rxIndex;
+uart_handle_t uartHandle;
+uint8_t rxRingBuffer[RX_RING_BUFFER_SIZE] = {0};
+volatile bool rxOnGoing = false;
 
 // Joystick and throttle values
 uint8_t joystick, throttle;
@@ -112,21 +120,14 @@ bool uart4flag = false;
 /*******************************************************************************
  * UART4 interrupt handler
  ******************************************************************************/
-void UART4_IRQHandler(void)
+void UART_UserCallback(UART_Type *base, uart_handle_t *handle, status_t status, void *userData)
 {
-	uart4flag = true;
-    //uint8_t data;
-    if ((kUART_RxDataRegFullFlag | kUART_RxOverrunFlag) & UART_GetStatusFlags(UART4))
+    userData = userData;
+
+    if (kStatus_UART_RxIdle == status)
     {
-    	RingBuffer[rxIndex] = UART_ReadByte(UART4);
-		rxIndex++;
-		rxIndex %= RING_BUFFER_SIZE;
+        rxOnGoing = false;
     }
-    /* Add for ARM errata 838869, affects Cortex-M4, Cortex-M4F Store immediate overlapping
-          exception return operation might vector to incorrect interrupt */
-#if defined __CORTEX_M && (__CORTEX_M == 4U)
-    __DSB();
-#endif
 }
 
 
@@ -142,35 +143,6 @@ void PIT_0_IRQHANDLER(void)
 
 	__DSB();
 }
-
-/*******************************************************************************
- * Get throttle and jystick values
- ******************************************************************************/
-void GetThrottle_and_Joystick(void)
-{
-	// 0x23, 0xXX, 0xXX, 0x2F
-	if (RingBuffer[0] == 0x23)
-	{
-		throttle = RingBuffer[1];
-		joystick = RingBuffer[2];
-	}
-	else if (RingBuffer[1] == 0x23)
-	{
-		throttle = RingBuffer[2];
-		joystick = RingBuffer[3];
-	}
-	else if (RingBuffer[2] == 0x23)
-	{
-		throttle = RingBuffer[3];
-		joystick = RingBuffer[0];
-	}
-	else if (RingBuffer[3] == 0x23)
-	{
-		throttle = RingBuffer[0];
-		joystick = RingBuffer[1];
-	}
-}
-
 
 
 /*******************************************************************************
@@ -286,14 +258,17 @@ int main(void)
 	// UART4 configuration
 	uart_config_t config;
 	UART_GetDefaultConfig(&config);
-	config.baudRate_Bps = 9600;
+	config.baudRate_Bps = 9600U;
 	config.enableTx     = false;
 	config.enableRx     = true;
-	config.rxFifoWatermark = 1;
-	UART_Init(UART4, &config, UART4_CLK_FREQ);
-	UART_EnableInterrupts(UART4, kUART_RxDataRegFullInterruptEnable | kUART_RxOverrunInterruptEnable);
-	//UART_EnableInterrupts(UART4, kUART_RxDataRegFullInterruptEnable);
-	EnableIRQ(UART4_IRQn);
+	UART_Init(UART4, &config, UART_CLK_FREQ);
+	UART_TransferCreateHandle(UART4, &uartHandle, UART_UserCallback, NULL);
+	UART_TransferStartRingBuffer(UART4, &uartHandle, rxRingBuffer, RX_RING_BUFFER_SIZE);
+	uart_transfer_t receiveXfer;
+	size_t receivedBytes;
+	receiveXfer.data     = rxRingBuffer;
+	receiveXfer.dataSize = RX_RING_BUFFER_SIZE;
+	uint8_t i;
 
 	// FXOS8700 initialization and configuration
 	//FXOS8700CQ_Init();
@@ -312,23 +287,36 @@ int main(void)
 	// Main loop
 	while (1)
 	{
-		if (uart4flag == true)
+		if (!rxOnGoing)
 		{
-			GetThrottle_and_Joystick();
-			uart4flag = false;
+			PIT_StopTimer(PIT_PERIPHERAL, PIT_0);
+			rxOnGoing = true;
+			UART_TransferReceiveNonBlocking(UART4, &uartHandle, &receiveXfer, &receivedBytes);
+
+			for(i=0; i<10; i++)
+			{
+				if (rxRingBuffer[i] == 0x23)
+				{
+					if (rxRingBuffer[i+3] == 0x2F)
+					{
+						joystick = rxRingBuffer[i+2];
+						throttle = rxRingBuffer[i+1];
+					}
+				}
+			}
+			PRINTF("joystick = 0x%x, throttle = %3d\r\n", joystick, throttle);
+			//PIT_StartTimer(PIT_PERIPHERAL, PIT_0);
 		}
 		commands_to_motors(joystick);
-		//PRINTF("throttle = %3.5d\r\n", throttle);
-		PRINTF("0x%x, 0x%x, 0x%x, 0x%x\r\n", RingBuffer[3], RingBuffer[2], RingBuffer[1], RingBuffer[0]);
-		/*if ((pitflag == true) && (isThereAccelMPU))
+		if ((pitflag == true) && (isThereAccelMPU))
 		{
 			pitflag = false;
 			// Get angles
 			pitch = MPU6050_GetYAngle();
 			roll = MPU6050_GetXAngle();
-			//PRINTF("roll = %4.2f, pitch = %4.2f\r\n", pitch, roll);
-			MotorUpdate(throttle, pitchPID, rollPID);
-		}*/
+			PRINTF("roll = %4.2f, pitch = %4.2f\r\n", pitch, roll);
+			//MotorUpdate(throttle, pitchPID, rollPID);
+		}
 	}
 }
 

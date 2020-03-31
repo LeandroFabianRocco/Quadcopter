@@ -145,7 +145,7 @@ instance:
         - enableInterrupt: 'true'
         - interrupt:
           - IRQn: 'PIT0_IRQn'
-          - enable_priority: 'false'
+          - enable_priority: 'true'
           - priority: '0'
           - enable_custom_name: 'false'
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
@@ -161,6 +161,8 @@ void PIT_init(void) {
   PIT_SetTimerPeriod(PIT_PERIPHERAL, PIT_0, PIT_0_TICKS);
   /* Enable interrupts from channel 0. */
   PIT_EnableInterrupts(PIT_PERIPHERAL, PIT_0, kPIT_TimerInterruptEnable);
+  /* Interrupt vector PIT_0_IRQN priority settings in the NVIC */
+  NVIC_SetPriority(PIT_0_IRQN, PIT_0_IRQ_PRIORITY);
   /* Enable interrupt PIT_0_IRQN request in the NVIC */
   EnableIRQ(PIT_0_IRQN);
 }
