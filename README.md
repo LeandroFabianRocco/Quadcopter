@@ -56,7 +56,7 @@ The Android application code is in a private repository, which I will make publi
 
 ## Author ✒️
 
-* **Lendro Fabian Rocco** - *Initial work* - [roccoleandro](https://github.com/leandroGHsoft) - e-mail: <leandro.f.rocco@gmail.com>
+* **Lendro Fabian Rocco** - [GitHub](https://github.com/leandroGHsoft) - e-mail: <leandro.f.rocco@gmail.com>
 
 
 
