@@ -1,0 +1,2 @@
+PWM_functions.c:19:6:set_pwm_CnV	0	static
+PWM_functions.c:37:6:FTM0_init	64	static

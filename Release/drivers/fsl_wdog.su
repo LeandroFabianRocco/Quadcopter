@@ -1,0 +1,7 @@
+fsl_wdog.c:42:6:WDOG_GetDefaultConfig	8	static
+fsl_wdog.c:83:6:WDOG_Init	12	static
+fsl_wdog.c:121:6:WDOG_Deinit	0	static
+fsl_wdog.c:152:6:WDOG_SetTestModeConfig	8	static
+fsl_wdog.c:191:10:WDOG_GetStatusFlags	0	static
+fsl_wdog.c:215:6:WDOG_ClearStatusFlags	0	static
+fsl_wdog.c:231:6:WDOG_Refresh	0	static

@@ -1,0 +1,8 @@
+FXOS8700CQ.c:29:6:FXOS8700CQ_i2c_master_callback	0	static
+FXOS8700CQ.c:51:6:FXOS8700CQ_ReadSensorWhoAmI	48	static
+FXOS8700CQ.c:115:6:FXOS8700CQ_WriteAccelReg	48	static
+FXOS8700CQ.c:161:6:FXOS8700CQ_ReadAccelRegs	40	static
+FXOS8700CQ.c:201:6:FXOS8700CQ_Init	0	static
+FXOS8700CQ.c:214:6:FXOS8700CQ_Configure_Device	8	static
+FXOS8700CQ.c:247:9:FXOS8700CQ_Read_Accel_Data	24	static
+FXOS8700CQ.c:267:9:FXOS8700CQ_Read_Magnet_Data	0	static

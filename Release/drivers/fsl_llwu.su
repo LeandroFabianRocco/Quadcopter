@@ -1,0 +1,7 @@
+fsl_llwu.c:27:6:LLWU_SetExternalWakeupPinMode	8	static
+fsl_llwu.c:120:6:LLWU_GetExternalWakeupPinFlag	0	static
+fsl_llwu.c:202:6:LLWU_ClearExternalWakeupPinFlag	0	static
+fsl_llwu.c:271:6:LLWU_SetPinFilterMode	8	static
+fsl_llwu.c:341:6:LLWU_GetPinFilterFlag	0	static
+fsl_llwu.c:385:6:LLWU_ClearPinFilterFlag	0	static
+fsl_llwu.c:456:6:LLWU_SetResetPinMode	0	static

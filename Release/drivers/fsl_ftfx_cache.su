@@ -1,0 +1,6 @@
+fsl_ftfx_cache.c:146:10:FTFx_CACHE_Init	8	static
+fsl_ftfx_cache.c:208:10:FTFx_CACHE_PflashSetPrefetchSpeculation	0	static
+fsl_ftfx_cache.c:289:10:FTFx_CACHE_PflashGetPrefetchSpeculation	8	static
+fsl_ftfx_cache.c:459:6:fmc_flash_cache_clear	16	static
+fsl_ftfx_cache.c:534:6:fmc_flash_prefetch_speculation_clear	16	static
+fsl_ftfx_cache.c:175:10:FTFx_CACHE_ClearCachePrefetchSpeculation	8	static

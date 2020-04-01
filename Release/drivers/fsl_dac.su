@@ -1,0 +1,11 @@
+fsl_dac.c:68:6:DAC_Init	12	static
+fsl_dac.c:105:6:DAC_Deinit	0	static
+fsl_dac.c:125:6:DAC_GetDefaultConfig	8	static
+fsl_dac.c:142:6:DAC_SetBufferConfig	0	static
+fsl_dac.c:187:6:DAC_GetDefaultBufferConfig	8	static
+fsl_dac.c:210:6:DAC_SetBufferValue	8	static
+fsl_dac.c:228:6:DAC_SetBufferReadPointer	0	static
+fsl_dac.c:244:6:DAC_EnableBufferInterrupts	0	static
+fsl_dac.c:260:6:DAC_DisableBufferInterrupts	0	static
+fsl_dac.c:277:9:DAC_GetBufferStatusFlags	0	static
+fsl_dac.c:292:6:DAC_ClearBufferStatusFlags	0	static

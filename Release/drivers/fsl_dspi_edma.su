@@ -1,0 +1,11 @@
+fsl_dspi_edma.c:1015:13:EDMA_DspiMasterCallback	4	static
+fsl_dspi_edma.c:1477:13:EDMA_DspiSlaveCallback	4	static
+fsl_dspi_edma.c:91:6:DSPI_MasterTransferCreateHandleEDMA	24	static
+fsl_dspi_edma.c:133:10:DSPI_MasterTransferEDMA	112	static
+fsl_dspi_edma.c:960:10:DSPI_MasterHalfDuplexTransferEDMA	32	static
+fsl_dspi_edma.c:1046:6:DSPI_MasterTransferAbortEDMA	8	static
+fsl_dspi_edma.c:1071:10:DSPI_MasterTransferGetCountEDMA	16	static
+fsl_dspi_edma.c:1116:6:DSPI_SlaveTransferCreateHandleEDMA	24	static
+fsl_dspi_edma.c:1155:10:DSPI_SlaveTransferEDMA	80	static
+fsl_dspi_edma.c:1508:6:DSPI_SlaveTransferAbortEDMA	8	static
+fsl_dspi_edma.c:1532:10:DSPI_SlaveTransferGetCountEDMA	16	static

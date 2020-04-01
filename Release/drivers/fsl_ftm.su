@@ -1,0 +1,17 @@
+fsl_ftm.c:220:10:FTM_Init	36	static
+fsl_ftm.c:294:6:FTM_Deinit	0	static
+fsl_ftm.c:325:6:FTM_GetDefaultConfig	8	static
+fsl_ftm.c:374:10:FTM_SetupPwm	48	static
+fsl_ftm.c:560:6:FTM_UpdatePwmDutycycle	8	static
+fsl_ftm.c:608:6:FTM_UpdateChnlEdgeLevelSelect	0	static
+fsl_ftm.c:635:10:FTM_SetupPwmMode	36	static
+fsl_ftm.c:755:6:FTM_SetupInputCapture	20	static
+fsl_ftm.c:804:6:FTM_SetupOutputCompare	20	static
+fsl_ftm.c:851:6:FTM_SetupDualEdgeCapture	20	static
+fsl_ftm.c:902:6:FTM_SetupQuadDecode	20	static
+fsl_ftm.c:952:6:FTM_SetupFault	8	static
+fsl_ftm.c:997:6:FTM_EnableInterrupts	8	static
+fsl_ftm.c:1041:6:FTM_DisableInterrupts	8	static
+fsl_ftm.c:1085:10:FTM_GetEnabledInterrupts	12	static
+fsl_ftm.c:1133:10:FTM_GetStatusFlags	0	static
+fsl_ftm.c:1173:6:FTM_ClearStatusFlags	0	static

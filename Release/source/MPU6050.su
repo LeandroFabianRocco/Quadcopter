@@ -1,0 +1,13 @@
+MPU6050.c:43:6:MPU6050_i2c_master_callback	0	static
+MPU6050.c:28:6:MPU6050_Init	0	static
+MPU6050.c:65:6:MPU6050_ReadSensorWhoAmI	48	static
+MPU6050.c:165:6:MPU6050_WriteAccelReg	48	static
+MPU6050.c:129:6:MPU6050_Configure_Device	8	static
+MPU6050.c:210:6:MPU6050_ReadAccelRegs	40	static
+MPU6050.c:251:6:MPU6050_Read_Accel_Data	24	static
+MPU6050.c:269:6:MPU6050_Read_Gyro_Data	24	static
+MPU6050.c:288:6:MPU6050_GetAngularVelocity	16	static
+MPU6050.c:305:6:MPU6050_GetgAcceleration	16	static
+MPU6050.c:321:7:MPU6050_GetXAngle	24	static
+MPU6050.c:341:7:MPU6050_GetYAngle	24	static
+MPU6050.c:364:6:MPU6050_ComplementaryFilterAngles	64	static

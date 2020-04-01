@@ -1,0 +1,4 @@
+fsl_ewm.c:39:6:EWM_Init	0	static
+fsl_ewm.c:73:6:EWM_Deinit	0	static
+fsl_ewm.c:103:6:EWM_GetDefaultConfig	8	static
+fsl_ewm.c:131:6:EWM_Refresh	0	static

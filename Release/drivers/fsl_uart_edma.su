@@ -1,0 +1,9 @@
+fsl_uart_edma.c:159:6:UART_TransferCreateHandleEDMA	40	static
+fsl_uart_edma.c:225:10:UART_SendEDMA	56	static
+fsl_uart_edma.c:279:10:UART_ReceiveEDMA	56	static
+fsl_uart_edma.c:328:6:UART_TransferAbortSendEDMA	8	static
+fsl_uart_edma.c:100:13:UART_SendEDMACallback	8	static
+fsl_uart_edma.c:350:6:UART_TransferAbortReceiveEDMA	8	static
+fsl_uart_edma.c:127:13:UART_ReceiveEDMACallback	16	static
+fsl_uart_edma.c:376:10:UART_TransferGetReceiveCountEDMA	16	static
+fsl_uart_edma.c:407:10:UART_TransferGetSendCountEDMA	16	static

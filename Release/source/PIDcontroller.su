@@ -1,0 +1,2 @@
+PIDcontroller.c:22:7:PitchPID	0	static
+PIDcontroller.c:36:7:RollPID	0	static

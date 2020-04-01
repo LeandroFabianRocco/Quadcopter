@@ -45,7 +45,7 @@
 #include "PWM_functions.h"
 #include "MPU6050.h"
 #include "FXOS8700CQ.h"
-#include "PIDcontroller.h"
+//#include "PIDcontroller.h"
 
 /*******************************************************************************
  * Variable definition
@@ -171,7 +171,7 @@ void MotorUpdate(uint8_t throttle, uint8_t pitchPID, uint8_t rollPID)
 /*******************************************************************************
  * Update motors values as function of joystick values
  ******************************************************************************/
-void commands_to_motors(uint8_t joystick)
+/*void commands_to_motors(uint8_t joystick)
 {
 	switch(joystick)
 	{
@@ -220,7 +220,7 @@ void commands_to_motors(uint8_t joystick)
 			GreenLEDoff();
 			BlueLEDoff();
 	}
-}
+}*/
 
 /*******************************************************************************
  * MAIN function
@@ -300,7 +300,54 @@ int main(void)
 		/*****************************************************************************************
 		 * Update Motors throttle
 		 *****************************************************************************************/
-		MotorUpdate(throttle, pitchPID, rollPID);
+		//MotorUpdate(throttle, pitchPID, rollPID);
+		switch(joystick)
+		{
+			case 0x01: // UP
+				RedLEDon();
+				GreenLEDoff();
+				BlueLEDoff();
+				break;
+			case 0x02: // UP-RIGHT
+				RedLEDon();
+				GreenLEDon();
+				BlueLEDoff();
+				break;
+			case 0x04: // RIGHT
+				RedLEDoff();
+				GreenLEDon();
+				BlueLEDoff();
+				break;
+			case 0x08: // DOWN-RIGHT
+				RedLEDon();
+				GreenLEDoff();
+				BlueLEDon();
+				break;
+			case 0x10: // DOWN
+				RedLEDoff();
+				GreenLEDoff();
+				BlueLEDon();
+				break;
+			case 0x20: // DOWN-LEFT
+				RedLEDoff();
+				GreenLEDon();
+				BlueLEDon();
+				break;
+			case 0x40: // LEFT
+				RedLEDon();
+				GreenLEDon();
+				BlueLEDon();
+				break;
+			case 0x80: // UP-LEFT
+				RedLEDon();
+				GreenLEDoff();
+				BlueLEDon();
+				break;
+			default:
+				RedLEDoff();
+				GreenLEDoff();
+				BlueLEDoff();
+		}
 	}
 }
 

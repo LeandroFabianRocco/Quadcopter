@@ -1,0 +1,4 @@
+fsl_pdb.c:68:6:PDB_Init	8	static
+fsl_pdb.c:100:6:PDB_Deinit	0	static
+fsl_pdb.c:123:6:PDB_GetDefaultConfig	8	static
+fsl_pdb.c:145:6:PDB_SetDACTriggerConfig	0	static

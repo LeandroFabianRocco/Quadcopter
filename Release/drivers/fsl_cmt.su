@@ -1,0 +1,8 @@
+fsl_cmt.c:89:6:CMT_GetDefaultConfig	8	static
+fsl_cmt.c:113:6:CMT_Init	8	static
+fsl_cmt.c:152:6:CMT_Deinit	0	static
+fsl_cmt.c:174:6:CMT_SetMode	12	static
+fsl_cmt.c:213:12:CMT_GetMode	0	static
+fsl_cmt.c:252:10:CMT_GetCMTFrequency	0	static
+fsl_cmt.c:302:6:CMT_SetModulateMarkSpace	0	static
+fsl_cmt.c:321:6:CMT_SetIroState	0	static
