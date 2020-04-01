@@ -7292,29 +7292,29 @@ END GROUP
                 0x0000000000008220                _image_size = (_image_end - _image_start)
 OUTPUT(Quadcopter.axf elf32-littlearm)
 
-.debug_info     0x0000000000000000    0x1c7c3
+.debug_info     0x0000000000000000    0x1c7c0
  .debug_info    0x0000000000000000      0x92e ./startup/startup_mk64f12.o
  .debug_info    0x000000000000092e      0x9b7 ./source/Delays.o
  .debug_info    0x00000000000012e5      0xb4b ./source/MPU6050.o
  .debug_info    0x0000000000001e30      0xa98 ./source/PWM_functions.o
- .debug_info    0x00000000000028c8     0x1348 ./source/Quadcopter.o
- .debug_info    0x0000000000003c10      0x68b ./source/RGB_LEDS.o
- .debug_info    0x000000000000429b       0x3c ./source/semihost_hardfault.o
- .debug_info    0x00000000000042d7     0x21b2 ./drivers/fsl_clock.o
- .debug_info    0x0000000000006489     0x25b0 ./drivers/fsl_dspi.o
- .debug_info    0x0000000000008a39     0x22d5 ./drivers/fsl_edma.o
- .debug_info    0x000000000000ad0e     0x26c8 ./drivers/fsl_enet.o
- .debug_info    0x000000000000d3d6     0x23ea ./drivers/fsl_flexcan.o
- .debug_info    0x000000000000f7c0     0x163d ./drivers/fsl_ftm.o
- .debug_info    0x0000000000010dfd      0x6e0 ./drivers/fsl_gpio.o
- .debug_info    0x00000000000114dd     0x1ef4 ./drivers/fsl_i2c.o
- .debug_info    0x00000000000133d1     0x2f0d ./drivers/fsl_sai.o
- .debug_info    0x00000000000162de     0x2206 ./drivers/fsl_sdhc.o
- .debug_info    0x00000000000184e4     0x1c98 ./drivers/fsl_uart.o
- .debug_info    0x000000000001a17c      0x69f ./device/system_MK64F12.o
- .debug_info    0x000000000001a81b      0xcd8 ./board/clock_config.o
- .debug_info    0x000000000001b4f3      0x5ec ./board/peripherals.o
- .debug_info    0x000000000001badf      0xce4 ./board/pin_mux.o
+ .debug_info    0x00000000000028c8     0x1345 ./source/Quadcopter.o
+ .debug_info    0x0000000000003c0d      0x68b ./source/RGB_LEDS.o
+ .debug_info    0x0000000000004298       0x3c ./source/semihost_hardfault.o
+ .debug_info    0x00000000000042d4     0x21b2 ./drivers/fsl_clock.o
+ .debug_info    0x0000000000006486     0x25b0 ./drivers/fsl_dspi.o
+ .debug_info    0x0000000000008a36     0x22d5 ./drivers/fsl_edma.o
+ .debug_info    0x000000000000ad0b     0x26c8 ./drivers/fsl_enet.o
+ .debug_info    0x000000000000d3d3     0x23ea ./drivers/fsl_flexcan.o
+ .debug_info    0x000000000000f7bd     0x163d ./drivers/fsl_ftm.o
+ .debug_info    0x0000000000010dfa      0x6e0 ./drivers/fsl_gpio.o
+ .debug_info    0x00000000000114da     0x1ef4 ./drivers/fsl_i2c.o
+ .debug_info    0x00000000000133ce     0x2f0d ./drivers/fsl_sai.o
+ .debug_info    0x00000000000162db     0x2206 ./drivers/fsl_sdhc.o
+ .debug_info    0x00000000000184e1     0x1c98 ./drivers/fsl_uart.o
+ .debug_info    0x000000000001a179      0x69f ./device/system_MK64F12.o
+ .debug_info    0x000000000001a818      0xcd8 ./board/clock_config.o
+ .debug_info    0x000000000001b4f0      0x5ec ./board/peripherals.o
+ .debug_info    0x000000000001badc      0xce4 ./board/pin_mux.o
 
 .debug_abbrev   0x0000000000000000     0x36a2
  .debug_abbrev  0x0000000000000000      0x17a ./startup/startup_mk64f12.o

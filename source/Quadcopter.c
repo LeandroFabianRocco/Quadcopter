@@ -66,7 +66,9 @@
 /* UART user callback */
 void UART_UserCallback(UART_Type *base, uart_handle_t *handle, status_t status, void *userData);
 
+void MotorUpdate(uint8_t throttle, uint8_t pitchPID, uint8_t rollPID);
 
+void commands_to_motors(uint8_t joystick);
 /*******************************************************************************
  * Variables declaration
  ******************************************************************************/
@@ -132,18 +134,39 @@ void UART_UserCallback(UART_Type *base, uart_handle_t *handle, status_t status, 
 
 
 /*******************************************************************************
- * 20 milliseconds interrupt
+ * Update motors values
  ******************************************************************************/
-/*void PIT_0_IRQHANDLER(void)
+void MotorUpdate(uint8_t throttle, uint8_t pitchPID, uint8_t rollPID)
 {
-	// Clear all PIT flags
-	PIT_ClearStatusFlags(PIT_PERIPHERAL, kPIT_Chnl_0, kPIT_TimerFlag);
-
-	pitflag = true;
-
-	__DSB();
-}*/
-
+	// Front motor
+	Mfront = throttle + pitchPID;// - yawPID;
+	if (Mfront_last != Mfront)
+	{
+		set_pwm_CnV(FTM0, Mfront, PWM_CH0);
+		Mfront_last = Mfront;
+	}
+	// Back motor
+	Mback = throttle - pitchPID; // - yawPID;
+	if (Mback_last != Mback)
+	{
+		set_pwm_CnV(FTM0, Mback, PWM_CH2);
+		Mback_last = Mback;
+	}
+	// Left motor
+	Mleft = throttle + rollPID; // + yawPID;
+	if (Mleft_last != Mleft)
+	{
+		set_pwm_CnV(FTM0, Mleft, PWM_CH1);
+		Mleft_last = Mleft;
+	}
+	// Right motor
+	Mright = throttle - rollPID; // + yawPID;
+	if (Mright_last != Mright)
+	{
+		set_pwm_CnV(FTM0, Mright, PWM_CH3);
+		Mright_last = Mright;
+	}
+}
 
 /*******************************************************************************
  * Update motors values as function of joystick values
@@ -198,43 +221,6 @@ void commands_to_motors(uint8_t joystick)
 			BlueLEDoff();
 	}
 }
-
-/*******************************************************************************
- * Update motors values
- ******************************************************************************/
-void MotorUpdate(uint8_t throttle, uint8_t pitchPID, uint8_t rollPID)
-{
-	// Front motor
-	Mfront = throttle + pitchPID;// - yawPID;
-	if (Mfront_last != Mfront)
-	{
-		set_pwm_CnV(FTM0, Mfront, PWM_CH0);
-		Mfront_last = Mfront;
-	}
-	// Back motor
-	Mback = throttle - pitchPID; // - yawPID;
-	if (Mback_last != Mback)
-	{
-		set_pwm_CnV(FTM0, Mback, PWM_CH2);
-		Mback_last = Mback;
-	}
-	// Left motor
-	Mleft = throttle + rollPID; // + yawPID;
-	if (Mleft_last != Mleft)
-	{
-		set_pwm_CnV(FTM0, Mleft, PWM_CH1);
-		Mleft_last = Mleft;
-	}
-	// Right motor
-	Mright = throttle - rollPID; // + yawPID;
-	if (Mright_last != Mright)
-	{
-		set_pwm_CnV(FTM0, Mright, PWM_CH3);
-		Mright_last = Mright;
-	}
-}
-
-
 
 /*******************************************************************************
  * MAIN function
