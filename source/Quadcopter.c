@@ -134,7 +134,7 @@ void UART_UserCallback(UART_Type *base, uart_handle_t *handle, status_t status, 
 /*******************************************************************************
  * 20 milliseconds interrupt
  ******************************************************************************/
-void PIT_0_IRQHANDLER(void)
+/*void PIT_0_IRQHANDLER(void)
 {
 	// Clear all PIT flags
 	PIT_ClearStatusFlags(PIT_PERIPHERAL, kPIT_Chnl_0, kPIT_TimerFlag);
@@ -142,13 +142,13 @@ void PIT_0_IRQHANDLER(void)
 	pitflag = true;
 
 	__DSB();
-}
+}*/
 
 
 /*******************************************************************************
  * Update motors values as function of joystick values
  ******************************************************************************/
-void commands_to_motors(uint8_t joistick)
+void commands_to_motors(uint8_t joystick)
 {
 	switch(joystick)
 	{
@@ -275,21 +275,14 @@ int main(void)
 	//FXOS8700CQ_Configure_Device();
 	//isThereAccelFX = FXOS8700CQ_ReadSensorWhoAmI();
 
-
-
-    //SysTick_DelayTicks(1000U);
-    // Start PIT interrupt for each 20ms if MPU sensor is found
-    if (isThereAccelMPU)
-    {
-    	PIT_StartTimer(PIT_PERIPHERAL, PIT_0);
-    }
-
 	// Main loop
 	while (1)
 	{
+		/*****************************************************************************************
+		 * Read commands from bluetooth module
+		 *****************************************************************************************/
 		if (!rxOnGoing)
 		{
-			PIT_StopTimer(PIT_PERIPHERAL, PIT_0);
 			rxOnGoing = true;
 			UART_TransferReceiveNonBlocking(UART4, &uartHandle, &receiveXfer, &receivedBytes);
 
@@ -304,19 +297,24 @@ int main(void)
 					}
 				}
 			}
-			PRINTF("joystick = 0x%x, throttle = %3d\r\n", joystick, throttle);
-			//PIT_StartTimer(PIT_PERIPHERAL, PIT_0);
+			//PRINTF("joystick = 0x%x, throttle = %3d\r\n", joystick, throttle);
+			//commands_to_motors(joystick);
 		}
-		commands_to_motors(joystick);
-		if ((pitflag == true) && (isThereAccelMPU))
+		/*****************************************************************************************
+		 * Read angles from MPU6050
+		 *****************************************************************************************/
+		if (isThereAccelMPU)
 		{
 			pitflag = false;
 			// Get angles
 			pitch = MPU6050_GetYAngle();
 			roll = MPU6050_GetXAngle();
 			PRINTF("roll = %4.2f, pitch = %4.2f\r\n", pitch, roll);
-			//MotorUpdate(throttle, pitchPID, rollPID);
 		}
+		/*****************************************************************************************
+		 * Update Motors throttle
+		 *****************************************************************************************/
+		MotorUpdate(throttle, pitchPID, rollPID);
 	}
 }
 

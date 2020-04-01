@@ -1,8 +1,4 @@
-fsl_pit.h:220:20:PIT_ClearStatusFlags	24	static
-fsl_pit.h:286:20:PIT_StartTimer	16	static
-fsl_pit.h:300:20:PIT_StopTimer	16	static
 Quadcopter.c:123:6:UART_UserCallback	24	static
-Quadcopter.c:137:6:PIT0_IRQHandler	8	static
 Quadcopter.c:151:6:commands_to_motors	16	static
 Quadcopter.c:205:6:MotorUpdate	16	static
-Quadcopter.c:242:5:main	64	static
+Quadcopter.c:242:5:main	72	static
