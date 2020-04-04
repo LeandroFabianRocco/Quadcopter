@@ -1,5 +1,5 @@
-Quadcopter.c:121:6:UART_UserCallback	40	static
-Quadcopter.c:141:6:MotorUpdate	16	static
-Quadcopter.c:176:6:get_J_and_T	16	static
-Quadcopter.c:217:6:commands_to_motors	16	static
-Quadcopter.c:271:5:main	56	static
+Quadcopter.c:116:6:UART_UserCallback	40	static
+Quadcopter.c:136:6:MotorUpdate	16	static
+Quadcopter.c:171:6:get_J_and_T	16	static
+Quadcopter.c:212:6:commands_to_motors	16	static
+Quadcopter.c:266:5:main	32	static

@@ -100,9 +100,6 @@ volatile float pitchPID = 0;
 // Roll PID output
 volatile float rollPID = 0;
 
-// Roll and pitch angles
-float pitchAngle_new = 0, pitchAngle_last = 0;
-float rollAngle_new = 0, rollAngle_last = 0;
 
 // MPU6050 Who_Am_I flag
 bool isThereAccelMPU = false;
@@ -112,8 +109,6 @@ bool isThereAccelFX = false;
 // Pitch and roll angles
 float pitch, roll;
 
-// UART4 flag
-bool uart4flag = false;
 
 /*******************************************************************************
  * UART4 interrupt handler
@@ -307,41 +302,28 @@ int main(void)
 	// Main loop
 	while (1)
 	{
-		SysTick_DelayTicks(50U);
-		/*****************************************************************************************
+		SysTick_DelayTicks(100U);
+		/******************************************************************
 		 * Read commands from bluetooth module
-		 *****************************************************************************************/
-		//if (!rxOnGoing)
-		//{
-			//rxOnGoing = true;
-			get_J_and_T();
-			//PRINTF("J = 0x%x, T = %3d\r\n", joystick, throttle);
-			/*PRINTF("0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x\r\n",
-							rxRingBuffer[0],
-							rxRingBuffer[1],
-							rxRingBuffer[2],
-							rxRingBuffer[3],
-							rxRingBuffer[4],
-							rxRingBuffer[5],
-							rxRingBuffer[6],
-							rxRingBuffer[7],
-							rxRingBuffer[8],
-							rxRingBuffer[9]);*/
-		//}
-		/*****************************************************************************************
+		 ******************************************************************/
+		get_J_and_T();
+		/******************************************************************
+		 * Update motors from commands
+		 ******************************************************************/
+		commands_to_motors(joystick);
+		/******************************************************************
 		 * Read angles from MPU6050
-		 *****************************************************************************************/
+		 ******************************************************************/
 		if (isThereAccelMPU)
 		{
-			// Get angles
 			pitch = MPU6050_GetYAngle();
 			roll = MPU6050_GetXAngle();
-			PRINTF("pitch = %4.2f, roll = %4.2f, throttle = %3d, joystick = 0x%x\r\n", pitch, roll, throttle, joystick);
+			//PRINTF("pitch = %4.2f, roll = %4.2f, throttle = %3d, joystick = 0x%x\r\n", pitch, roll, throttle, joystick);
 		}
-		/*****************************************************************************************
+		/******************************************************************
 		 * Update Motors throttle
-		 *****************************************************************************************/
-		//MotorUpdate(throttle, pitchPID, rollPID);
+		 ******************************************************************/
+		MotorUpdate(throttle, pitchPID, rollPID);
 	}
 }
 

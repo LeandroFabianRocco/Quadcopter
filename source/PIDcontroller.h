@@ -24,7 +24,7 @@
  *
  * @return action control for pitch angle
  *********************************************************************************************/
-float PitchPID(float pitch_new, float pitch_last);
+float getPitchPID(float pitch_new, float pitch_last);
 
 
 /*********************************************************************************************
@@ -35,9 +35,43 @@ float PitchPID(float pitch_new, float pitch_last);
  *
  * @return action control for roll angle
  *********************************************************************************************/
-float RollPID(float roll_new, float roll_last);
+float getRollPID(float roll_new, float roll_last);
 
 
+
+/*********************************************************************************************
+ * @brief Estimates the proportional error
+ *
+ * @param input angle
+ * @param output angle
+ *
+ * @return proportional error
+ *********************************************************************************************/
+float pError(float input, float output);
+
+
+
+/*********************************************************************************************
+ * @brief Estimates the integral error
+ *
+ * @param last integral error
+ * @param proportional error
+ * @param differential time between errors
+ *
+ * @return integral error
+ *********************************************************************************************/
+float iError(float last, float p_error, float dt);
+
+
+/*********************************************************************************************
+ * @brief Estimates the derivative error
+ *
+ * @param proportional error
+ * @param last proportional error
+ *
+ * @return derivative error
+ *********************************************************************************************/
+float dError(float p_error, float last_p_error);
 
 
 
