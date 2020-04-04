@@ -76,7 +76,7 @@ void commands_to_motors(uint8_t joystick);
 // UART4 variables
 uart_handle_t uartHandle;
 uint8_t rxRingBuffer[RX_RING_BUFFER_SIZE] = {0};
-volatile bool rxOnGoing = false;
+volatile bool rxOnGoing = true;
 
 // Joystick and throttle values
 uint8_t joystick, throttle;
@@ -122,9 +122,15 @@ void UART_UserCallback(UART_Type *base, uart_handle_t *handle, status_t status, 
 {
     userData = userData;
 
+    uart_transfer_t receiveXfer;
+    size_t receivedBytes;
+    receiveXfer.data     = rxRingBuffer;
+    receiveXfer.dataSize = RX_RING_BUFFER_SIZE;
+
     if (kStatus_UART_RxIdle == status)
     {
         rxOnGoing = false;
+        UART_TransferReceiveNonBlocking(UART4, &uartHandle, &receiveXfer, &receivedBytes);
     }
 }
 
@@ -163,6 +169,47 @@ void MotorUpdate(uint8_t throttle, uint8_t pitchPID, uint8_t rollPID)
 		Mright_last = Mright;
 	}
 }
+
+/*******************************************************************************
+ * Get Joystick and throttle values
+ ******************************************************************************/
+void get_J_and_T(void)
+{
+	uint8_t i, j, k;
+	for (i = 0; i < RX_RING_BUFFER_SIZE; i++)
+	{
+		if (rxRingBuffer[i] == 0x23)
+		{
+			j = i;
+		}
+		else if (rxRingBuffer[i] == 0x2F)
+		{
+			k = i;
+		}
+	}
+
+	if ((j == 7) && (k == 0))
+	{
+		throttle = rxRingBuffer[8];
+		joystick = rxRingBuffer[9];
+	}
+	else if ((j == 8) && (k == 1))
+	{
+		throttle = rxRingBuffer[9];
+		joystick = rxRingBuffer[0];
+	}
+	else if ((j == 9) && (k == 2))
+	{
+		throttle = rxRingBuffer[0];
+		joystick = rxRingBuffer[1];
+	}
+	else
+	{
+		throttle = rxRingBuffer[j+1];
+		joystick = rxRingBuffer[k-1];
+	}
+}
+
 
 /*******************************************************************************
  * Update motors values as function of joystick values
@@ -246,11 +293,11 @@ int main(void)
 	UART_Init(UART4, &config, UART_CLK_FREQ);
 	UART_TransferCreateHandle(UART4, &uartHandle, UART_UserCallback, NULL);
 	UART_TransferStartRingBuffer(UART4, &uartHandle, rxRingBuffer, RX_RING_BUFFER_SIZE);
-	uart_transfer_t receiveXfer;
+	/*uart_transfer_t receiveXfer;
 	size_t receivedBytes;
 	receiveXfer.data     = rxRingBuffer;
-	receiveXfer.dataSize = RX_RING_BUFFER_SIZE;
-	uint8_t i;
+	receiveXfer.dataSize = RX_RING_BUFFER_SIZE;*/
+	//uint8_t i;
 
 	// FXOS8700 initialization and configuration
 	//FXOS8700CQ_Init();
@@ -264,36 +311,23 @@ int main(void)
 		/*****************************************************************************************
 		 * Read commands from bluetooth module
 		 *****************************************************************************************/
-		if (!rxOnGoing)
-		{
-			rxOnGoing = true;
-			UART_TransferReceiveNonBlocking(UART4, &uartHandle, &receiveXfer, &receivedBytes);
-
-			for(i=0; i<10; i++)
-			{
-				if (rxRingBuffer[i] == 0x23)
-				{
-					if (i >= 7)
-					{
-						if (rxRingBuffer[i-7] == 0x2F)
-						{
-							joystick = rxRingBuffer[i+2];
-							throttle = rxRingBuffer[i+1];
-						}
-					}
-					else
-					{
-						if (rxRingBuffer[i+3] == 0x2F)
-						{
-							joystick = rxRingBuffer[i+2];
-							throttle = rxRingBuffer[i+1];
-						}
-					}
-				}
-			}
-			//PRINTF("joystick = 0x%x, throttle = %3d\r\n", joystick, throttle);
-			commands_to_motors(joystick);
-		}
+		//if (!rxOnGoing)
+		//{
+			//rxOnGoing = true;
+			get_J_and_T();
+			//PRINTF("J = 0x%x, T = %3d\r\n", joystick, throttle);
+			/*PRINTF("0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x\r\n",
+							rxRingBuffer[0],
+							rxRingBuffer[1],
+							rxRingBuffer[2],
+							rxRingBuffer[3],
+							rxRingBuffer[4],
+							rxRingBuffer[5],
+							rxRingBuffer[6],
+							rxRingBuffer[7],
+							rxRingBuffer[8],
+							rxRingBuffer[9]);*/
+		//}
 		/*****************************************************************************************
 		 * Read angles from MPU6050
 		 *****************************************************************************************/
