@@ -328,7 +328,7 @@ int main(void)
 		 ******************************************************************/
 		if (isThereAccelMPU)
 		{
-			pitchAngle = MPU6050_GetYAngle();
+			pitchData.angle = MPU6050_GetYAngle();
 			rollAngle = MPU6050_GetXAngle();
 			//PRINTF("pitch = %4.2f, roll = %4.2f, throttle = %3d, joystick = 0x%x\r\n", pitch, roll, throttle, joystick);
 		}
@@ -336,7 +336,7 @@ int main(void)
 		 * PID controller for pitch angle
 		 ******************************************************************/
 		pitchPID = getPitchPID(&pitchData);
-		PRINTF("pitchPID = %5.3f", pitchPID);
+		PRINTF("pitchPID = %5.3f\r\n", pitchPID);
 		/******************************************************************
 		 * Update Motors throttle
 		 ******************************************************************/
