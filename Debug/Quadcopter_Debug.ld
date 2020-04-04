@@ -6,7 +6,7 @@
  * Generated linker script file for MK64FN1M0xxx12
  * Created from linkscript.ldt by FMCreateLinkLibraries
  * Using Freemarker v2.3.23
- * MCUXpresso IDE v11.1.0 [Build 3209] [2019-12-12] on 01/04/2020 17:59:05
+ * MCUXpresso IDE v11.1.1 [Build 3241] [2020-03-02] on 04/04/2020 13:56:56
  */
 
 INCLUDE "Quadcopter_Debug_library.ld"
@@ -67,20 +67,19 @@ SECTIONS
     } > PROGRAM_FLASH
     /*
      * for exception handling/unwind - some Newlib functions (in common
-     * with C++ and STDC++) use this. 
+     * with C++ and STDC++) use this.
      */
-    .ARM.extab : ALIGN(8) 
+    .ARM.extab : ALIGN(8)
     {
         *(.ARM.extab* .gnu.linkonce.armextab.*)
     } > PROGRAM_FLASH
 
-    __exidx_start = .;
-
     .ARM.exidx : ALIGN(8)
     {
+        __exidx_start = .;
         *(.ARM.exidx* .gnu.linkonce.armexidx.*)
+        __exidx_end = .;
     } > PROGRAM_FLASH
-    __exidx_end = .;
  
     _etext = .;
         

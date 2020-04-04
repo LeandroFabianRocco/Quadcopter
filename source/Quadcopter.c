@@ -112,10 +112,6 @@ bool isThereAccelFX = false;
 // Pitch and roll angles
 float pitch, roll;
 
-
-// PIT flag
-bool pitflag = false;
-
 // UART4 flag
 bool uart4flag = false;
 
@@ -171,7 +167,7 @@ void MotorUpdate(uint8_t throttle, uint8_t pitchPID, uint8_t rollPID)
 /*******************************************************************************
  * Update motors values as function of joystick values
  ******************************************************************************/
-/*void commands_to_motors(uint8_t joystick)
+void commands_to_motors(uint8_t joystick)
 {
 	switch(joystick)
 	{
@@ -220,7 +216,7 @@ void MotorUpdate(uint8_t throttle, uint8_t pitchPID, uint8_t rollPID)
 			GreenLEDoff();
 			BlueLEDoff();
 	}
-}*/
+}
 
 /*******************************************************************************
  * MAIN function
@@ -264,6 +260,7 @@ int main(void)
 	// Main loop
 	while (1)
 	{
+		SysTick_DelayTicks(50U);
 		/*****************************************************************************************
 		 * Read commands from bluetooth module
 		 *****************************************************************************************/
@@ -276,78 +273,41 @@ int main(void)
 			{
 				if (rxRingBuffer[i] == 0x23)
 				{
-					if (rxRingBuffer[i+3] == 0x2F)
+					if (i >= 7)
 					{
-						joystick = rxRingBuffer[i+2];
-						throttle = rxRingBuffer[i+1];
+						if (rxRingBuffer[i-7] == 0x2F)
+						{
+							joystick = rxRingBuffer[i+2];
+							throttle = rxRingBuffer[i+1];
+						}
+					}
+					else
+					{
+						if (rxRingBuffer[i+3] == 0x2F)
+						{
+							joystick = rxRingBuffer[i+2];
+							throttle = rxRingBuffer[i+1];
+						}
 					}
 				}
 			}
 			//PRINTF("joystick = 0x%x, throttle = %3d\r\n", joystick, throttle);
-			//commands_to_motors(joystick);
+			commands_to_motors(joystick);
 		}
 		/*****************************************************************************************
 		 * Read angles from MPU6050
 		 *****************************************************************************************/
 		if (isThereAccelMPU)
 		{
-			pitflag = false;
 			// Get angles
 			pitch = MPU6050_GetYAngle();
 			roll = MPU6050_GetXAngle();
-			PRINTF("roll = %4.2f, pitch = %4.2f\r\n", pitch, roll);
+			PRINTF("pitch = %4.2f, roll = %4.2f, throttle = %3d, joystick = 0x%x\r\n", pitch, roll, throttle, joystick);
 		}
 		/*****************************************************************************************
 		 * Update Motors throttle
 		 *****************************************************************************************/
 		//MotorUpdate(throttle, pitchPID, rollPID);
-		switch(joystick)
-		{
-			case 0x01: // UP
-				RedLEDon();
-				GreenLEDoff();
-				BlueLEDoff();
-				break;
-			case 0x02: // UP-RIGHT
-				RedLEDon();
-				GreenLEDon();
-				BlueLEDoff();
-				break;
-			case 0x04: // RIGHT
-				RedLEDoff();
-				GreenLEDon();
-				BlueLEDoff();
-				break;
-			case 0x08: // DOWN-RIGHT
-				RedLEDon();
-				GreenLEDoff();
-				BlueLEDon();
-				break;
-			case 0x10: // DOWN
-				RedLEDoff();
-				GreenLEDoff();
-				BlueLEDon();
-				break;
-			case 0x20: // DOWN-LEFT
-				RedLEDoff();
-				GreenLEDon();
-				BlueLEDon();
-				break;
-			case 0x40: // LEFT
-				RedLEDon();
-				GreenLEDon();
-				BlueLEDon();
-				break;
-			case 0x80: // UP-LEFT
-				RedLEDon();
-				GreenLEDoff();
-				BlueLEDon();
-				break;
-			default:
-				RedLEDoff();
-				GreenLEDoff();
-				BlueLEDoff();
-		}
 	}
 }
 
