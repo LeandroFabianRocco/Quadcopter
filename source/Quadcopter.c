@@ -45,7 +45,7 @@
 #include "PWM_functions.h"
 #include "MPU6050.h"
 #include "FXOS8700CQ.h"
-//#include "PIDcontroller.h"
+#include "PIDcontroller.h"
 
 /*******************************************************************************
  * Variable definition
@@ -87,18 +87,20 @@ volatile uint8_t Mleft, Mleft_last;		// Left motor
 volatile uint8_t Mback, Mback_last;		// Back motor
 volatile uint8_t Mright, Mright_last;	// Right motor
 
-// Reference for pitch angle
+// Reference for pitch and roll angles
 volatile uint8_t pitch_ref = 0;
-
-// Reference for roll angle
 volatile uint8_t roll_ref = 0;
-
-
-// Pitch PID output
+// PID outputs for pitch and roll
 volatile float pitchPID = 0;
-
-// Roll PID output
 volatile float rollPID = 0;
+// Pitch and roll current angles
+volatile float pitchAngle, rollAngle;
+// Integral and proportional errors
+volatile float i_error = 0;
+volatile float p_error = 0;
+// Time differential
+volatile float dt;
+
 
 
 // MPU6050 Who_Am_I flag
@@ -106,8 +108,7 @@ bool isThereAccelMPU = false;
 // FXOS8700CQ Who_Am_I angles
 bool isThereAccelFX = false;
 
-// Pitch and roll angles
-float pitch, roll;
+
 
 
 /*******************************************************************************
@@ -316,10 +317,14 @@ int main(void)
 		 ******************************************************************/
 		if (isThereAccelMPU)
 		{
-			pitch = MPU6050_GetYAngle();
-			roll = MPU6050_GetXAngle();
+			pitchAngle = MPU6050_GetYAngle();
+			rollAngle = MPU6050_GetXAngle();
 			//PRINTF("pitch = %4.2f, roll = %4.2f, throttle = %3d, joystick = 0x%x\r\n", pitch, roll, throttle, joystick);
 		}
+		/******************************************************************
+		 * PID controller for pitch angle
+		 ******************************************************************/
+
 		/******************************************************************
 		 * Update Motors throttle
 		 ******************************************************************/

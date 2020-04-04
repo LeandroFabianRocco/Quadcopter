@@ -28,7 +28,7 @@ source/Quadcopter.o source/Quadcopter.d: ../source/Quadcopter.c \
  /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/drivers/fsl_clock.h \
  ../source/RGB_LEDS.h ../source/PWM_functions.h \
  /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/drivers/fsl_ftm.h \
- ../source/MPU6050.h ../source/FXOS8700CQ.h
+ ../source/MPU6050.h ../source/FXOS8700CQ.h ../source/PIDcontroller.h
 
 /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/board/board.h:
 
@@ -93,3 +93,5 @@ source/Quadcopter.o source/Quadcopter.d: ../source/Quadcopter.c \
 ../source/MPU6050.h:
 
 ../source/FXOS8700CQ.h:
+
+../source/PIDcontroller.h:
