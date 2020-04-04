@@ -14,28 +14,47 @@
 /*********************************************************************************************
  * @brief PID controller for pitch angle
  *
- * @param new pitch angle
- * @param last pitch angle
+ * @param input for controller --> reference
+ * @param output angle from quadcopter
+ * @param last integral error
+ * @param differential of time
+ * @param last proportional error
  *
  * @return action control for pitch angle
  *********************************************************************************************/
-float getPitchPID(float pitch_new, float pitch_last)
+float getPitchPID(struct pitchStruct *pitchData)
 {
+	float p_error = pError(pitchData->reference, pitchData->angle);
+	float i_error = iError(pitchData->last_iError, p_error, pitchData->dt);
+	float d_error = dError(p_error, pitchData->last_pError);
 
+	float pitchPIDoutput = KP_PITCH * p_error + KI_PITCH * i_error + KD_PITCH * d_error;
+
+	pitchData->last_iError = i_error;
+	pitchData->last_pError = p_error;
+
+	return pitchPIDoutput;
 }
 
 
 /*********************************************************************************************
  * @brief PID controller for roll angle
  *
- * @param new roll angle
- * @param last roll angle
+ * @param input for controller --> reference
+ * @param output angle from quadcopter
+ * @param last integral error
+ * @param differential of time
+ * @param last proportional error
  *
  * @return action control for roll angle
  *********************************************************************************************/
-float getRollPID(float roll_new, float roll_last)
+float getRollPID(float input, float output, float last_i_error, float dt, float last_p_error)
 {
-
+	float p_error = pError(input, output);
+	float i_error = iError(last_i_error, p_error, dt);
+	float d_error = dError(p_error, last_p_error);
+	float rollPIDoutput = KP_PITCH * p_error + KI_PITCH * i_error + KD_PITCH * d_error;
+	return rollPIDoutput;
 }
 
 

@@ -111,6 +111,8 @@ bool isThereAccelFX = false;
 
 
 
+
+
 /*******************************************************************************
  * UART4 interrupt handler
  ******************************************************************************/
@@ -300,6 +302,15 @@ int main(void)
 	//FXOS8700CQ_Configure_Device();
 	//isThereAccelFX = FXOS8700CQ_ReadSensorWhoAmI();
 
+
+
+	struct pitchStruct pitchData;
+	pitchData.reference = pitch_ref;
+	pitchData.angle = pitchAngle;
+	pitchData.last_iError = i_error;
+	pitchData.last_pError = p_error;
+	pitchData.dt = 0.1;
+
 	// Main loop
 	while (1)
 	{
@@ -324,7 +335,8 @@ int main(void)
 		/******************************************************************
 		 * PID controller for pitch angle
 		 ******************************************************************/
-
+		pitchPID = getPitchPID(&pitchData);
+		PRINTF("pitchPID = %5.3f", pitchPID);
 		/******************************************************************
 		 * Update Motors throttle
 		 ******************************************************************/

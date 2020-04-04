@@ -1,5 +1,5 @@
-PIDcontroller.c:22:7:getPitchPID	16	static
-PIDcontroller.c:36:7:getRollPID	16	static
-PIDcontroller.c:50:7:pError	16	static
-PIDcontroller.c:65:7:iError	24	static
-PIDcontroller.c:80:7:dError	16	static
+PIDcontroller.c:25:7:getPitchPID	40	static
+PIDcontroller.c:51:7:getRollPID	56	static
+PIDcontroller.c:69:7:pError	16	static
+PIDcontroller.c:84:7:iError	24	static
+PIDcontroller.c:99:7:dError	16	static
