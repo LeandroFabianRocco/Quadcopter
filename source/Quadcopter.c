@@ -46,6 +46,7 @@
 #include "MPU6050.h"
 #include "FXOS8700CQ.h"
 #include "PIDcontroller.h"
+#include "fsl_lptmr.h"
 
 /*******************************************************************************
  * Variable definition
@@ -60,6 +61,9 @@
 // Move constant
 #define MOOVE 10
 
+// LPTMR0 timer definitions
+#define LPTMR_SOURCE_CLOCK CLOCK_GetFreq(kCLOCK_LpoClk)
+#define LPTMR_USEC_COUNT 1000000U
 /*******************************************************************************
  * Prototypes
  ******************************************************************************/
@@ -109,7 +113,7 @@ bool isThereAccelMPU = false;
 bool isThereAccelFX = false;
 
 
-
+uint32_t LPTMRtime = 0;
 
 
 
@@ -282,6 +286,12 @@ int main(void)
 	MPU6050_Configure_Device();
 	isThereAccelMPU = MPU6050_ReadSensorWhoAmI();
 
+	// Initialization of low power timer
+	lptmr_config_t lptmrConfig;
+	LPTMR_GetDefaultConfig(&lptmrConfig);
+	LPTMR_Init(LPTMR0, &lptmrConfig);
+	LPTMR_SetTimerPeriod(LPTMR0, USEC_TO_COUNT(LPTMR_USEC_COUNT, LPTMR_SOURCE_CLOCK));
+
 	// UART4 configuration
 	uart_config_t config;
 	UART_GetDefaultConfig(&config);
@@ -328,13 +338,18 @@ int main(void)
 		 ******************************************************************/
 		if (isThereAccelMPU)
 		{
+			LPTMRtime = LPTMR_GetCurrentTimerCount(LPTMR0);
+			LPTMR_StopTimer(LPTMR0);
+			//PRINTF("Count = %5d\r\n", LPTMRtime);
 			pitchData.angle = MPU6050_GetYAngle();
 			rollAngle = MPU6050_GetXAngle();
+			LPTMR_StartTimer(LPTMR0);
 			//PRINTF("pitch = %4.2f, roll = %4.2f, throttle = %3d, joystick = 0x%x\r\n", pitch, roll, throttle, joystick);
 		}
 		/******************************************************************
 		 * PID controller for pitch angle
 		 ******************************************************************/
+		pitchData.dt = (float)(LPTMRtime) * 0.001;
 		pitchPID = getPitchPID(&pitchData);
 		PRINTF("pitchPID = %5.3f\r\n", pitchPID);
 		/******************************************************************
