@@ -313,7 +313,7 @@ int main(void)
 	//isThereAccelFX = FXOS8700CQ_ReadSensorWhoAmI();
 
 
-
+	// Pitch structure inicialization
 	struct pitchStruct pitchData;
 	pitchData.reference = pitch_ref;
 	pitchData.angle = pitchAngle;
@@ -321,7 +321,7 @@ int main(void)
 	pitchData.last_pError = p_error;
 	pitchData.dt = 0.1;
 
-
+	// Roll structure inicialization
 	struct rollStruct rollData;
 	rollData.reference = roll_ref;
 	rollData.angle = rollAngle;
@@ -361,7 +361,7 @@ int main(void)
 		pitchData.dt = dt_sec;
 		rollData.dt = dt_sec;
 		pitchPID = getPitchPID(&pitchData);
-		pitchPID = getRollPID(&rollData);
+		rollPID = getRollPID(&rollData);
 		//PRINTF("pitchPID = %5.3f\r\n", pitchPID);
 		/******************************************************************
 		 * Update Motors throttle
