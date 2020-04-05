@@ -20,7 +20,7 @@ The following images show the hardware used for this project, from the left to t
 
 ![NO IMAGE](https://github.com/leandroGHsoft/Quadcopter/blob/master/images/motor.jpg)![NO IMAGE](https://github.com/leandroGHsoft/Quadcopter/blob/master/images/esc.jpg)![NO IMAGE](https://github.com/leandroGHsoft/Quadcopter/blob/master/images/frdm-k64f.jpg)![NO IMAGE](https://github.com/leandroGHsoft/Quadcopter/blob/master/images/mpu6050.jpg)
 
-Below are some images of the quadrucopter being assembled.
+Below are some images of the quadcopter being assembled.
 
 ![NO IMAGE](https://github.com/leandroGHsoft/Quadcopter/blob/master/images/quad1.jpg)![NO IMAGE](https://github.com/leandroGHsoft/Quadcopter/blob/master/images/quad2.jpg)![NO IMAGE](https://github.com/leandroGHsoft/Quadcopter/blob/master/images/quad3.jpg)![NO IMAGE](https://github.com/leandroGHsoft/Quadcopter/blob/master/images/quad4.jpg)![NO IMAGE](https://github.com/leandroGHsoft/Quadcopter/blob/master/images/quad5.jpg)
 
