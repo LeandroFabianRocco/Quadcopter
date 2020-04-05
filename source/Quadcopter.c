@@ -70,7 +70,7 @@
 /* UART user callback */
 void UART_UserCallback(UART_Type *base, uart_handle_t *handle, status_t status, void *userData);
 
-void MotorUpdate(uint8_t throttle, uint8_t pitchPID, uint8_t rollPID);
+void MotorUpdate(uint8_t throttle, int8_t pitchPID, int8_t rollPID);
 
 void commands_to_motors(uint8_t joystick);
 /*******************************************************************************
@@ -86,10 +86,10 @@ volatile bool rxOnGoing = true;
 uint8_t joystick, throttle;
 
 // Variables to controlling the BLDC motors
-volatile uint8_t Mfront, Mfront_last;	// Front motor
-volatile uint8_t Mleft, Mleft_last;		// Left motor
-volatile uint8_t Mback, Mback_last;		// Back motor
-volatile uint8_t Mright, Mright_last;	// Right motor
+volatile int8_t Mfront, Mfront_last;	// Front motor
+volatile int8_t Mleft, Mleft_last;		// Left motor
+volatile int8_t Mback, Mback_last;		// Back motor
+volatile int8_t Mright, Mright_last;	// Right motor
 
 // Reference for pitch and roll angles
 volatile uint8_t pitch_ref = 0;
@@ -103,7 +103,7 @@ volatile float pitchAngle, rollAngle;
 volatile float i_error = 0;
 volatile float p_error = 0;
 // Time differential
-volatile float dt;
+volatile float dt, dt_sec;
 
 
 
@@ -140,7 +140,7 @@ void UART_UserCallback(UART_Type *base, uart_handle_t *handle, status_t status, 
 /*******************************************************************************
  * Update motors values
  ******************************************************************************/
-void MotorUpdate(uint8_t throttle, uint8_t pitchPID, uint8_t rollPID)
+void MotorUpdate(uint8_t throttle, int8_t pitchPID, int8_t rollPID)
 {
 	// Front motor
 	Mfront = throttle + pitchPID;// - yawPID;
@@ -321,6 +321,14 @@ int main(void)
 	pitchData.last_pError = p_error;
 	pitchData.dt = 0.1;
 
+
+	struct rollStruct rollData;
+	rollData.reference = roll_ref;
+	rollData.angle = rollAngle;
+	rollData.last_iError = i_error;
+	rollData.last_pError = p_error;
+	rollData.dt = 0.1;
+
 	// Main loop
 	while (1)
 	{
@@ -341,28 +349,28 @@ int main(void)
 			LPTMRtime = LPTMR_GetCurrentTimerCount(LPTMR0);
 			LPTMR_StopTimer(LPTMR0);
 			//PRINTF("Count = %5d\r\n", LPTMRtime);
-			pitchData.angle = MPU6050_GetYAngle();
-			rollAngle = MPU6050_GetXAngle();
+			rollData.angle = MPU6050_GetYAngle();
+			pitchData.angle = MPU6050_GetXAngle();
 			LPTMR_StartTimer(LPTMR0);
-			PRINTF("%4.2f,%4.2f\r\n", pitchData.angle, rollAngle);
+			//PRINTF("%4.2f,%4.2f\r\n", pitchData.angle, rollAngle);
 		}
 		/******************************************************************
 		 * PID controller for pitch angle
 		 ******************************************************************/
-		pitchData.dt = (float)(LPTMRtime) * 0.001;
+		dt_sec = (float)(LPTMRtime) * 0.001;
+		pitchData.dt = dt_sec;
+		rollData.dt = dt_sec;
 		pitchPID = getPitchPID(&pitchData);
+		pitchPID = getRollPID(&rollData);
 		//PRINTF("pitchPID = %5.3f\r\n", pitchPID);
 		/******************************************************************
 		 * Update Motors throttle
 		 ******************************************************************/
 		MotorUpdate(throttle, pitchPID, rollPID);
+
+		PRINTF("front = %3d, back = %3d, left = %3d, right = %3d\r\n", Mfront, Mback, Mleft, Mright);
 	}
 }
-
-
-
-
-
 
 
 

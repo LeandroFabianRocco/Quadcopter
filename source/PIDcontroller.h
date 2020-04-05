@@ -15,8 +15,8 @@
 #define ROLL_REFERENCE	0U
 
 #define KP_PITCH	1
-#define KI_PITCH	0.5
-#define KD_PITCH	5
+#define KI_PITCH	1
+#define KD_PITCH	1
 
 #define KP_ROLL		0.5
 #define KI_ROLL		0.5
@@ -24,7 +24,7 @@
 
 
 /*******************************************************************************
- * pitch structure definition
+ * Pitch and Roll structures definition
  ******************************************************************************/
 struct pitchStruct{
 	float reference;
@@ -35,15 +35,19 @@ struct pitchStruct{
 };
 
 
+struct rollStruct{
+	float reference;
+	float angle;
+	float last_iError;
+	float last_pError;
+	float dt;
+};
+
 
 /*********************************************************************************************
  * @brief PID controller for pitch angle
  *
- * @param input for controller --> reference
- * @param output angle from quadcopter
- * @param last integral error
- * @param differential of time
- * @param last proportional error
+ * @param Pitch data structure
  *
  * @return action control for pitch angle
  *********************************************************************************************/
@@ -53,15 +57,11 @@ float getPitchPID(struct pitchStruct *pitchData);
 /*********************************************************************************************
  * @brief PID controller for roll angle
  *
- * @param input for controller --> reference
- * @param output angle from quadcopter
- * @param last integral error
- * @param differential of time
- * @param last proportional error
+ * @param Roll data structure
  *
  * @return action control for roll angle
  *********************************************************************************************/
-float getRollPID(float input, float output, float last_i_error, float dt, float last_p_error);
+float getRollPID(struct rollStruct *rollData);
 
 
 
