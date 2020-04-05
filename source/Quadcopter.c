@@ -344,14 +344,14 @@ int main(void)
 			pitchData.angle = MPU6050_GetYAngle();
 			rollAngle = MPU6050_GetXAngle();
 			LPTMR_StartTimer(LPTMR0);
-			//PRINTF("pitch = %4.2f, roll = %4.2f, throttle = %3d, joystick = 0x%x\r\n", pitch, roll, throttle, joystick);
+			PRINTF("%4.2f,%4.2f\r\n", pitchData.angle, rollAngle);
 		}
 		/******************************************************************
 		 * PID controller for pitch angle
 		 ******************************************************************/
 		pitchData.dt = (float)(LPTMRtime) * 0.001;
 		pitchPID = getPitchPID(&pitchData);
-		PRINTF("pitchPID = %5.3f\r\n", pitchPID);
+		//PRINTF("pitchPID = %5.3f\r\n", pitchPID);
 		/******************************************************************
 		 * Update Motors throttle
 		 ******************************************************************/

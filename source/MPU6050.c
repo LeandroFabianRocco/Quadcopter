@@ -327,7 +327,7 @@ float MPU6050_GetXAngle(void)
 	float root = sqrtf(sum_of_squares);
 	float Xangle = atanf(xyz_accel[1] / root) * 57.2957;
 
-	return Xangle;
+	return Xangle - 1.8104;
 }
 
 
@@ -346,7 +346,7 @@ float MPU6050_GetYAngle(void)
 	float root = sqrtf(sum_of_squares);
 	float Yangle = atanf(xyz_accel[0] / root) * 57.2957;
 
-	return Yangle;
+	return Yangle + 3.4232;
 }
 
 
