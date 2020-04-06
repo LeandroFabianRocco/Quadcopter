@@ -357,6 +357,8 @@ int main(void)
 			dt_sec = (float)(LPTMRtime) * 0.001;
 			mpu_angles.dt = dt_sec;
 			MPU6050_ComplementaryFilterAngles(&mpu_angles);
+			rollData.angle = mpu_angles.y;
+			pitchData.angle = mpu_angles.x;
 			//rollData.angle = MPU6050_GetYAngle();
 			//pitchData.angle = MPU6050_GetXAngle();
 			LPTMR_StartTimer(LPTMR0);
