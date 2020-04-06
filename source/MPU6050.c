@@ -342,6 +342,7 @@ float MPU6050_GetYAngle(void)
 {
 	int16_t xyz_accel[3];
 	MPU6050_Read_Accel_Data(I2C1, MPU6050_DEVICE_ADDRESS_0, xyz_accel);
+
 	float sum_of_squares = powf((float)xyz_accel[1], 2) + powf((float)xyz_accel[2], 2);
 	float root = sqrtf(sum_of_squares);
 	float Yangle = atanf(xyz_accel[0] / root) * 57.2957;
@@ -353,15 +354,11 @@ float MPU6050_GetYAngle(void)
 /*********************************************************************************************
  * @brief Get X and Y angles with complementary filter
  *
- * @param previous X angle
- * @param previous Y angle
- * @param differential time between measures
- * @param new X angle pointer
- * @param new y angle pointer
+ * @param mpu_angles structure
  *
  * @return void
  *********************************************************************************************/
-void MPU6050_ComplementaryFilterAngles(float x_prev, float y_prev, float dt, float *x_new, float *y_new)
+void MPU6050_ComplementaryFilterAngles(struct MPU6050_angles *mpu_angles)
 {
 	float x_angle = MPU6050_GetXAngle();
 	float y_angle = MPU6050_GetYAngle();
@@ -370,8 +367,8 @@ void MPU6050_ComplementaryFilterAngles(float x_prev, float y_prev, float dt, flo
 
 	MPU6050_GetAngularVelocity(omega);
 
-	*x_new = 0.8 * (x_prev + omega[0] * dt) + 0.2 * x_angle;
-	*y_new = 0.8 * (y_prev + omega[1] * dt) + 0.2 * y_angle;
+	mpu_angles->x = 0.8 * (mpu_angles->x_last + omega[0] * mpu_angles->dt) + 0.2 * x_angle;
+	mpu_angles->y = 0.8 * (mpu_angles->y_last + omega[1] * mpu_angles->dt) + 0.2 * y_angle;
 }
 
 

@@ -12,6 +12,18 @@
 #include "math.h"
 
 /**********************************************************
+ * Estructures definitions
+ *********************************************************/
+struct MPU6050_angles{
+	float x;
+	float y;
+	float x_last;
+	float y_last;
+	float dt;
+};
+
+
+/**********************************************************
  * MPU6050 registers
  *********************************************************/
 // Sensitivity scale factor
@@ -239,15 +251,11 @@ float MPU6050_GetYAngle(void);
 /*********************************************************************************************
  * @brief Get X and Y angles with complementary filter
  *
- * @param previous X angle
- * @param previous Y angle
- * @param diferential time between measures
- * @param new X angle pointer
- * @param new y angle pointer
+ * @param mpu_angles structure
  *
  * @return void
  *********************************************************************************************/
-void MPU6050_ComplementaryFilterAngles(float x_prev, float y_prev, float dt, float *x_new, float *y_new);
+void MPU6050_ComplementaryFilterAngles(struct MPU6050_angles *mpu_angles);
 
 
 #endif /* MPU6050_H_ */

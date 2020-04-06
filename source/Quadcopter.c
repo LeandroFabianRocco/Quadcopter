@@ -312,6 +312,14 @@ int main(void)
 	//FXOS8700CQ_Configure_Device();
 	//isThereAccelFX = FXOS8700CQ_ReadSensorWhoAmI();
 
+	// MPU6050 angles structure
+	struct MPU6050_angles mpu_angles;
+	mpu_angles.x = 0;
+	mpu_angles.y = 0;
+	mpu_angles.x_last = 0;
+	mpu_angles.y_last = 0;
+	mpu_angles.dt = 0.01;
+
 
 	// Pitch structure inicialization
 	struct pitchStruct pitchData;
@@ -348,16 +356,17 @@ int main(void)
 		{
 			LPTMRtime = LPTMR_GetCurrentTimerCount(LPTMR0);
 			LPTMR_StopTimer(LPTMR0);
-			//PRINTF("Count = %5d\r\n", LPTMRtime);
-			rollData.angle = MPU6050_GetYAngle();
-			pitchData.angle = MPU6050_GetXAngle();
+			dt_sec = (float)(LPTMRtime) * 0.001;
+			mpu_angles.dt = dt_sec;
+			MPU6050_ComplementaryFilterAngles(&mpu_angles);
+			//rollData.angle = MPU6050_GetYAngle();
+			//pitchData.angle = MPU6050_GetXAngle();
 			LPTMR_StartTimer(LPTMR0);
 			//PRINTF("%4.2f,%4.2f\r\n", pitchData.angle, rollAngle);
 		}
 		/******************************************************************
 		 * PID controller for pitch angle
 		 ******************************************************************/
-		dt_sec = (float)(LPTMRtime) * 0.001;
 		pitchData.dt = dt_sec;
 		rollData.dt = dt_sec;
 		pitchPID = getPitchPID(&pitchData);
