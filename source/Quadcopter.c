@@ -316,8 +316,6 @@ int main(void)
 	struct MPU6050_angles mpu_angles;
 	mpu_angles.x = 0;
 	mpu_angles.y = 0;
-	mpu_angles.x_last = 0;
-	mpu_angles.y_last = 0;
 	mpu_angles.dt = 0.01;
 
 

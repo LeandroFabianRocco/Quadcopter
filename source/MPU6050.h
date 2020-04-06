@@ -17,8 +17,6 @@
 struct MPU6050_angles{
 	float x;
 	float y;
-	float x_last;
-	float y_last;
 	float dt;
 };
 

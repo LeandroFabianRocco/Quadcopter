@@ -367,8 +367,10 @@ void MPU6050_ComplementaryFilterAngles(struct MPU6050_angles *mpu_angles)
 
 	MPU6050_GetAngularVelocity(omega);
 
-	mpu_angles->x = 0.8 * (mpu_angles->x_last + omega[0] * mpu_angles->dt) + 0.2 * x_angle;
-	mpu_angles->y = 0.8 * (mpu_angles->y_last + omega[1] * mpu_angles->dt) + 0.2 * y_angle;
+	mpu_angles->x = 0.8 * (mpu_angles->x + omega[0] * mpu_angles->dt) + 0.2 * x_angle;
+	mpu_angles->y = 0.8 * (mpu_angles->y + omega[1] * mpu_angles->dt) + 0.2 * y_angle;
+
+
 }
 
 
