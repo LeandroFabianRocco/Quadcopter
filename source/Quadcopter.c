@@ -44,7 +44,7 @@
 #include "RGB_LEDS.h"
 #include "PWM_functions.h"
 #include "MPU6050.h"
-#include "FXOS8700CQ.h"
+//#include "FXOS8700CQ.h"
 #include "PIDcontroller.h"
 #include "fsl_lptmr.h"
 
@@ -136,41 +136,6 @@ void UART_UserCallback(UART_Type *base, uart_handle_t *handle, status_t status, 
     }
 }
 
-
-/*******************************************************************************
- * Update motors values
- ******************************************************************************/
-void MotorUpdate(uint8_t throttle, int8_t pitchPID, int8_t rollPID)
-{
-	// Front motor
-	Mfront = throttle + pitchPID;// - yawPID;
-	if (Mfront_last != Mfront)
-	{
-		set_pwm_CnV(FTM0, Mfront, PWM_CH0);
-		Mfront_last = Mfront;
-	}
-	// Back motor
-	Mback = throttle - pitchPID; // - yawPID;
-	if (Mback_last != Mback)
-	{
-		set_pwm_CnV(FTM0, Mback, PWM_CH2);
-		Mback_last = Mback;
-	}
-	// Left motor
-	Mleft = throttle + rollPID; // + yawPID;
-	if (Mleft_last != Mleft)
-	{
-		set_pwm_CnV(FTM0, Mleft, PWM_CH1);
-		Mleft_last = Mleft;
-	}
-	// Right motor
-	Mright = throttle - rollPID; // + yawPID;
-	if (Mright_last != Mright)
-	{
-		set_pwm_CnV(FTM0, Mright, PWM_CH3);
-		Mright_last = Mright;
-	}
-}
 
 /*******************************************************************************
  * Get Joystick and throttle values
@@ -267,6 +232,43 @@ void commands_to_motors(uint8_t joystick)
 	}
 }
 
+
+/*******************************************************************************
+ * Update motors values
+ ******************************************************************************/
+void MotorUpdate(uint8_t throttle, int8_t pitchPID, int8_t rollPID)
+{
+	// Front motor
+	Mfront = throttle + pitchPID;// - yawPID;
+	//if (Mfront_last != Mfront)
+	//{
+		set_pwm_CnV(FTM0, Mfront, PWM_CH0);
+		//Mfront_last = Mfront;
+	//}
+	// Back motor
+	Mback = throttle - pitchPID; // - yawPID;
+	//if (Mback_last != Mback)
+	//{
+		set_pwm_CnV(FTM0, Mback, PWM_CH2);
+		//Mback_last = Mback;
+	//}
+	// Left motor
+	Mleft = throttle + rollPID; // + yawPID;
+	//if (Mleft_last != Mleft)
+	//{
+		set_pwm_CnV(FTM0, Mleft, PWM_CH1);
+		//Mleft_last = Mleft;
+	//}
+	// Right motor
+	Mright = throttle - rollPID; // + yawPID;
+	//if (Mright_last != Mright)
+	//{
+		set_pwm_CnV(FTM0, Mright, PWM_CH3);
+		//Mright_last = Mright;
+	//}
+}
+
+
 /*******************************************************************************
  * MAIN function
  ******************************************************************************/
@@ -362,7 +364,7 @@ int main(void)
 			//rollData.angle = MPU6050_GetYAngle();
 			//pitchData.angle = MPU6050_GetXAngle();
 			LPTMR_StartTimer(LPTMR0);
-			PRINTF("pitch = %4.2f, roll = %4.2f\r\n", pitchData.angle, rollData.angle);
+			//PRINTF("pitch = %4.2f, roll = %4.2f\r\n", pitchData.angle, rollData.angle);
 		}
 		/******************************************************************
 		 * PID controller for pitch angle
@@ -371,12 +373,11 @@ int main(void)
 		rollData.dt = dt_sec;
 		pitchPID = getPitchPID(&pitchData);
 		rollPID = getRollPID(&rollData);
-		//PRINTF("pitchPID = %5.3f\r\n", pitchPID);
+		PRINTF("pitchPID = %5.3f, rollPID = %5.3f\r\n", pitchPID, rollPID);
 		/******************************************************************
 		 * Update Motors throttle
 		 ******************************************************************/
 		MotorUpdate(throttle, pitchPID, rollPID);
-
 		//PRINTF("front = %3d, back = %3d, left = %3d, right = %3d\r\n", Mfront, Mback, Mleft, Mright);
 	}
 }

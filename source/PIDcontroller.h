@@ -14,13 +14,13 @@
 #define PITCH_REFERENCE	0U
 #define ROLL_REFERENCE	0U
 
-#define KP_PITCH	0.5
-#define KI_PITCH	0.1
-#define KD_PITCH	0.1
+#define KP_PITCH	2
+#define KI_PITCH	0
+#define KD_PITCH	0
 
-#define KP_ROLL		0.5
-#define KI_ROLL		0.1
-#define KD_ROLL		0.1
+#define KP_ROLL		2
+#define KI_ROLL		0
+#define KD_ROLL		0
 
 
 /*******************************************************************************
