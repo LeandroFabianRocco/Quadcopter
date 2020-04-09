@@ -24,6 +24,11 @@ struct MPU6050_angles{
 /**********************************************************
  * MPU6050 registers
  *********************************************************/
+
+// Complementary filter alpha
+#define ALPHA	0.2
+
+
 // Sensitivity scale factor
 #define MPU6050_ACCEL_FACTOR		16384.0
 #define MPU6050_GYRO_FACTOR			131.0

@@ -574,7 +574,7 @@ Discarded input sections
  .debug_macro   0x0000000000000000       0x32 ./source/Quadcopter.o
  .debug_macro   0x0000000000000000       0x34 ./source/Quadcopter.o
  .debug_macro   0x0000000000000000       0xc4 ./source/Quadcopter.o
- .debug_macro   0x0000000000000000      0x214 ./source/Quadcopter.o
+ .debug_macro   0x0000000000000000      0x21a ./source/Quadcopter.o
  .debug_macro   0x0000000000000000       0x3a ./source/Quadcopter.o
  .group         0x0000000000000000        0xc ./source/RGB_LEDS.o
  .group         0x0000000000000000        0xc ./source/RGB_LEDS.o
@@ -7440,59 +7440,59 @@ OUTPUT(Quadcopter.axf elf32-littlearm)
  .debug_ranges  0x00000000000015e8       0x28 ./board/peripherals.o
  .debug_ranges  0x0000000000001610       0x78 ./board/pin_mux.o
 
-.debug_macro    0x0000000000000000     0x2ac8
+.debug_macro    0x0000000000000000     0x2ace
  .debug_macro   0x0000000000000000       0x29 ./startup/startup_mk64f12.o
  .debug_macro   0x0000000000000029       0xfe ./source/Delays.o
  .debug_macro   0x0000000000000127       0x1c ./source/Delays.o
  .debug_macro   0x0000000000000143       0x22 ./source/Delays.o
  .debug_macro   0x0000000000000165      0x115 ./source/MPU6050.o
  .debug_macro   0x000000000000027a       0xc4 ./source/MPU6050.o
- .debug_macro   0x000000000000033e      0x214 ./source/MPU6050.o
- .debug_macro   0x0000000000000552       0x1a ./source/PIDcontroller.o
- .debug_macro   0x000000000000056c       0x3a ./source/PIDcontroller.o
- .debug_macro   0x00000000000005a6      0x16d ./source/PWM_functions.o
- .debug_macro   0x0000000000000713      0x28e ./source/PWM_functions.o
- .debug_macro   0x00000000000009a1       0x16 ./source/PWM_functions.o
- .debug_macro   0x00000000000009b7       0x10 ./source/PWM_functions.o
- .debug_macro   0x00000000000009c7       0x16 ./source/PWM_functions.o
- .debug_macro   0x00000000000009dd      0x1c7 ./source/PWM_functions.o
- .debug_macro   0x0000000000000ba4       0x40 ./source/PWM_functions.o
- .debug_macro   0x0000000000000be4       0x34 ./source/PWM_functions.o
- .debug_macro   0x0000000000000c18      0x22b ./source/Quadcopter.o
- .debug_macro   0x0000000000000e43       0xa0 ./source/Quadcopter.o
- .debug_macro   0x0000000000000ee3      0x1f1 ./source/Quadcopter.o
- .debug_macro   0x00000000000010d4       0x22 ./source/Quadcopter.o
- .debug_macro   0x00000000000010f6       0x28 ./source/Quadcopter.o
- .debug_macro   0x000000000000111e       0x2e ./source/Quadcopter.o
- .debug_macro   0x000000000000114c       0x10 ./source/Quadcopter.o
- .debug_macro   0x000000000000115c       0x46 ./source/Quadcopter.o
- .debug_macro   0x00000000000011a2       0x10 ./source/Quadcopter.o
- .debug_macro   0x00000000000011b2      0x2d8 ./source/Quadcopter.o
- .debug_macro   0x000000000000148a       0x10 ./source/Quadcopter.o
- .debug_macro   0x000000000000149a      0x136 ./source/RGB_LEDS.o
- .debug_macro   0x00000000000015d0       0x11 ./source/semihost_hardfault.o
- .debug_macro   0x00000000000015e1      0x1ba ./drivers/fsl_clock.o
- .debug_macro   0x000000000000179b      0x103 ./drivers/fsl_dspi.o
- .debug_macro   0x000000000000189e       0x3a ./drivers/fsl_dspi.o
- .debug_macro   0x00000000000018d8      0x109 ./drivers/fsl_edma.o
- .debug_macro   0x00000000000019e1       0x10 ./drivers/fsl_edma.o
- .debug_macro   0x00000000000019f1      0x1db ./drivers/fsl_enet.o
- .debug_macro   0x0000000000001bcc       0xc3 ./drivers/fsl_enet.o
- .debug_macro   0x0000000000001c8f      0x1ab ./drivers/fsl_flexcan.o
- .debug_macro   0x0000000000001e3a       0xd0 ./drivers/fsl_flexcan.o
- .debug_macro   0x0000000000001f0a      0x104 ./drivers/fsl_ftm.o
- .debug_macro   0x000000000000200e      0x104 ./drivers/fsl_gpio.o
- .debug_macro   0x0000000000002112      0x103 ./drivers/fsl_i2c.o
- .debug_macro   0x0000000000002215      0x104 ./drivers/fsl_lptmr.o
- .debug_macro   0x0000000000002319      0x109 ./drivers/fsl_sai.o
- .debug_macro   0x0000000000002422       0x11 ./drivers/fsl_sai.o
- .debug_macro   0x0000000000002433      0x121 ./drivers/fsl_sdhc.o
- .debug_macro   0x0000000000002554       0x64 ./drivers/fsl_sdhc.o
- .debug_macro   0x00000000000025b8      0x10a ./drivers/fsl_uart.o
- .debug_macro   0x00000000000026c2       0x98 ./device/system_MK64F12.o
- .debug_macro   0x000000000000275a      0x15f ./board/clock_config.o
- .debug_macro   0x00000000000028b9      0x106 ./board/peripherals.o
- .debug_macro   0x00000000000029bf      0x109 ./board/pin_mux.o
+ .debug_macro   0x000000000000033e      0x21a ./source/MPU6050.o
+ .debug_macro   0x0000000000000558       0x1a ./source/PIDcontroller.o
+ .debug_macro   0x0000000000000572       0x3a ./source/PIDcontroller.o
+ .debug_macro   0x00000000000005ac      0x16d ./source/PWM_functions.o
+ .debug_macro   0x0000000000000719      0x28e ./source/PWM_functions.o
+ .debug_macro   0x00000000000009a7       0x16 ./source/PWM_functions.o
+ .debug_macro   0x00000000000009bd       0x10 ./source/PWM_functions.o
+ .debug_macro   0x00000000000009cd       0x16 ./source/PWM_functions.o
+ .debug_macro   0x00000000000009e3      0x1c7 ./source/PWM_functions.o
+ .debug_macro   0x0000000000000baa       0x40 ./source/PWM_functions.o
+ .debug_macro   0x0000000000000bea       0x34 ./source/PWM_functions.o
+ .debug_macro   0x0000000000000c1e      0x22b ./source/Quadcopter.o
+ .debug_macro   0x0000000000000e49       0xa0 ./source/Quadcopter.o
+ .debug_macro   0x0000000000000ee9      0x1f1 ./source/Quadcopter.o
+ .debug_macro   0x00000000000010da       0x22 ./source/Quadcopter.o
+ .debug_macro   0x00000000000010fc       0x28 ./source/Quadcopter.o
+ .debug_macro   0x0000000000001124       0x2e ./source/Quadcopter.o
+ .debug_macro   0x0000000000001152       0x10 ./source/Quadcopter.o
+ .debug_macro   0x0000000000001162       0x46 ./source/Quadcopter.o
+ .debug_macro   0x00000000000011a8       0x10 ./source/Quadcopter.o
+ .debug_macro   0x00000000000011b8      0x2d8 ./source/Quadcopter.o
+ .debug_macro   0x0000000000001490       0x10 ./source/Quadcopter.o
+ .debug_macro   0x00000000000014a0      0x136 ./source/RGB_LEDS.o
+ .debug_macro   0x00000000000015d6       0x11 ./source/semihost_hardfault.o
+ .debug_macro   0x00000000000015e7      0x1ba ./drivers/fsl_clock.o
+ .debug_macro   0x00000000000017a1      0x103 ./drivers/fsl_dspi.o
+ .debug_macro   0x00000000000018a4       0x3a ./drivers/fsl_dspi.o
+ .debug_macro   0x00000000000018de      0x109 ./drivers/fsl_edma.o
+ .debug_macro   0x00000000000019e7       0x10 ./drivers/fsl_edma.o
+ .debug_macro   0x00000000000019f7      0x1db ./drivers/fsl_enet.o
+ .debug_macro   0x0000000000001bd2       0xc3 ./drivers/fsl_enet.o
+ .debug_macro   0x0000000000001c95      0x1ab ./drivers/fsl_flexcan.o
+ .debug_macro   0x0000000000001e40       0xd0 ./drivers/fsl_flexcan.o
+ .debug_macro   0x0000000000001f10      0x104 ./drivers/fsl_ftm.o
+ .debug_macro   0x0000000000002014      0x104 ./drivers/fsl_gpio.o
+ .debug_macro   0x0000000000002118      0x103 ./drivers/fsl_i2c.o
+ .debug_macro   0x000000000000221b      0x104 ./drivers/fsl_lptmr.o
+ .debug_macro   0x000000000000231f      0x109 ./drivers/fsl_sai.o
+ .debug_macro   0x0000000000002428       0x11 ./drivers/fsl_sai.o
+ .debug_macro   0x0000000000002439      0x121 ./drivers/fsl_sdhc.o
+ .debug_macro   0x000000000000255a       0x64 ./drivers/fsl_sdhc.o
+ .debug_macro   0x00000000000025be      0x10a ./drivers/fsl_uart.o
+ .debug_macro   0x00000000000026c8       0x98 ./device/system_MK64F12.o
+ .debug_macro   0x0000000000002760      0x15f ./board/clock_config.o
+ .debug_macro   0x00000000000028bf      0x106 ./board/peripherals.o
+ .debug_macro   0x00000000000029c5      0x109 ./board/pin_mux.o
 
 .debug_line     0x0000000000000000    0x1064a
  .debug_line    0x0000000000000000      0x90e ./startup/startup_mk64f12.o
@@ -7520,54 +7520,54 @@ OUTPUT(Quadcopter.axf elf32-littlearm)
  .debug_line    0x000000000000fc69      0x381 ./board/peripherals.o
  .debug_line    0x000000000000ffea      0x660 ./board/pin_mux.o
 
-.debug_str      0x0000000000000000    0x8d511
+.debug_str      0x0000000000000000    0x8d51b
  .debug_str     0x0000000000000000     0x365e ./startup/startup_mk64f12.o
                                        0x3711 (size before relaxing)
  .debug_str     0x000000000000365e    0x76efb ./source/Delays.o
                                       0x79ea9 (size before relaxing)
- .debug_str     0x000000000007a559     0x1509 ./source/MPU6050.o
-                                      0x7ad8f (size before relaxing)
- .debug_str     0x000000000007ba62      0x140 ./source/PIDcontroller.o
+ .debug_str     0x000000000007a559     0x1513 ./source/MPU6050.o
+                                      0x7ad99 (size before relaxing)
+ .debug_str     0x000000000007ba6c      0x140 ./source/PIDcontroller.o
                                        0x2fe5 (size before relaxing)
- .debug_str     0x000000000007bba2     0x23b7 ./source/PWM_functions.o
+ .debug_str     0x000000000007bbac     0x23b7 ./source/PWM_functions.o
                                       0x7b4cb (size before relaxing)
- .debug_str     0x000000000007df59     0x2094 ./source/Quadcopter.o
-                                      0x7e9d6 (size before relaxing)
- .debug_str     0x000000000007ffed      0x176 ./source/RGB_LEDS.o
+ .debug_str     0x000000000007df63     0x2094 ./source/Quadcopter.o
+                                      0x7e9e0 (size before relaxing)
+ .debug_str     0x000000000007fff7      0x176 ./source/RGB_LEDS.o
                                       0x7ad9b (size before relaxing)
- .debug_str     0x0000000000080163       0x1f ./source/semihost_hardfault.o
+ .debug_str     0x000000000008016d       0x1f ./source/semihost_hardfault.o
                                        0x2ea2 (size before relaxing)
- .debug_str     0x0000000000080182     0x19b6 ./drivers/fsl_clock.o
+ .debug_str     0x000000000008018c     0x19b6 ./drivers/fsl_clock.o
                                       0x7b753 (size before relaxing)
- .debug_str     0x0000000000081b38     0x13ee ./drivers/fsl_dspi.o
+ .debug_str     0x0000000000081b42     0x13ee ./drivers/fsl_dspi.o
                                       0x7b5e9 (size before relaxing)
- .debug_str     0x0000000000082f26     0x1079 ./drivers/fsl_edma.o
+ .debug_str     0x0000000000082f30     0x1079 ./drivers/fsl_edma.o
                                       0x7b233 (size before relaxing)
- .debug_str     0x0000000000083f9f     0x1d33 ./drivers/fsl_enet.o
+ .debug_str     0x0000000000083fa9     0x1d33 ./drivers/fsl_enet.o
                                       0x7c014 (size before relaxing)
- .debug_str     0x0000000000085cd2     0x2502 ./drivers/fsl_flexcan.o
+ .debug_str     0x0000000000085cdc     0x2502 ./drivers/fsl_flexcan.o
                                       0x7c6da (size before relaxing)
- .debug_str     0x00000000000881d4      0x9ec ./drivers/fsl_ftm.o
+ .debug_str     0x00000000000881de      0x9ec ./drivers/fsl_ftm.o
                                       0x7ab2a (size before relaxing)
- .debug_str     0x0000000000088bc0       0xee ./drivers/fsl_gpio.o
+ .debug_str     0x0000000000088bca       0xee ./drivers/fsl_gpio.o
                                       0x79a4d (size before relaxing)
- .debug_str     0x0000000000088cae      0x847 ./drivers/fsl_i2c.o
+ .debug_str     0x0000000000088cb8      0x847 ./drivers/fsl_i2c.o
                                       0x7ae61 (size before relaxing)
- .debug_str     0x00000000000894f5       0x9d ./drivers/fsl_lptmr.o
+ .debug_str     0x00000000000894ff       0x9d ./drivers/fsl_lptmr.o
                                       0x7a01e (size before relaxing)
- .debug_str     0x0000000000089592     0x1248 ./drivers/fsl_sai.o
+ .debug_str     0x000000000008959c     0x1248 ./drivers/fsl_sai.o
                                       0x7b47d (size before relaxing)
- .debug_str     0x000000000008a7da     0x17fa ./drivers/fsl_sdhc.o
+ .debug_str     0x000000000008a7e4     0x17fa ./drivers/fsl_sdhc.o
                                       0x7b9f9 (size before relaxing)
- .debug_str     0x000000000008bfd4      0x915 ./drivers/fsl_uart.o
+ .debug_str     0x000000000008bfde      0x915 ./drivers/fsl_uart.o
                                       0x7af9e (size before relaxing)
- .debug_str     0x000000000008c8e9       0xbb ./device/system_MK64F12.o
+ .debug_str     0x000000000008c8f3       0xbb ./device/system_MK64F12.o
                                       0x78204 (size before relaxing)
- .debug_str     0x000000000008c9a4      0x455 ./board/clock_config.o
+ .debug_str     0x000000000008c9ae      0x455 ./board/clock_config.o
                                       0x7a261 (size before relaxing)
- .debug_str     0x000000000008cdf9       0x5b ./board/peripherals.o
+ .debug_str     0x000000000008ce03       0x5b ./board/peripherals.o
                                       0x79d30 (size before relaxing)
- .debug_str     0x000000000008ce54      0x6bd ./board/pin_mux.o
+ .debug_str     0x000000000008ce5e      0x6bd ./board/pin_mux.o
                                       0x7a59d (size before relaxing)
 
 .comment        0x0000000000000000       0x76
