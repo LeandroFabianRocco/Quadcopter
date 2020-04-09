@@ -362,7 +362,7 @@ int main(void)
 			//rollData.angle = MPU6050_GetYAngle();
 			//pitchData.angle = MPU6050_GetXAngle();
 			LPTMR_StartTimer(LPTMR0);
-			//PRINTF("%4.2f,%4.2f\r\n", pitchData.angle, rollAngle);
+			PRINTF("pitch = %4.2f, roll = %4.2f\r\n", pitchData.angle, rollData.angle);
 		}
 		/******************************************************************
 		 * PID controller for pitch angle
@@ -377,7 +377,7 @@ int main(void)
 		 ******************************************************************/
 		MotorUpdate(throttle, pitchPID, rollPID);
 
-		PRINTF("front = %3d, back = %3d, left = %3d, right = %3d\r\n", Mfront, Mback, Mleft, Mright);
+		//PRINTF("front = %3d, back = %3d, left = %3d, right = %3d\r\n", Mfront, Mback, Mleft, Mright);
 	}
 }
 

@@ -26,7 +26,7 @@ struct MPU6050_angles{
  *********************************************************/
 
 // Complementary filter alpha
-#define ALPHA	0.2
+#define ALPHA	0.17
 
 
 // Sensitivity scale factor

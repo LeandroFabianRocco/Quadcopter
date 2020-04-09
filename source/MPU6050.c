@@ -369,8 +369,6 @@ void MPU6050_ComplementaryFilterAngles(struct MPU6050_angles *mpu_angles)
 
 	mpu_angles->x = (1 - ALPHA) * (mpu_angles->x + omega[0] * mpu_angles->dt) + ALPHA * x_angle;
 	mpu_angles->y = (1 - ALPHA) * (mpu_angles->y + omega[1] * mpu_angles->dt) + ALPHA * y_angle;
-
-
 }
 
 
