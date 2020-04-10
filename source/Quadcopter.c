@@ -361,8 +361,6 @@ int main(void)
 			MPU6050_ComplementaryFilterAngles(&mpu_angles);
 			rollData.angle = mpu_angles.y;
 			pitchData.angle = mpu_angles.x;
-			//rollData.angle = MPU6050_GetYAngle();
-			//pitchData.angle = MPU6050_GetXAngle();
 			LPTMR_StartTimer(LPTMR0);
 			//PRINTF("pitch = %4.2f, roll = %4.2f\r\n", pitchData.angle, rollData.angle);
 		}
