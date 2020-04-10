@@ -21,8 +21,7 @@ void set_pwm_CnV(FTM_Type *base, uint32_t value, uint8_t ch)
 	if (value > 100)
 		value = 100;
 	float x1 = value + 97;
-	uint32_t v = (uint32_t)x1;
-	base->CONTROLS[ch].CnV = v;
+	base->CONTROLS[ch].CnV = (uint32_t)x1;
 	FTM_SetSoftwareTrigger(base, true);
 }
 
