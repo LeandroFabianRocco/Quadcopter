@@ -363,6 +363,7 @@ int main(void)
 			pitchData.angle = mpu_angles.x;
 			LPTMR_StartTimer(LPTMR0);
 			//PRINTF("pitch = %4.2f, roll = %4.2f\r\n", pitchData.angle, rollData.angle);
+			PRINTF("%4.2f %4.2f;", pitchData.angle, rollData.angle);
 		}
 		/******************************************************************
 		 * PID controller for pitch angle
@@ -371,7 +372,7 @@ int main(void)
 		rollData.dt = dt_sec;
 		pitchPID = getPitchPID(&pitchData);
 		rollPID = getRollPID(&rollData);
-		PRINTF("pitchPID = %5.3f, rollPID = %5.3f\r\n", pitchPID, rollPID);
+		//PRINTF("pitchPID = %5.3f, rollPID = %5.3f\r\n", pitchPID, rollPID);
 		/******************************************************************
 		 * Update Motors throttle
 		 ******************************************************************/
