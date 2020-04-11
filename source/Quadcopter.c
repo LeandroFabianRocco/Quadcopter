@@ -87,9 +87,9 @@ uint8_t joystick, throttle;
 
 // Variables to controlling the BLDC motors
 volatile int8_t Mfront, Mfront_last;	// Front motor
-volatile int8_t Mleft = 0, Mleft_last;		// Left motor
+volatile int8_t Mleft, Mleft_last;		// Left motor
 volatile int8_t Mback, Mback_last;		// Back motor
-volatile int8_t Mright = 0, Mright_last;	// Right motor
+volatile int8_t Mright, Mright_last;	// Right motor
 
 // Reference for pitch and roll angles
 volatile uint8_t pitch_ref = 0;
@@ -258,14 +258,14 @@ void MotorUpdate(uint8_t throttle, int8_t pitchPID, int8_t rollPID)
 
 
 	// Left motor
-	Mleft = throttle + rollPID; // + yawPID;
+	Mleft = throttle - rollPID; // + yawPID;
 	if (Mleft_last != Mleft)
 	{
 		set_pwm_CnV(FTM0, Mleft, PWM_CH1);
 		Mleft_last = Mleft;
 	}
 	// Right motor
-	Mright = throttle - rollPID; // + yawPID;
+	Mright = throttle + rollPID; // + yawPID;
 	if (Mright_last != Mright)
 	{
 		set_pwm_CnV(FTM0, Mright, PWM_CH3);
@@ -373,13 +373,18 @@ int main(void)
 		 ******************************************************************/
 		pitchData.dt = dt_sec;
 		rollData.dt = dt_sec;
-		pitchPID = getPitchPID(&pitchData);
-		rollPID = getRollPID(&rollData);
+		if (throttle >= 25) // If throttle is below 25, quadcopter is on the floor
+		{
+			pitchPID = getPitchPID(&pitchData);
+			rollPID = getRollPID(&rollData);
+		}
 		/******************************************************************
 		 * Update Motors throttle
 		 ******************************************************************/
 		MotorUpdate(throttle, pitchPID, rollPID);
 		//PRINTF("front = %3d, back = %3d, left = %3d, right = %3d\r\n", Mfront, Mback, Mleft, Mright);
+		PRINTF("throttle = %3d, roll = %3.2f, rollPID = %3.2f, Mleft = %3d, Mright = %3d\r\n",
+				throttle, rollData.angle, rollPID, Mleft, Mright);
 	}
 }
 
