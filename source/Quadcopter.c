@@ -378,6 +378,11 @@ int main(void)
 			pitchPID = getPitchPID(&pitchData);
 			rollPID = getRollPID(&rollData);
 		}
+		else
+		{
+			pitchPID = 0;
+			rollPID = 0;
+		}
 		/******************************************************************
 		 * Update Motors throttle
 		 ******************************************************************/
