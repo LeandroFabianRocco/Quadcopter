@@ -87,9 +87,9 @@ uint8_t joystick, throttle;
 
 // Variables to controlling the BLDC motors
 volatile int8_t Mfront, Mfront_last;	// Front motor
-volatile int8_t Mleft, Mleft_last;		// Left motor
+volatile int8_t Mleft = 0, Mleft_last;		// Left motor
 volatile int8_t Mback, Mback_last;		// Back motor
-volatile int8_t Mright, Mright_last;	// Right motor
+volatile int8_t Mright = 0, Mright_last;	// Right motor
 
 // Reference for pitch and roll angles
 volatile uint8_t pitch_ref = 0;
@@ -239,33 +239,38 @@ void commands_to_motors(uint8_t joystick)
 void MotorUpdate(uint8_t throttle, int8_t pitchPID, int8_t rollPID)
 {
 	// Front motor
-	Mfront = throttle + pitchPID;// - yawPID;
-	//if (Mfront_last != Mfront)
-	//{
+	/*Mfront = throttle + pitchPID;// - yawPID;
+	if (Mfront_last != Mfront)
+	{
 		set_pwm_CnV(FTM0, Mfront, PWM_CH0);
-		//Mfront_last = Mfront;
-	//}
+		Mfront_last = Mfront;
+	}
 	// Back motor
 	Mback = throttle - pitchPID; // - yawPID;
-	//if (Mback_last != Mback)
-	//{
+	if (Mback_last != Mback)
+	{
 		set_pwm_CnV(FTM0, Mback, PWM_CH2);
-		//Mback_last = Mback;
-	//}
+		Mback_last = Mback;
+	}*/
+
+	Mfront = 0;
+	Mback = 0;
+
+
 	// Left motor
 	Mleft = throttle + rollPID; // + yawPID;
-	//if (Mleft_last != Mleft)
-	//{
+	if (Mleft_last != Mleft)
+	{
 		set_pwm_CnV(FTM0, Mleft, PWM_CH1);
-		//Mleft_last = Mleft;
-	//}
+		Mleft_last = Mleft;
+	}
 	// Right motor
 	Mright = throttle - rollPID; // + yawPID;
-	//if (Mright_last != Mright)
-	//{
+	if (Mright_last != Mright)
+	{
 		set_pwm_CnV(FTM0, Mright, PWM_CH3);
-		//Mright_last = Mright;
-	//}
+		Mright_last = Mright;
+	}
 }
 
 
@@ -362,8 +367,6 @@ int main(void)
 			rollData.angle = mpu_angles.y;
 			pitchData.angle = mpu_angles.x;
 			LPTMR_StartTimer(LPTMR0);
-			//PRINTF("pitch = %4.2f, roll = %4.2f\r\n", pitchData.angle, rollData.angle);
-			PRINTF("%4.2f %4.2f;", pitchData.angle, rollData.angle);
 		}
 		/******************************************************************
 		 * PID controller for pitch angle
@@ -372,7 +375,6 @@ int main(void)
 		rollData.dt = dt_sec;
 		pitchPID = getPitchPID(&pitchData);
 		rollPID = getRollPID(&rollData);
-		//PRINTF("pitchPID = %5.3f, rollPID = %5.3f\r\n", pitchPID, rollPID);
 		/******************************************************************
 		 * Update Motors throttle
 		 ******************************************************************/
