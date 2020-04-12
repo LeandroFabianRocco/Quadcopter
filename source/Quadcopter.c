@@ -60,13 +60,7 @@
 
 // Savitzky-Golay filter parameters
 #define SG_FILTER_SIZE 11
-#define SG_A0 	89
-#define SG_A1 	84
-#define SG_A2 	69
-#define SG_A3 	44
-#define SG_A4 	9
-#define SG_A5 	-36
-#define SG_H 	429
+
 
 // Move constant
 #define MOOVE 10
@@ -83,6 +77,10 @@ void UART_UserCallback(UART_Type *base, uart_handle_t *handle, status_t status, 
 void MotorUpdate(uint8_t throttle, int8_t pitchPID, int8_t rollPID);
 
 void commands_to_motors(uint8_t joystick);
+
+float roll_sgolayfilt(float data);
+
+float pitch_sgolayfilt(float data);
 /*******************************************************************************
  * Variables declaration
  ******************************************************************************/
@@ -125,8 +123,78 @@ uint32_t LPTMRtime = 0;
 
 
 // Savitzky-Golay filter variables
-uint16_t rollCircularBuffer[SG_FILTER_SIZE];
-uint16_t pitchCircularBuffer[SG_FILTER_SIZE];
+float rollCircularBuffer[SG_FILTER_SIZE] = {0};
+float pitchCircularBuffer[SG_FILTER_SIZE] = {0};
+uint8_t rollWriteIndex = 0;
+uint8_t pitchWriteIndex = 0;
+float sg_coef[SG_FILTER_SIZE] = {89.0, 84.0, 69.0, 44.0, 9.0, -36.0, 9.0, 44.0, 69.0, 84.0, 89.0};
+float sg_h = 429.0;
+
+
+/*******************************************************************************
+ * Function to increment index
+ ******************************************************************************/
+uint8_t incrementIndex(uint8_t index)
+{
+	if (index >= SG_FILTER_SIZE)
+		index = 0;
+	else
+		index++;
+
+	return index;
+}
+
+/*******************************************************************************
+ * Roll Savitzky-Golay filter using circular buffer
+ ******************************************************************************/
+float roll_sgolayfilt(float data)
+{
+	uint8_t i;
+	float sum = 0;
+
+	rollCircularBuffer[rollWriteIndex] = data;
+
+	uint8_t rollReadIndex = rollWriteIndex;
+
+	rollWriteIndex = incrementIndex(rollWriteIndex);
+
+	for (i = 0; i < SG_FILTER_SIZE; i++)
+	{
+		sum += rollCircularBuffer[rollReadIndex] * sg_coef[i];
+		rollReadIndex = incrementIndex(rollReadIndex);
+	}
+
+	sum = sum / sg_h;
+
+	return sum;
+}
+
+
+/*******************************************************************************
+ * Pitch Savitzky-Golay filter using circular buffer
+ ******************************************************************************/
+float pitch_sgolayfilt(float data)
+{
+	uint8_t i;
+	float sum = 0;
+
+	pitchCircularBuffer[pitchWriteIndex] = data;
+
+	uint8_t pitchReadIndex = pitchWriteIndex;
+
+	pitchWriteIndex = incrementIndex(pitchWriteIndex);
+
+	for (i = 0; i < SG_FILTER_SIZE; i++)
+	{
+		sum += pitchCircularBuffer[pitchReadIndex] * sg_coef[i];
+		pitchReadIndex = incrementIndex(pitchReadIndex);
+	}
+
+	sum = sum / sg_h;
+
+	return sum;
+}
+
 
 
 /*******************************************************************************
@@ -376,8 +444,8 @@ int main(void)
 			dt_sec = (float)(LPTMRtime) * 0.001;
 			mpu_angles.dt = dt_sec;
 			MPU6050_ComplementaryFilterAngles(&mpu_angles);
-			rollData.angle = mpu_angles.y;
-			pitchData.angle = mpu_angles.x;
+			rollData.angle = roll_sgolayfilt(mpu_angles.y);
+			pitchData.angle = pitch_sgolayfilt(mpu_angles.x);
 			LPTMR_StartTimer(LPTMR0);
 		}
 		/******************************************************************
@@ -400,8 +468,8 @@ int main(void)
 		 ******************************************************************/
 		MotorUpdate(throttle, pitchPID, rollPID);
 		//PRINTF("front = %3d, back = %3d, left = %3d, right = %3d\r\n", Mfront, Mback, Mleft, Mright);
-		PRINTF("throttle = %3d, roll = %3.2f, rollPID = %3.2f, Mleft = %3d, Mright = %3d\r\n",
-				throttle, rollData.angle, rollPID, Mleft, Mright);
+		PRINTF("throttle = %3d, roll = %3.2f, filteredRoll = %3.2f, rollPID = %3.2f, Mleft = %3d, Mright = %3d\r\n",
+				throttle, mpu_angles.y ,rollData.angle, rollPID, Mleft, Mright);
 	}
 }
 
