@@ -58,6 +58,16 @@
 #define UART_CLK_FREQ CLOCK_GetFreq(UART4_CLK_SRC)
 #define RX_RING_BUFFER_SIZE 10U
 
+// Savitzky-Golay filter parameters
+#define SG_FILTER_SIZE 11
+#define SG_A0 	89
+#define SG_A1 	84
+#define SG_A2 	69
+#define SG_A3 	44
+#define SG_A4 	9
+#define SG_A5 	-36
+#define SG_H 	429
+
 // Move constant
 #define MOOVE 10
 
@@ -105,16 +115,18 @@ volatile float p_error = 0;
 // Time differential
 volatile float dt, dt_sec;
 
-
-
 // MPU6050 Who_Am_I flag
 bool isThereAccelMPU = false;
 // FXOS8700CQ Who_Am_I angles
 bool isThereAccelFX = false;
 
-
+// Timer variable
 uint32_t LPTMRtime = 0;
 
+
+// Savitzky-Golay filter variables
+uint16_t rollCircularBuffer[SG_FILTER_SIZE];
+uint16_t pitchCircularBuffer[SG_FILTER_SIZE];
 
 
 /*******************************************************************************
@@ -373,7 +385,7 @@ int main(void)
 		 ******************************************************************/
 		pitchData.dt = dt_sec;
 		rollData.dt = dt_sec;
-		if (throttle >= 25) // If throttle is below 25, quadcopter is on the floor
+		if (throttle >= 5) // If throttle is below 25, quadcopter is on the floor
 		{
 			pitchPID = getPitchPID(&pitchData);
 			rollPID = getRollPID(&rollData);
