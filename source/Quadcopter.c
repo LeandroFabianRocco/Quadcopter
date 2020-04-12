@@ -136,7 +136,7 @@ float sg_h = 429.0;
  ******************************************************************************/
 uint8_t incrementIndex(uint8_t index)
 {
-	if (index >= SG_FILTER_SIZE)
+	if (index >= (SG_FILTER_SIZE - 1))
 		index = 0;
 	else
 		index++;
@@ -150,7 +150,7 @@ uint8_t incrementIndex(uint8_t index)
 float roll_sgolayfilt(float data)
 {
 	uint8_t i;
-	float sum = 0;
+	float sum = 0.0;
 
 	rollCircularBuffer[rollWriteIndex] = data;
 
@@ -176,7 +176,7 @@ float roll_sgolayfilt(float data)
 float pitch_sgolayfilt(float data)
 {
 	uint8_t i;
-	float sum = 0;
+	float sum = 0.0;
 
 	pitchCircularBuffer[pitchWriteIndex] = data;
 
