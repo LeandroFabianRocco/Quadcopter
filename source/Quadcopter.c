@@ -71,8 +71,8 @@
 
 
 // Pre-processor definitions
-#define SG_filter		1
-//#define FIR_filter 	1
+//#define SG_filter		1
+#define FIR_filter 	1
 
 /*******************************************************************************
  * Prototypes
@@ -151,7 +151,7 @@ uint8_t incrementIndex(uint8_t index)
 }
 
 /*******************************************************************************
- * Roll Savitzky-Golay filter using circular buffer
+ * Roll and pitch Savitzky-Golay filter using circular buffer
  ******************************************************************************/
 #ifdef SG_filter
 float roll_sgolayfilt(float data)
@@ -176,11 +176,51 @@ float roll_sgolayfilt(float data)
 	return sum;
 }
 
-
-/*******************************************************************************
- * Pitch Savitzky-Golay filter using circular buffer
- ******************************************************************************/
 float pitch_sgolayfilt(float data)
+{
+	uint8_t i;
+	float sum = 0.0;
+
+	pitchCircularBuffer[pitchWriteIndex] = data;
+
+	uint8_t pitchReadIndex = pitchWriteIndex;
+
+	pitchWriteIndex = incrementIndex(pitchWriteIndex);
+
+	for (i = 0; i < SG_FILTER_SIZE; i++)
+	{
+		sum += pitchCircularBuffer[pitchReadIndex] * sg_coef[i];
+		pitchReadIndex = incrementIndex(pitchReadIndex);
+	}
+
+	sum = sum / sg_h;
+
+	return sum;
+}
+#elif FIR_filter
+float roll_FIRfilt(float data)
+{
+	uint8_t i;
+	float sum = 0.0;
+
+	rollCircularBuffer[rollWriteIndex] = data;
+
+	uint8_t rollReadIndex = rollWriteIndex;
+
+	rollWriteIndex = incrementIndex(rollWriteIndex);
+
+	for (i = 0; i < SG_FILTER_SIZE; i++)
+	{
+		sum += rollCircularBuffer[rollReadIndex] * sg_coef[i];
+		rollReadIndex = incrementIndex(rollReadIndex);
+	}
+
+	sum = sum / sg_h;
+
+	return sum;
+}
+
+float pitch_FIRfilt(float data)
 {
 	uint8_t i;
 	float sum = 0.0;
@@ -454,6 +494,9 @@ int main(void)
 #ifdef SG_filter
 			rollData.angle = roll_sgolayfilt(mpu_angles.y);
 			pitchData.angle = pitch_sgolayfilt(mpu_angles.x);
+#elif FIR_filter
+			rollData.angle = roll_FIRfilt(mpu_angles.y);
+			pitchData.angle = pitch_FIRfilt(mpu_angles.x);
 #else
 			rollData.angle = mpu_angles.y;
 			pitchData.angle = mpu_angles.x;
