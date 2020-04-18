@@ -6675,9 +6675,9 @@ END GROUP
                 0x0000000000007278       0x30 ./source/Quadcopter.o
  .text.LPTMR_StopTimer
                 0x00000000000072a8       0x30 ./source/Quadcopter.o
- .text.commands_to_motors
+ .text.commands_to_reference
                 0x00000000000072d8       0xbe ./source/Quadcopter.o
-                0x00000000000072d8                commands_to_motors
+                0x00000000000072d8                commands_to_reference
  .text.GPIO_PortSet
                 0x0000000000007396       0x1c ./source/RGB_LEDS.o
  .text.GPIO_PortClear
@@ -7565,54 +7565,54 @@ OUTPUT(Quadcopter.axf elf32-littlearm)
  .debug_line    0x000000000000fcae      0x381 ./board/peripherals.o
  .debug_line    0x000000000001002f      0x660 ./board/pin_mux.o
 
-.debug_str      0x0000000000000000    0x8c8bc
+.debug_str      0x0000000000000000    0x8c8b5
  .debug_str     0x0000000000000000     0x365e ./startup/startup_mk64f12.o
                                        0x3711 (size before relaxing)
  .debug_str     0x000000000000365e    0x76efb ./source/Delays.o
                                       0x79ea9 (size before relaxing)
  .debug_str     0x000000000007a559     0x1513 ./source/MPU6050.o
                                       0x7ad99 (size before relaxing)
- .debug_str     0x000000000007ba6c      0x136 ./source/PIDcontroller.o
+ .debug_str     0x000000000007ba6c      0x12c ./source/PIDcontroller.o
                                        0x2fdb (size before relaxing)
- .debug_str     0x000000000007bba2     0x23b7 ./source/PWM_functions.o
+ .debug_str     0x000000000007bb98     0x23b7 ./source/PWM_functions.o
                                       0x7b4cb (size before relaxing)
- .debug_str     0x000000000007df59     0x143f ./source/Quadcopter.o
-                                      0x7dd8c (size before relaxing)
- .debug_str     0x000000000007f398      0x176 ./source/RGB_LEDS.o
+ .debug_str     0x000000000007df4f     0x1442 ./source/Quadcopter.o
+                                      0x7dd8f (size before relaxing)
+ .debug_str     0x000000000007f391      0x176 ./source/RGB_LEDS.o
                                       0x7ad9b (size before relaxing)
- .debug_str     0x000000000007f50e       0x1f ./source/semihost_hardfault.o
+ .debug_str     0x000000000007f507       0x1f ./source/semihost_hardfault.o
                                        0x2ea2 (size before relaxing)
- .debug_str     0x000000000007f52d     0x19b6 ./drivers/fsl_clock.o
+ .debug_str     0x000000000007f526     0x19b6 ./drivers/fsl_clock.o
                                       0x7b753 (size before relaxing)
- .debug_str     0x0000000000080ee3     0x13ee ./drivers/fsl_dspi.o
+ .debug_str     0x0000000000080edc     0x13ee ./drivers/fsl_dspi.o
                                       0x7b5e9 (size before relaxing)
- .debug_str     0x00000000000822d1     0x1079 ./drivers/fsl_edma.o
+ .debug_str     0x00000000000822ca     0x1079 ./drivers/fsl_edma.o
                                       0x7b233 (size before relaxing)
- .debug_str     0x000000000008334a     0x1d33 ./drivers/fsl_enet.o
+ .debug_str     0x0000000000083343     0x1d33 ./drivers/fsl_enet.o
                                       0x7c014 (size before relaxing)
- .debug_str     0x000000000008507d     0x2502 ./drivers/fsl_flexcan.o
+ .debug_str     0x0000000000085076     0x2502 ./drivers/fsl_flexcan.o
                                       0x7c6da (size before relaxing)
- .debug_str     0x000000000008757f      0x9ec ./drivers/fsl_ftm.o
+ .debug_str     0x0000000000087578      0x9ec ./drivers/fsl_ftm.o
                                       0x7ab2a (size before relaxing)
- .debug_str     0x0000000000087f6b       0xee ./drivers/fsl_gpio.o
+ .debug_str     0x0000000000087f64       0xee ./drivers/fsl_gpio.o
                                       0x79a4d (size before relaxing)
- .debug_str     0x0000000000088059      0x847 ./drivers/fsl_i2c.o
+ .debug_str     0x0000000000088052      0x847 ./drivers/fsl_i2c.o
                                       0x7ae61 (size before relaxing)
- .debug_str     0x00000000000888a0       0x9d ./drivers/fsl_lptmr.o
+ .debug_str     0x0000000000088899       0x9d ./drivers/fsl_lptmr.o
                                       0x7a01e (size before relaxing)
- .debug_str     0x000000000008893d     0x1248 ./drivers/fsl_sai.o
+ .debug_str     0x0000000000088936     0x1248 ./drivers/fsl_sai.o
                                       0x7b47d (size before relaxing)
- .debug_str     0x0000000000089b85     0x17fa ./drivers/fsl_sdhc.o
+ .debug_str     0x0000000000089b7e     0x17fa ./drivers/fsl_sdhc.o
                                       0x7b9f9 (size before relaxing)
- .debug_str     0x000000000008b37f      0x915 ./drivers/fsl_uart.o
+ .debug_str     0x000000000008b378      0x915 ./drivers/fsl_uart.o
                                       0x7af9e (size before relaxing)
- .debug_str     0x000000000008bc94       0xbb ./device/system_MK64F12.o
+ .debug_str     0x000000000008bc8d       0xbb ./device/system_MK64F12.o
                                       0x78204 (size before relaxing)
- .debug_str     0x000000000008bd4f      0x455 ./board/clock_config.o
+ .debug_str     0x000000000008bd48      0x455 ./board/clock_config.o
                                       0x7a261 (size before relaxing)
- .debug_str     0x000000000008c1a4       0x5b ./board/peripherals.o
+ .debug_str     0x000000000008c19d       0x5b ./board/peripherals.o
                                       0x79d30 (size before relaxing)
- .debug_str     0x000000000008c1ff      0x6bd ./board/pin_mux.o
+ .debug_str     0x000000000008c1f8      0x6bd ./board/pin_mux.o
                                       0x7a59d (size before relaxing)
 
 .comment        0x0000000000000000       0x76
@@ -9094,7 +9094,7 @@ atanf                                             /usr/local/mcuxpressoide-11.1.
 atexit                                            /usr/local/mcuxpressoide-11.1.1_3241/ide/plugins/com.nxp.mcuxpresso.tools.linux_11.1.0.202001081728/tools/bin/../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libcr_c.a(stdlib.o)
 bss_init                                          ./startup/startup_mk64f12.o
 calloc                                            /usr/local/mcuxpressoide-11.1.1_3241/ide/plugins/com.nxp.mcuxpresso.tools.linux_11.1.0.202001081728/tools/bin/../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libcr_c.a(alloc.o)
-commands_to_motors                                ./source/Quadcopter.o
+commands_to_reference                             ./source/Quadcopter.o
 completionFlag                                    ./source/FXOS8700CQ.o
 dError                                            ./source/PIDcontroller.o
 data_init                                         ./startup/startup_mk64f12.o

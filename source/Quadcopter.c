@@ -82,7 +82,7 @@ void UART_UserCallback(UART_Type *base, uart_handle_t *handle, status_t status, 
 
 void MotorUpdate(uint8_t throttle, int8_t pitchPID, int8_t rollPID);
 
-void commands_to_motors(uint8_t joystick);
+void commands_to_reference(uint8_t joystick);
 
 float roll_sgolayfilt(float data);
 
@@ -318,7 +318,7 @@ void get_J_and_T(void)
 /*******************************************************************************
  * Update motors values as function of joystick values
  ******************************************************************************/
-void commands_to_motors(uint8_t joystick)
+void commands_to_reference(uint8_t joystick)
 {
 	switch(joystick)
 	{
@@ -470,7 +470,7 @@ int main(void)
 	pitchData.angle = pitchAngle;
 	pitchData.last_iError = i_error;
 	pitchData.last_pError = p_error;
-	pitchData.dt = 0.1;
+	pitchData.dt = 0.02;
 
 	// Roll structure inicialization
 	struct rollStruct rollData;
@@ -478,7 +478,7 @@ int main(void)
 	rollData.angle = rollAngle;
 	rollData.last_iError = i_error;
 	rollData.last_pError = p_error;
-	rollData.dt = 0.1;
+	rollData.dt = 0.02;
 
 	// Main loop
 	while (1)
@@ -491,7 +491,7 @@ int main(void)
 		/******************************************************************
 		 * Update motors from commands
 		 ******************************************************************/
-		commands_to_motors(joystick);
+		commands_to_reference(joystick);
 		/******************************************************************
 		 * Read angles from MPU6050
 		 ******************************************************************/
