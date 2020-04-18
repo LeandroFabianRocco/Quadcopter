@@ -68,6 +68,12 @@
 // LPTMR0 timer definitions
 #define LPTMR_SOURCE_CLOCK CLOCK_GetFreq(kCLOCK_LpoClk)
 #define LPTMR_USEC_COUNT 1000000U
+
+
+// Pre-processor definitions
+#define SG_filter		1
+//#define FIR_filter 	1
+
 /*******************************************************************************
  * Prototypes
  ******************************************************************************/
@@ -147,6 +153,7 @@ uint8_t incrementIndex(uint8_t index)
 /*******************************************************************************
  * Roll Savitzky-Golay filter using circular buffer
  ******************************************************************************/
+#ifdef SG_filter
 float roll_sgolayfilt(float data)
 {
 	uint8_t i;
@@ -194,7 +201,7 @@ float pitch_sgolayfilt(float data)
 
 	return sum;
 }
-
+#endif
 
 
 /*******************************************************************************
@@ -444,10 +451,13 @@ int main(void)
 			dt_sec = (float)(LPTMRtime) * 0.001;
 			mpu_angles.dt = dt_sec;
 			MPU6050_ComplementaryFilterAngles(&mpu_angles);
-			/*rollData.angle = roll_sgolayfilt(mpu_angles.y);
-			pitchData.angle = pitch_sgolayfilt(mpu_angles.x);*/
+#ifdef SG_filter
+			rollData.angle = roll_sgolayfilt(mpu_angles.y);
+			pitchData.angle = pitch_sgolayfilt(mpu_angles.x);
+#else
 			rollData.angle = mpu_angles.y;
 			pitchData.angle = mpu_angles.x;
+#endif
 			LPTMR_StartTimer(LPTMR0);
 		}
 		/******************************************************************
