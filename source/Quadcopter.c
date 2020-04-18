@@ -270,6 +270,7 @@ void UART_UserCallback(UART_Type *base, uart_handle_t *handle, status_t status, 
 void get_J_and_T(void)
 {
 	uint8_t i, j, k;
+	int diff;
 	for (i = 0; i < RX_RING_BUFFER_SIZE; i++)
 	{
 		if (rxRingBuffer[i] == 0x23)
@@ -282,24 +283,33 @@ void get_J_and_T(void)
 		}
 	}
 
+
 	if ((j == 7) && (k == 0))
 	{
-		throttle = rxRingBuffer[8];
+		diff = abs((int)throttle - (int)rxRingBuffer[8]);
+		if (diff < 5)
+			throttle = rxRingBuffer[8];
 		joystick = rxRingBuffer[9];
 	}
 	else if ((j == 8) && (k == 1))
 	{
-		throttle = rxRingBuffer[9];
+		diff = abs((int)throttle - (int)rxRingBuffer[9]);
+		if (diff < 5)
+			throttle = rxRingBuffer[9];
 		joystick = rxRingBuffer[0];
 	}
 	else if ((j == 9) && (k == 2))
 	{
-		throttle = rxRingBuffer[0];
+		diff = abs((int)throttle - (int)rxRingBuffer[0]);
+		if (diff < 5)
+			throttle = rxRingBuffer[0];
 		joystick = rxRingBuffer[1];
 	}
 	else
 	{
-		throttle = rxRingBuffer[j+1];
+		diff = abs((int)throttle - (int)rxRingBuffer[j+1]);
+		if (diff < 5)
+			throttle = rxRingBuffer[j+1];
 		joystick = rxRingBuffer[k-1];
 	}
 }
@@ -365,6 +375,7 @@ void commands_to_motors(uint8_t joystick)
  ******************************************************************************/
 void MotorUpdate(uint8_t throttle, int8_t pitchPID, int8_t rollPID)
 {
+	int8_t diff;
 	// Front motor
 	/*Mfront = throttle + pitchPID;// - yawPID;
 	if (Mfront_last != Mfront)
