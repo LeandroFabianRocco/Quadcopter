@@ -16,7 +16,7 @@
  *
  * @return void
  *********************************************************************************************/
-void set_pwm_CnV(FTM_Type *base, uint32_t value, uint8_t ch)
+void set_pwm_CnV(FTM_Type *base, int32_t value, uint8_t ch)
 {
 	if (value > 100)
 		value = 100;

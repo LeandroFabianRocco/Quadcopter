@@ -72,7 +72,7 @@
 
 // Pre-processor definitions
 //#define SG_filter		1
-#define FIR_filter 	1
+//#define FIR_filter 	1
 
 /*******************************************************************************
  * Prototypes
@@ -472,7 +472,7 @@ int main(void)
 	// Main loop
 	while (1)
 	{
-		SysTick_DelayTicks(100U);
+		SysTick_DelayTicks(50U);
 		/******************************************************************
 		 * Read commands from bluetooth module
 		 ******************************************************************/

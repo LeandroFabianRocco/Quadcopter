@@ -3,8 +3,6 @@ fsl_lptmr.h:313:24:LPTMR_GetCurrentTimerCount	16	static
 fsl_lptmr.h:339:20:LPTMR_StartTimer	24	static
 fsl_lptmr.h:356:20:LPTMR_StopTimer	24	static
 Quadcopter.c:143:9:incrementIndex	16	static
-Quadcopter.c:201:7:roll_FIRfilt	32	static
-Quadcopter.c:223:7:pitch_FIRfilt	32	static
 Quadcopter.c:250:6:UART_UserCallback	40	static
 Quadcopter.c:270:6:get_J_and_T	16	static
 Quadcopter.c:311:6:commands_to_motors	16	static
