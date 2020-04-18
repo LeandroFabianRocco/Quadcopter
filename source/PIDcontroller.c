@@ -9,8 +9,6 @@
 #include "PIDcontroller.h"
 
 
-
-
 /*********************************************************************************************
  * @brief PID controller for pitch angle
  *
