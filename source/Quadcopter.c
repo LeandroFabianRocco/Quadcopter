@@ -56,7 +56,7 @@
 #define UART UART4
 #define UART_CLKSRC UART4_CLK_SRC
 #define UART_CLK_FREQ CLOCK_GetFreq(UART4_CLK_SRC)
-#define RX_RING_BUFFER_SIZE 10U
+#define RX_RING_BUFFER_SIZE 11U
 
 // Savitzky-Golay filter parameters
 #define SG_FILTER_SIZE 11
@@ -74,6 +74,14 @@
 //#define SG_filter		1
 //#define FIR_filter 	1
 
+
+// Bluetooth data definitions
+#define HEADER_1_ASCII	0xAA
+#define HEADER_2_ASCII	0xA8
+#define MEDIUM_ASCII	0x40
+#define TAIL_1_ASCII	0xB8
+#define TAIL_2_ASCII	0xA9
+
 /*******************************************************************************
  * Prototypes
  ******************************************************************************/
@@ -87,6 +95,8 @@ void commands_to_reference(uint8_t joystick);
 float roll_sgolayfilt(float data);
 
 float pitch_sgolayfilt(float data);
+
+uint8_t increment_buff_index(uint8_t index);
 /*******************************************************************************
  * Variables declaration
  ******************************************************************************/
@@ -267,51 +277,88 @@ void UART_UserCallback(UART_Type *base, uart_handle_t *handle, status_t status, 
 /*******************************************************************************
  * Get Joystick and throttle values
  ******************************************************************************/
+uint8_t increment_buff_index(uint8_t index)
+{
+	if (index >= (RX_RING_BUFFER_SIZE - 1))
+		index = 0;
+	else
+		index++;
+
+	return index;
+}
+
 void get_J_and_T(void)
 {
-	uint8_t i, j, k;
-	int diff;
+	uint8_t i;
+	uint8_t idx, head;
+	uint8_t t[3] = {0};
+	uint8_t j[3] = {0};
+
 	for (i = 0; i < RX_RING_BUFFER_SIZE; i++)
 	{
-		if (rxRingBuffer[i] == 0x23)
+		if (rxRingBuffer[i] == HEADER_1_ASCII)
 		{
-			j = i;
-		}
-		else if (rxRingBuffer[i] == 0x2F)
-		{
-			k = i;
+			idx = i;
+			head = i;
+			break;
 		}
 	}
 
+	if (rxRingBuffer[idx] == HEADER_1_ASCII) // First header received?
+	{
+		idx = increment_buff_index(idx);
+		if (rxRingBuffer[idx] == HEADER_2_ASCII) // Second header received?
+		{
+			idx = increment_buff_index(idx);
+			idx = increment_buff_index(idx);
+			idx = increment_buff_index(idx);
+			idx = increment_buff_index(idx);
+			if (rxRingBuffer[idx] == MEDIUM_ASCII) // Medium character received
+			{
+				idx = increment_buff_index(idx);
+				idx = increment_buff_index(idx);
+				idx = increment_buff_index(idx);
+				idx = increment_buff_index(idx);
+				if (rxRingBuffer[idx] == TAIL_1_ASCII) // First tail received
+				{
+					idx = increment_buff_index(idx);
+					if (rxRingBuffer[idx] == TAIL_2_ASCII) // Second tail received
+					{
+						head = increment_buff_index(head);
+						head = increment_buff_index(head);
+						t[0] = rxRingBuffer[head];
+						head = increment_buff_index(head);
+						t[1] = rxRingBuffer[head];
+						head = increment_buff_index(head);
+						t[2] = rxRingBuffer[head];
+						head = increment_buff_index(head);
+						head = increment_buff_index(head);
+						j[0] = rxRingBuffer[head];
+						head = increment_buff_index(head);
+						j[1] = rxRingBuffer[head];
+						head = increment_buff_index(head);
+						j[2] = rxRingBuffer[head];
+					}
+				}
+			}
+		}
+	}
 
-	if ((j == 7) && (k == 0))
-	{
-		diff = abs((int)throttle - (int)rxRingBuffer[8]);
-		if (diff < 5)
-			throttle = rxRingBuffer[8];
-		joystick = rxRingBuffer[9];
-	}
-	else if ((j == 8) && (k == 1))
-	{
-		diff = abs((int)throttle - (int)rxRingBuffer[9]);
-		if (diff < 5)
-			throttle = rxRingBuffer[9];
-		joystick = rxRingBuffer[0];
-	}
-	else if ((j == 9) && (k == 2))
-	{
-		diff = abs((int)throttle - (int)rxRingBuffer[0]);
-		if (diff < 5)
-			throttle = rxRingBuffer[0];
-		joystick = rxRingBuffer[1];
-	}
-	else
-	{
-		diff = abs((int)throttle - (int)rxRingBuffer[j+1]);
-		if (diff < 5)
-			throttle = rxRingBuffer[j+1];
-		joystick = rxRingBuffer[k-1];
-	}
+	if (t[0] == t[1])
+		throttle = t[0];
+	else if (t[0] == t[2])
+		throttle = t[2];
+	else if (t[1] = t[2])
+		throttle = t[1];
+
+	if (j[0] == j[1])
+		joystick = j[0];
+	else if (j[0] == j[2])
+		joystick = j[2];
+	else if (j[1] = j[2])
+		joystick = j[1];
+
+
 }
 
 
@@ -375,7 +422,6 @@ void commands_to_reference(uint8_t joystick)
  ******************************************************************************/
 void MotorUpdate(uint8_t throttle, int8_t pitchPID, int8_t rollPID)
 {
-	int8_t diff;
 	// Front motor
 	/*Mfront = throttle + pitchPID;// - yawPID;
 	if (Mfront_last != Mfront)

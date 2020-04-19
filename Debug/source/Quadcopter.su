@@ -2,9 +2,10 @@ fsl_lptmr.h:295:20:LPTMR_SetTimerPeriod	16	static
 fsl_lptmr.h:313:24:LPTMR_GetCurrentTimerCount	16	static
 fsl_lptmr.h:339:20:LPTMR_StartTimer	24	static
 fsl_lptmr.h:356:20:LPTMR_StopTimer	24	static
-Quadcopter.c:143:9:incrementIndex	16	static
-Quadcopter.c:250:6:UART_UserCallback	40	static
-Quadcopter.c:270:6:get_J_and_T	16	static
-Quadcopter.c:321:6:commands_to_reference	16	static
-Quadcopter.c:376:6:MotorUpdate	16	static
-Quadcopter.c:418:5:main	144	static
+Quadcopter.c:153:9:incrementIndex	16	static
+Quadcopter.c:260:6:UART_UserCallback	40	static
+Quadcopter.c:280:9:increment_buff_index	16	static
+Quadcopter.c:290:6:get_J_and_T	24	static
+Quadcopter.c:368:6:commands_to_reference	16	static
+Quadcopter.c:423:6:MotorUpdate	16	static
+Quadcopter.c:464:5:main	144	static
