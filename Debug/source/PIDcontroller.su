@@ -1,4 +1,4 @@
-PIDcontroller.c:19:7:getPitchPID	32	static
+PIDcontroller.c:19:7:getPitchPID	40	static
 PIDcontroller.c:41:7:getRollPID	40	static
 PIDcontroller.c:64:7:pError	16	static
 PIDcontroller.c:79:7:iError	24	static

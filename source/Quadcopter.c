@@ -422,7 +422,7 @@ void commands_to_reference(uint8_t joystick)
 void MotorUpdate(uint8_t throttle, int8_t pitchPID, int8_t rollPID)
 {
 	// Front motor
-	/*Mfront = throttle + pitchPID;// - yawPID;
+	Mfront = throttle + pitchPID;// - yawPID;
 	if (Mfront_last != Mfront)
 	{
 		set_pwm_CnV(FTM0, Mfront, PWM_CH0);
@@ -434,11 +434,10 @@ void MotorUpdate(uint8_t throttle, int8_t pitchPID, int8_t rollPID)
 	{
 		set_pwm_CnV(FTM0, Mback, PWM_CH2);
 		Mback_last = Mback;
-	}*/
+	}
 
-	Mfront = 0;
-	Mback = 0;
-
+	/*Mleft = 0;
+	Mright = 0;*/
 
 	// Left motor
 	Mleft = throttle - rollPID; // + yawPID;
@@ -579,8 +578,8 @@ int main(void)
 		 ******************************************************************/
 		MotorUpdate(throttle, pitchPID, rollPID);
 		//PRINTF("front = %3d, back = %3d, left = %3d, right = %3d\r\n", Mfront, Mback, Mleft, Mright);
-		PRINTF("throttle = %3d, roll = %3.2f, filteredRoll = %3.2f, rollPID = %3.2f, Mleft = %3d, Mright = %3d\r\n",
-				throttle, mpu_angles.y ,rollData.angle, rollPID, Mleft, Mright);
+		PRINTF("throttle = %3d, pitch = %3.2f, filteredRoll = %3.2f, pitchPID = %3.2f, Mfront = %3d, Mback = %3d\r\n",
+				throttle, mpu_angles.x ,pitchData.angle, pitchPID, Mfront, Mback);
 	}
 }
 
