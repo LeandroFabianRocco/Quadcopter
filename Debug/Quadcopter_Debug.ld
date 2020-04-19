@@ -6,7 +6,7 @@
  * Generated linker script file for MK64FN1M0xxx12
  * Created from linkscript.ldt by FMCreateLinkLibraries
  * Using Freemarker v2.3.23
- * MCUXpresso IDE v11.1.1 [Build 3241] [2020-03-02] on 19/04/2020 15:45:12
+ * MCUXpresso IDE v11.1.1 [Build 3241] [2020-03-02] on 19/04/2020 16:11:38
  */
 
 INCLUDE "Quadcopter_Debug_library.ld"
