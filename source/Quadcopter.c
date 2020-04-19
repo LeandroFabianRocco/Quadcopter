@@ -291,8 +291,8 @@ void get_J_and_T(void)
 {
 	uint8_t i;
 	uint8_t idx, head;
-	uint8_t t[3] = {0};
-	uint8_t j[3] = {0};
+	uint8_t t[3] = {throttle};
+	uint8_t j[3] = {throttle};
 
 	for (i = 0; i < RX_RING_BUFFER_SIZE; i++)
 	{
@@ -348,16 +348,15 @@ void get_J_and_T(void)
 		throttle = t[0];
 	else if (t[0] == t[2])
 		throttle = t[2];
-	else if (t[1] = t[2])
+	else if (t[1] == t[2])
 		throttle = t[1];
 
 	if (j[0] == j[1])
 		joystick = j[0];
 	else if (j[0] == j[2])
 		joystick = j[2];
-	else if (j[1] = j[2])
+	else if (j[1] == j[2])
 		joystick = j[1];
-
 
 }
 
