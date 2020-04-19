@@ -578,8 +578,9 @@ int main(void)
 		 ******************************************************************/
 		MotorUpdate(throttle, pitchPID, rollPID);
 		//PRINTF("front = %3d, back = %3d, left = %3d, right = %3d\r\n", Mfront, Mback, Mleft, Mright);
-		PRINTF("throttle = %3d, pitch = %3.2f, filteredRoll = %3.2f, pitchPID = %3.2f, Mfront = %3d, Mback = %3d\r\n",
-				throttle, mpu_angles.x ,pitchData.angle, pitchPID, Mfront, Mback);
+		/*PRINTF("throttle = %3d, pitch = %3.2f, filteredRoll = %3.2f, pitchPID = %3.2f, Mfront = %3d, Mback = %3d\r\n",
+				throttle, mpu_angles.x ,pitchData.angle, pitchPID, Mfront, Mback);*/
+		//PRINTF("pitch = %f, pitchPID = %f, roll = %f, rollPID = %f\r\n", pitchData.angle, pitchPID, rollData.angle, rollPID);
 	}
 }
 
