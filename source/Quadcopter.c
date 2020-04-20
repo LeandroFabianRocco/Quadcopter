@@ -435,10 +435,6 @@ void MotorUpdate(uint8_t throttle, int8_t pitchPID, int8_t rollPID)
 		set_pwm_CnV(FTM0, Mback, PWM_CH2);
 		Mback_last = Mback;
 	}
-
-	/*Mleft = 0;
-	Mright = 0;*/
-
 	// Left motor
 	Mleft = throttle - rollPID; // + yawPID;
 	if (Mleft_last != Mleft)
@@ -577,10 +573,23 @@ int main(void)
 		 * Update Motors throttle
 		 ******************************************************************/
 		MotorUpdate(throttle, pitchPID, rollPID);
+
+		/******************************************************************
+		 * Prints
+		 ******************************************************************/
 		//PRINTF("front = %3d, back = %3d, left = %3d, right = %3d\r\n", Mfront, Mback, Mleft, Mright);
 		/*PRINTF("throttle = %3d, pitch = %3.2f, filteredRoll = %3.2f, pitchPID = %3.2f, Mfront = %3d, Mback = %3d\r\n",
 				throttle, mpu_angles.x ,pitchData.angle, pitchPID, Mfront, Mback);*/
-		//PRINTF("pitch = %f, pitchPID = %f, roll = %f, rollPID = %f\r\n", pitchData.angle, pitchPID, rollData.angle, rollPID);
+		PRINTF("throttle = %3d, pitch = %f, roll = %f, pitchPID = %f, rollPID = %f, Mfront = %3d, Mleft = %3d, Mback = %3d, Mright = %3d\r\n",
+				throttle,
+				pitchData.angle,
+				rollData.angle,
+				pitchPID,
+				rollPID,
+				Mfront,
+				Mleft,
+				Mback,
+				Mright);
 	}
 }
 
