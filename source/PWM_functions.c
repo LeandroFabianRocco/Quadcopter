@@ -18,8 +18,10 @@
  *********************************************************************************************/
 void set_pwm_CnV(FTM_Type *base, int32_t value, uint8_t ch)
 {
-	if (value > 100)
-		value = 100;
+	/*if (value > 100)
+		value = 100;*/
+	if (value > 40)
+		value = 40;
 	if (value < 0)
 		value = 0;
 	float x1 = value + 97;
