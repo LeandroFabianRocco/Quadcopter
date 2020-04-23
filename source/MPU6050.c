@@ -133,7 +133,7 @@ void MPU6050_Configure_Device(void)
 
 	// Configuration register
 	write_reg = MPU6050_CONFIG;
-	databyte  = 4;
+	databyte  = 3;
 	MPU6050_WriteAccelReg(I2C1, MPU6050_DEVICE_ADDRESS_0, write_reg, databyte);
 
 	// Power mode and clock source
