@@ -100,14 +100,14 @@ instance:
     - i2c_master_config:
       - enableMaster: 'true'
       - enableStopHold: 'false'
-      - baudRate_Bps: '100000'
+      - baudRate_Bps: '400000'
       - glitchFilterWidth: '0'
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
 /* clang-format on */
 const i2c_master_config_t I2C1_config = {
   .enableMaster = true,
   .enableStopHold = false,
-  .baudRate_Bps = 100000,
+  .baudRate_Bps = 400000,
   .glitchFilterWidth = 0
 };
 

@@ -529,7 +529,7 @@ int main(void)
 	// Main loop
 	while (1)
 	{
-		SysTick_DelayTicks(20U);
+		SysTick_DelayTicks(10U);
 		/******************************************************************
 		 * Read commands from bluetooth module
 		 ******************************************************************/

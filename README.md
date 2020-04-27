@@ -12,7 +12,7 @@ At the first, you need to install MCUXpresso from NXP company and the SDK for th
 The following images show the hardware used for this project, from the left to the right:
 
 * EMAX CF2822 BLDC motor.
-* Skywalker 20-A ESC for each motor.
+* Skywalker 20-A ESC for each motor (refresh rate of the throttle signal: 50Hz to 432Hz).
 * NXP FRDM-K64F development board with 3-axis accelerometer and magnetometer sensor.
 * MPU6050 accelerometer/gyroscope sensor.
 * HC-06 Bluetooth module to controlling the quadcopter througth an cellphone Android app.
