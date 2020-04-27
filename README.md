@@ -1,6 +1,8 @@
-# Controlling a Quadcopter using FRDM-K64F and MPU6050 Accel/Gyro
+# Controlling a Quadcopter using FRDM-K64F and MPU6050 Accel/Gyro ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) `(Work in progress!!)`
 
 This project is to control a quadcopter using a FRDM-K64F board and the MPU6050 Accel/Gyro.
+
+
 
 ## Getting Started 🚀
 
