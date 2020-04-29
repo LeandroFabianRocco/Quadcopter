@@ -11,6 +11,7 @@ C_SRCS += \
 ../source/PWM_functions.c \
 ../source/Quadcopter.c \
 ../source/RGB_LEDS.c \
+../source/UART4_DMA.c \
 ../source/semihost_hardfault.c 
 
 OBJS += \
@@ -21,6 +22,7 @@ OBJS += \
 ./source/PWM_functions.o \
 ./source/Quadcopter.o \
 ./source/RGB_LEDS.o \
+./source/UART4_DMA.o \
 ./source/semihost_hardfault.o 
 
 C_DEPS += \
@@ -31,6 +33,7 @@ C_DEPS += \
 ./source/PWM_functions.d \
 ./source/Quadcopter.d \
 ./source/RGB_LEDS.d \
+./source/UART4_DMA.d \
 ./source/semihost_hardfault.d 
 
 

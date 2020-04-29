@@ -29,7 +29,12 @@ source/Quadcopter.o source/Quadcopter.d: ../source/Quadcopter.c \
  ../source/RGB_LEDS.h ../source/PWM_functions.h \
  /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/drivers/fsl_ftm.h \
  ../source/MPU6050.h ../source/PIDcontroller.h \
- /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/drivers/fsl_lptmr.h
+ /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/drivers/fsl_lptmr.h \
+ ../source/UART4_DMA.h \
+ /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/drivers/fsl_uart_edma.h \
+ /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/drivers/fsl_uart.h \
+ /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/drivers/fsl_edma.h \
+ /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/drivers/fsl_dmamux.h
 
 /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/board/board.h:
 
@@ -96,3 +101,13 @@ source/Quadcopter.o source/Quadcopter.d: ../source/Quadcopter.c \
 ../source/PIDcontroller.h:
 
 /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/drivers/fsl_lptmr.h:
+
+../source/UART4_DMA.h:
+
+/home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/drivers/fsl_uart_edma.h:
+
+/home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/drivers/fsl_uart.h:
+
+/home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/drivers/fsl_edma.h:
+
+/home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/drivers/fsl_dmamux.h:

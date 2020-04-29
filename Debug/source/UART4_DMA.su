@@ -1,0 +1,13 @@
+fsl_common.h:528:28:DisableGlobalIRQ	16	static
+fsl_common.h:559:24:EnableGlobalIRQ	24	static
+fsl_uart.h:416:24:UART_GetDataRegisterAddress	16	static
+fsl_uart.h:459:20:UART_EnableRxDMA	16	static
+fsl_dmamux.h:75:20:DMAMUX_EnableChannel	16	static
+fsl_dmamux.h:105:20:DMAMUX_SetSource	24	static
+UART4_DMA.c:34:6:InitUART4	24	static
+UART4_DMA.c:54:6:InitEDMA	16	static
+UART4_DMA.c:83:6:StartRingBufferEDMA	48	static
+UART4_DMA.c:121:10:GetRingBufferLengthEDMA	16	static
+UART4_DMA.c:156:6:ReadRingBufferEDMA	32	static
+UART4_DMA.c:193:6:UART_UserCallback	24	static
+UART4_DMA.c:212:6:MoveDataToLocalBuffer	16	static

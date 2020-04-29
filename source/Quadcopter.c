@@ -47,6 +47,7 @@
 //#include "FXOS8700CQ.h"
 #include "PIDcontroller.h"
 #include "fsl_lptmr.h"
+#include "UART4_DMA.h"
 
 /*******************************************************************************
  * Variable definition
@@ -86,7 +87,7 @@
  * Prototypes
  ******************************************************************************/
 /* UART user callback */
-void UART_UserCallback(UART_Type *base, uart_handle_t *handle, status_t status, void *userData);
+//void UART_UserCallback(UART_Type *base, uart_handle_t *handle, status_t status, void *userData);
 
 void MotorUpdate(uint8_t throttle, int8_t pitchPID, int8_t rollPID);
 
@@ -146,6 +147,9 @@ uint8_t pitchWriteIndex = 0;
 float sg_coef[SG_FILTER_SIZE] = {89.0, 84.0, 69.0, 44.0, 9.0, -36.0, 9.0, 44.0, 69.0, 84.0, 89.0};
 float sg_h = 429.0;
 
+
+// UART buffer
+uint8_t rxBufferUART4[UART_RING_BUFFER_SIZE] = {0};
 
 /*******************************************************************************
  * Function to increment index
@@ -257,7 +261,7 @@ float pitch_FIRfilt(float data)
 /*******************************************************************************
  * UART4 interrupt handler
  ******************************************************************************/
-void UART_UserCallback(UART_Type *base, uart_handle_t *handle, status_t status, void *userData)
+/*void UART_UserCallback(UART_Type *base, uart_handle_t *handle, status_t status, void *userData)
 {
     userData = userData;
 
@@ -271,7 +275,7 @@ void UART_UserCallback(UART_Type *base, uart_handle_t *handle, status_t status, 
         rxOnGoing = false;
         UART_TransferReceiveNonBlocking(UART4, &uartHandle, &receiveXfer, &receivedBytes);
     }
-}
+}*/
 
 
 /*******************************************************************************
@@ -484,19 +488,45 @@ int main(void)
 	LPTMR_SetTimerPeriod(LPTMR0, USEC_TO_COUNT(LPTMR_USEC_COUNT, LPTMR_SOURCE_CLOCK));
 
 	// UART4 configuration
-	uart_config_t config;
+	/*uart_config_t config;
 	UART_GetDefaultConfig(&config);
 	config.baudRate_Bps = 9600U;
 	config.enableTx     = false;
 	config.enableRx     = true;
 	UART_Init(UART4, &config, UART_CLK_FREQ);
 	UART_TransferCreateHandle(UART4, &uartHandle, UART_UserCallback, NULL);
-	UART_TransferStartRingBuffer(UART4, &uartHandle, rxRingBuffer, RX_RING_BUFFER_SIZE);
+	UART_TransferStartRingBuffer(UART4, &uartHandle, rxRingBuffer, RX_RING_BUFFER_SIZE);*/
 	/*uart_transfer_t receiveXfer;
 	size_t receivedBytes;
 	receiveXfer.data     = rxRingBuffer;
 	receiveXfer.dataSize = RX_RING_BUFFER_SIZE;*/
 	//uint8_t i;
+
+	uint32_t byteCount = 0U;
+	/* Initialize the UART configurations. */
+	InitUART4();
+	/* Initialize the EDMA configuration for UART trasnfer. */
+	InitEDMA();
+	/* Start ring buffer. */
+	StartRingBufferEDMA();
+
+	while (1)
+	{
+		byteCount = 0U;
+
+		/* Get the received bytes number stored in DMA ring buffer. */
+		byteCount = GetRingBufferLengthEDMA();
+
+		PRINTF("byteCount = %d\r\n", byteCount);
+
+		if (0U != byteCount)
+		{
+
+			MoveDataToLocalBuffer(rxBufferUART4, byteCount);
+
+		}
+	}
+
 
 	// FXOS8700 initialization and configuration
 	//FXOS8700CQ_Init();
