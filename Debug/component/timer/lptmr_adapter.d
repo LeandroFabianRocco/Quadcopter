@@ -1,5 +1,5 @@
-board/peripherals.o board/peripherals.d: ../board/peripherals.c \
- ../board/peripherals.h \
+component/timer/lptmr_adapter.o component/timer/lptmr_adapter.d: \
+ ../component/timer/lptmr_adapter.c \
  /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/drivers/fsl_common.h \
  /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/device/fsl_device_registers.h \
  /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/device/MK64F12.h \
@@ -11,10 +11,8 @@ board/peripherals.o board/peripherals.d: ../board/peripherals.c \
  /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/device/MK64F12_features.h \
  /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/drivers/fsl_clock.h \
  /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/drivers/fsl_common.h \
- /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/drivers/fsl_i2c.h \
- /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/drivers/fsl_pit.h
-
-../board/peripherals.h:
+ ../component/timer/timer.h \
+ /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/drivers/fsl_lptmr.h
 
 /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/drivers/fsl_common.h:
 
@@ -38,6 +36,6 @@ board/peripherals.o board/peripherals.d: ../board/peripherals.c \
 
 /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/drivers/fsl_common.h:
 
-/home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/drivers/fsl_i2c.h:
+../component/timer/timer.h:
 
-/home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/drivers/fsl_pit.h:
+/home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/drivers/fsl_lptmr.h:

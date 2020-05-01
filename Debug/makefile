@@ -14,6 +14,7 @@ RM := rm -rf
 -include drivers/subdir.mk
 -include device/subdir.mk
 -include component/uart/subdir.mk
+-include component/timer/subdir.mk
 -include component/serial_manager/subdir.mk
 -include component/lists/subdir.mk
 -include board/subdir.mk

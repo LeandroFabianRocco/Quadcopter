@@ -48,7 +48,7 @@
 #include "PIDcontroller.h"
 #include "fsl_lptmr.h"
 #include "UART4_DMA.h"
-
+#include "fsl_pit.h"
 /*******************************************************************************
  * Variable definition
  ******************************************************************************/
@@ -67,8 +67,8 @@
 #define MOOVE 10
 
 // LPTMR0 timer definitions
-#define LPTMR_SOURCE_CLOCK CLOCK_GetFreq(kCLOCK_LpoClk)
-#define LPTMR_USEC_COUNT 1000000U
+#define LPTMR_SOURCE_CLOCK CLOCK_GetFreq(kCLOCK_McgInternalRefClk)
+#define LPTMR_USEC_COUNT 1000U
 
 
 // Pre-processor definitions
@@ -83,6 +83,15 @@
 #define TAIL_1_ASCII	0xB8
 #define TAIL_2_ASCII	0xA9
 
+
+// PIT definitions
+//#define PIT_HANDLER PIT0_IRQHandler
+//#define PIT_IRQ_ID PIT0_IRQn
+/* Get source clock for PIT driver */
+//#define PIT_SOURCE_CLOCK CLOCK_GetFreq(kCLOCK_McgInternalRefClk)
+
+// Time differential
+#define DT 0.000125
 /*******************************************************************************
  * Prototypes
  ******************************************************************************/
@@ -148,6 +157,9 @@ uint8_t pitchWriteIndex = 0;
 float sg_coef[SG_FILTER_SIZE] = {89.0, 84.0, 69.0, 44.0, 9.0, -36.0, 9.0, 44.0, 69.0, 84.0, 89.0};
 float sg_h = 429.0;
 
+
+
+volatile bool pitIsrFlag = false;
 
 // UART buffer
 //uint8_t rxBufferUART4[UART_RING_BUFFER_SIZE] = {0};
@@ -426,41 +438,54 @@ void commands_to_reference(uint8_t joystick)
  ******************************************************************************/
 void MotorUpdate(uint8_t throttle, int8_t pitchPID, int8_t rollPID)
 {
-	/*
 	// Front motor
-	Mfront = throttle + pitchPID;// - yawPID;
+	Mfront = throttle;// + pitchPID;// - yawPID;
 	if (Mfront_last != Mfront)
 	{
 		set_pwm_CnV(FTM0, Mfront, PWM_CH0);
 		Mfront_last = Mfront;
 	}
 	// Back motor
-	Mback = throttle - pitchPID; // - yawPID;
+	Mback = throttle;// - pitchPID; // - yawPID;
 	if (Mback_last != Mback)
 	{
 		set_pwm_CnV(FTM0, Mback, PWM_CH2);
 		Mback_last = Mback;
 	}
-	*/
 
-	Mback = 0;
-	Mfront = 0;
 
 	// Left motor
-	Mleft = throttle - rollPID; // + yawPID;
+	Mleft = throttle;// - rollPID; // + yawPID;
 	if (Mleft_last != Mleft)
 	{
 		set_pwm_CnV(FTM0, Mleft, PWM_CH1);
 		Mleft_last = Mleft;
 	}
 	// Right motor
-	Mright = throttle + rollPID; // + yawPID;
+	Mright = throttle;// + rollPID; // + yawPID;
 	if (Mright_last != Mright)
 	{
 		set_pwm_CnV(FTM0, Mright, PWM_CH3);
 		Mright_last = Mright;
 	}
 }
+
+
+/*******************************************************************************
+ * PIT handler
+ ******************************************************************************/
+void PIT_0_IRQHANDLER(void)
+{
+    /* Clear interrupt flag.*/
+    PIT_ClearStatusFlags(PIT, kPIT_Chnl_0, kPIT_TimerFlag);
+    pitIsrFlag = true;
+    /* Added for, and affects, all PIT handlers. For CPU clock which is much larger than the IP bus clock,
+     * CPU can run out of the interrupt handler before the interrupt flag being cleared, resulting in the
+     * CPU's entering the handler again and again. Adding DSB can prevent the issue from happening.
+     */
+    __DSB();
+}
+
 
 
 /*******************************************************************************
@@ -483,10 +508,14 @@ int main(void)
 	isThereAccelMPU = MPU6050_ReadSensorWhoAmI();
 
 	// Initialization of low power timer
-	lptmr_config_t lptmrConfig;
-	LPTMR_GetDefaultConfig(&lptmrConfig);
-	LPTMR_Init(LPTMR0, &lptmrConfig);
-	LPTMR_SetTimerPeriod(LPTMR0, USEC_TO_COUNT(LPTMR_USEC_COUNT, LPTMR_SOURCE_CLOCK));
+	//lptmr_config_t lptmrConfig;
+	//LPTMR_GetDefaultConfig(&lptmrConfig);
+
+	//lptmrConfig.timerMode = kLPTMR_TimerModeTimeCounter;
+	//lptmrConfig.bypassPrescaler = true;
+
+	//LPTMR_Init(LPTMR0, &lptmrConfig);
+	//LPTMR_SetTimerPeriod(LPTMR0, USEC_TO_COUNT(LPTMR_USEC_COUNT, LPTMR_SOURCE_CLOCK));
 
 	// UART4 configuration
 	/*uart_config_t config;
@@ -523,7 +552,7 @@ int main(void)
 	struct MPU6050_angles mpu_angles;
 	mpu_angles.x = 0;
 	mpu_angles.y = 0;
-	mpu_angles.dt = 0.01;
+	mpu_angles.dt = DT;
 
 
 	// Pitch structure inicialization
@@ -532,7 +561,7 @@ int main(void)
 	pitchData.angle = pitchAngle;
 	pitchData.last_iError = i_error;
 	pitchData.last_pError = p_error;
-	pitchData.dt = 0.02;
+	pitchData.dt = DT;
 
 	// Roll structure inicialization
 	struct rollStruct rollData;
@@ -540,12 +569,24 @@ int main(void)
 	rollData.angle = rollAngle;
 	rollData.last_iError = i_error;
 	rollData.last_pError = p_error;
-	rollData.dt = 0.02;
+	rollData.dt = DT;
+
+	//pit_config_t pitConfig;
+	/* Init pit module */
+	//PIT_Init(PIT, &pitConfig);
+	/* Set timer period for channel 0 */
+	//PIT_SetTimerPeriod(PIT, kPIT_Chnl_0, USEC_TO_COUNT(1000000U, PIT_SOURCE_CLOCK));
+	/* Enable timer interrupts for channel 0 */
+	//PIT_EnableInterrupts(PIT, kPIT_Chnl_0, kPIT_TimerInterruptEnable);
+	//EnableIRQ(PIT_IRQ_ID);
+	//PIT_StartTimer(PIT, kPIT_Chnl_0);
 
 	// Main loop
 	while (1)
 	{
 		SysTick_DelayTicks(10U);
+		//while (!pitIsrFlag){}
+		pitIsrFlag = false;
 		/******************************************************************
 		 * Read commands from bluetooth module
 		 ******************************************************************/
@@ -563,7 +604,7 @@ int main(void)
 					rxIndex = 0;
 			}
 			get_J_and_T();
-			PRINTF("throttle = %d, joystick = 0x%x\r\n", throttle, joystick);
+			//PRINTF("throttle = %d, joystick = 0x%x\r\n", throttle, joystick);
 		}
 		/******************************************************************
 		 * Update motors from commands
@@ -574,10 +615,10 @@ int main(void)
 		 ******************************************************************/
 		if (isThereAccelMPU)
 		{
-			LPTMRtime = LPTMR_GetCurrentTimerCount(LPTMR0);
-			LPTMR_StopTimer(LPTMR0);
-			dt_sec = (float)(LPTMRtime) * 0.001;
-			mpu_angles.dt = dt_sec;
+			//LPTMRtime = LPTMR_GetCurrentTimerCount(LPTMR0);
+			//LPTMR_StopTimer(LPTMR0);
+			//dt_sec = (float)(LPTMRtime) * 0.001;
+			//mpu_angles.dt = dt_sec;
 			MPU6050_ComplementaryFilterAngles(&mpu_angles);
 #ifdef SG_filter
 			rollData.angle = roll_sgolayfilt(mpu_angles.y);
@@ -589,13 +630,13 @@ int main(void)
 			rollData.angle = mpu_angles.y;
 			pitchData.angle = mpu_angles.x;
 #endif
-			LPTMR_StartTimer(LPTMR0);
+			//LPTMR_StartTimer(LPTMR0);
 		}
 		/******************************************************************
 		 * PID controller for pitch angle
 		 ******************************************************************/
-		pitchData.dt = dt_sec;
-		rollData.dt = dt_sec;
+		//pitchData.dt = dt_sec;
+		//rollData.dt = dt_sec;
 		if (throttle >= 5) // If throttle is below 25, quadcopter is on the floor
 		{
 			pitchPID = getPitchPID(&pitchData);
@@ -617,7 +658,7 @@ int main(void)
 		//PRINTF("front = %3d, back = %3d, left = %3d, right = %3d\r\n", Mfront, Mback, Mleft, Mright);
 		/*PRINTF("throttle = %3d, pitch = %3.2f, filteredRoll = %3.2f, pitchPID = %3.2f, Mfront = %3d, Mback = %3d\r\n",
 				throttle, mpu_angles.x ,pitchData.angle, pitchPID, Mfront, Mback);*/
-		/*PRINTF("throttle = %3d, pitch = %f, roll = %f, pitchPID = %f, rollPID = %f, Mfront = %3d, Mleft = %3d, Mback = %3d, Mright = %3d\r\n",
+		PRINTF("throttle = %3d, pitch = %f, roll = %f, pitchPID = %f, rollPID = %f, Mfront = %3d, Mleft = %3d, Mback = %3d, Mright = %3d\r\n",
 				throttle,
 				pitchData.angle,
 				rollData.angle,
@@ -626,7 +667,7 @@ int main(void)
 				Mfront,
 				Mleft,
 				Mback,
-				Mright);*/
+				Mright);
 	}
 }
 

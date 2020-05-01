@@ -17,6 +17,7 @@ SUBDIRS := \
 board \
 component/lists \
 component/serial_manager \
+component/timer \
 component/uart \
 device \
 drivers \
