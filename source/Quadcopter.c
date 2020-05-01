@@ -104,7 +104,8 @@ uint8_t increment_buff_index(uint8_t index);
 
 // UART4 variables
 uart_handle_t uartHandle;
-uint8_t rxRingBuffer[RX_RING_BUFFER_SIZE] = {0};
+uint8_t rxTempBuffer[UART_RING_BUFFER_SIZE] = {0};
+uint8_t rxRingBuffer[UART_RING_BUFFER_SIZE] = {0};
 volatile bool rxOnGoing = true;
 
 // Joystick and throttle values
@@ -149,7 +150,7 @@ float sg_h = 429.0;
 
 
 // UART buffer
-uint8_t rxBufferUART4[UART_RING_BUFFER_SIZE] = {0};
+//uint8_t rxBufferUART4[UART_RING_BUFFER_SIZE] = {0};
 
 /*******************************************************************************
  * Function to increment index
@@ -503,29 +504,14 @@ int main(void)
 	//uint8_t i;
 
 	uint32_t byteCount = 0U;
+	uint8_t rxIndex = 0U;
+	uint8_t i;
 	/* Initialize the UART configurations. */
 	InitUART4();
 	/* Initialize the EDMA configuration for UART trasnfer. */
 	InitEDMA();
 	/* Start ring buffer. */
 	StartRingBufferEDMA();
-
-	while (1)
-	{
-		byteCount = 0U;
-
-		/* Get the received bytes number stored in DMA ring buffer. */
-		byteCount = GetRingBufferLengthEDMA();
-
-		PRINTF("byteCount = %d\r\n", byteCount);
-
-		if (0U != byteCount)
-		{
-
-			MoveDataToLocalBuffer(rxBufferUART4, byteCount);
-
-		}
-	}
 
 
 	// FXOS8700 initialization and configuration
@@ -563,7 +549,22 @@ int main(void)
 		/******************************************************************
 		 * Read commands from bluetooth module
 		 ******************************************************************/
-		get_J_and_T();
+		//byteCount = 0U;
+		byteCount = GetRingBufferLengthEDMA();
+		//PRINTF("byteCount = %d\r\n", byteCount);
+		if (0U != byteCount)
+		{
+			MoveDataToLocalBuffer(rxTempBuffer, byteCount);
+			for (i = 0; i < byteCount; i++)
+			{
+				rxRingBuffer[rxIndex] = rxTempBuffer[i];
+				rxIndex++;
+				if (rxIndex == UART_RING_BUFFER_SIZE)
+					rxIndex = 0;
+			}
+			get_J_and_T();
+			PRINTF("throttle = %d, joystick = 0x%x\r\n", throttle, joystick);
+		}
 		/******************************************************************
 		 * Update motors from commands
 		 ******************************************************************/
@@ -616,7 +617,7 @@ int main(void)
 		//PRINTF("front = %3d, back = %3d, left = %3d, right = %3d\r\n", Mfront, Mback, Mleft, Mright);
 		/*PRINTF("throttle = %3d, pitch = %3.2f, filteredRoll = %3.2f, pitchPID = %3.2f, Mfront = %3d, Mback = %3d\r\n",
 				throttle, mpu_angles.x ,pitchData.angle, pitchPID, Mfront, Mback);*/
-		PRINTF("throttle = %3d, pitch = %f, roll = %f, pitchPID = %f, rollPID = %f, Mfront = %3d, Mleft = %3d, Mback = %3d, Mright = %3d\r\n",
+		/*PRINTF("throttle = %3d, pitch = %f, roll = %f, pitchPID = %f, rollPID = %f, Mfront = %3d, Mleft = %3d, Mback = %3d, Mright = %3d\r\n",
 				throttle,
 				pitchData.angle,
 				rollData.angle,
@@ -625,7 +626,7 @@ int main(void)
 				Mfront,
 				Mleft,
 				Mback,
-				Mright);
+				Mright);*/
 	}
 }
 
