@@ -40,7 +40,7 @@
 #include "MK64F12.h"
 #include "fsl_debug_console.h"
 #include "fsl_uart.h"
-#include "Delays.h"
+//#include "Delays.h"
 #include "RGB_LEDS.h"
 #include "PWM_functions.h"
 #include "MPU6050.h"
@@ -582,8 +582,8 @@ int main(void)
 	// Main loop
 	while (1)
 	{
-		SysTick_DelayTicks(10U);
-		//while (!pitIsrFlag){}
+		//SysTick_DelayTicks(10U);
+		while (!pitIsrFlag){}
 		pitIsrFlag = false;
 		/******************************************************************
 		 * Read commands from bluetooth module
