@@ -452,8 +452,6 @@ void MotorUpdate(uint8_t throttle, int8_t pitchPID, int8_t rollPID)
 		set_pwm_CnV(FTM0, Mback, PWM_CH2);
 		Mback_last = Mback;
 	}
-
-
 	// Left motor
 	Mleft = throttle;// - rollPID; // + yawPID;
 	if (Mleft_last != Mleft)
