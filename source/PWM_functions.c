@@ -68,7 +68,7 @@ void FTM0_init(void)
 
 	ftmParam[4].chnlNumber            = (ftm_chnl_t)LOOPTIME;
 	ftmParam[4].level                 = kFTM_HighTrue;
-	ftmParam[4].dutyCyclePercent      = 99U; // Interrupt each 125us aprox
+	ftmParam[4].dutyCyclePercent      = 5U;
 	ftmParam[4].firstEdgeDelayPercent = 0U;
 	ftmParam[4].enableDeadtime        = false;
 

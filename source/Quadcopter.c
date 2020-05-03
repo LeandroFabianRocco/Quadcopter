@@ -558,15 +558,13 @@ int main(void)
 	// Main loop
 	while (1)
 	{
-		//SysTick_DelayTicks(1U);
+		//SysTick_DelayTicks(10U);
 		while (!ftmIsrFlag){}
 		ftmIsrFlag = false;
 		/******************************************************************
 		 * Read commands from bluetooth module
 		 ******************************************************************/
-		//byteCount = 0U;
 		byteCount = GetRingBufferLengthEDMA();
-		//PRINTF("byteCount = %d\r\n", byteCount);
 		if (0U != byteCount)
 		{
 			MoveDataToLocalBuffer(rxTempBuffer, byteCount);
