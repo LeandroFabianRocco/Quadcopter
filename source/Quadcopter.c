@@ -91,7 +91,7 @@
 //#define PIT_SOURCE_CLOCK CLOCK_GetFreq(kCLOCK_McgInternalRefClk)
 
 // Time differential
-#define DT 0.000125
+#define DT 0.00012288
 /*******************************************************************************
  * Prototypes
  ******************************************************************************/
@@ -271,25 +271,6 @@ float pitch_FIRfilt(float data)
 #endif
 
 
-/*******************************************************************************
- * UART4 interrupt handler
- ******************************************************************************/
-/*void UART_UserCallback(UART_Type *base, uart_handle_t *handle, status_t status, void *userData)
-{
-    userData = userData;
-
-    uart_transfer_t receiveXfer;
-    size_t receivedBytes;
-    receiveXfer.data     = rxRingBuffer;
-    receiveXfer.dataSize = RX_RING_BUFFER_SIZE;
-
-    if (kStatus_UART_RxIdle == status)
-    {
-        rxOnGoing = false;
-        UART_TransferReceiveNonBlocking(UART4, &uartHandle, &receiveXfer, &receivedBytes);
-    }
-}*/
-
 
 /*******************************************************************************
  * Get Joystick and throttle values
@@ -439,28 +420,28 @@ void commands_to_reference(uint8_t joystick)
 void MotorUpdate(uint8_t throttle, int8_t pitchPID, int8_t rollPID)
 {
 	// Front motor
-	Mfront = throttle;// + pitchPID;// - yawPID;
+	Mfront = throttle + pitchPID;// - yawPID;
 	if (Mfront_last != Mfront)
 	{
 		set_pwm_CnV(FTM0, Mfront, PWM_CH0);
 		Mfront_last = Mfront;
 	}
 	// Back motor
-	Mback = throttle;// - pitchPID; // - yawPID;
+	Mback = throttle - pitchPID; // - yawPID;
 	if (Mback_last != Mback)
 	{
 		set_pwm_CnV(FTM0, Mback, PWM_CH2);
 		Mback_last = Mback;
 	}
 	// Left motor
-	Mleft = throttle;// - rollPID; // + yawPID;
+	Mleft = throttle - rollPID; // + yawPID;
 	if (Mleft_last != Mleft)
 	{
 		set_pwm_CnV(FTM0, Mleft, PWM_CH1);
 		Mleft_last = Mleft;
 	}
 	// Right motor
-	Mright = throttle;// + rollPID; // + yawPID;
+	Mright = throttle + rollPID; // + yawPID;
 	if (Mright_last != Mright)
 	{
 		set_pwm_CnV(FTM0, Mright, PWM_CH3);
