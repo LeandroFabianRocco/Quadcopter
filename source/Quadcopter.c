@@ -472,17 +472,17 @@ void MotorUpdate(uint8_t throttle, int8_t pitchPID, int8_t rollPID)
 /*******************************************************************************
  * PIT handler
  ******************************************************************************/
-void PIT_1_IRQHANDLER(void)
-{
+//void PIT_1_IRQHANDLER(void)
+//{
     /* Clear interrupt flag.*/
-    PIT_ClearStatusFlags(PIT, kPIT_Chnl_1, kPIT_TimerFlag);
-    pitIsrFlag = true;
-    /* Added for, and affects, all PIT handlers. For CPU clock which is much larger than the IP bus clock,
-     * CPU can run out of the interrupt handler before the interrupt flag being cleared, resulting in the
-     * CPU's entering the handler again and again. Adding DSB can prevent the issue from happening.
-     */
-    __DSB();
-}
+//    PIT_ClearStatusFlags(PIT, kPIT_Chnl_1, kPIT_TimerFlag);
+//    pitIsrFlag = true;
+//    /* Added for, and affects, all PIT handlers. For CPU clock which is much larger than the IP bus clock,
+//     * CPU can run out of the interrupt handler before the interrupt flag being cleared, resulting in the
+//     * CPU's entering the handler again and again. Adding DSB can prevent the issue from happening.
+//     */
+//    __DSB();
+//}
 
 
 
@@ -577,14 +577,14 @@ int main(void)
 	/* Enable timer interrupts for channel 0 */
 	//PIT_EnableInterrupts(PIT, kPIT_Chnl_0, kPIT_TimerInterruptEnable);
 	//EnableIRQ(PIT_IRQ_ID);
-	PIT_StartTimer(PIT, kPIT_Chnl_1);
+	//PIT_StartTimer(PIT, kPIT_Chnl_1);
 
 	// Main loop
 	while (1)
 	{
-		//SysTick_DelayTicks(10U);
-		while (!pitIsrFlag){}
-		pitIsrFlag = false;
+		SysTick_DelayTicks(10U);
+		//while (!pitIsrFlag){}
+		//pitIsrFlag = false;
 		/******************************************************************
 		 * Read commands from bluetooth module
 		 ******************************************************************/
