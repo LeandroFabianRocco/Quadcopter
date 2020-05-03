@@ -39,7 +39,7 @@ void set_pwm_CnV(FTM_Type *base, int32_t value, uint8_t ch)
  *********************************************************************************************/
 void FTM0_init(void)
 {
-	ftm_chnl_pwm_signal_param_t ftmParam[4];
+	ftm_chnl_pwm_signal_param_t ftmParam[5];
 	ftm_config_t ftmInfo;
 
 	ftmParam[0].chnlNumber            = (ftm_chnl_t)PWM_CH0;
@@ -66,9 +66,17 @@ void FTM0_init(void)
 	ftmParam[3].firstEdgeDelayPercent = 0U;
 	ftmParam[3].enableDeadtime        = false;
 
+	ftmParam[4].chnlNumber            = (ftm_chnl_t)LOOPTIME;
+	ftmParam[4].level                 = kFTM_HighTrue;
+	ftmParam[4].dutyCyclePercent      = 99U; // Interrupt each 125us aprox
+	ftmParam[4].firstEdgeDelayPercent = 0U;
+	ftmParam[4].enableDeadtime        = false;
+
 	FTM_GetDefaultConfig(&ftmInfo);
 	FTM_Init(FTM_MODULE, &ftmInfo);
-	FTM_SetupPwm(FTM_MODULE, ftmParam, 4U, kFTM_EdgeAlignedPwm, 400U, FTM_SOURCE_CLOCK);
+	FTM_SetupPwm(FTM_MODULE, ftmParam, 5U, kFTM_EdgeAlignedPwm, 400U, FTM_SOURCE_CLOCK);
+	FTM_EnableInterrupts(FTM_MODULE, kFTM_Chnl4InterruptEnable);
+	EnableIRQ(FTM0_IRQN);
 	FTM_StartTimer(FTM_MODULE, kFTM_FixedClock);
 }
 

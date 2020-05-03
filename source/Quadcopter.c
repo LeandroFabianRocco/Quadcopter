@@ -159,7 +159,7 @@ float sg_h = 429.0;
 
 
 
-volatile bool pitIsrFlag = false;
+volatile bool ftmIsrFlag = false;
 
 // UART buffer
 //uint8_t rxBufferUART4[UART_RING_BUFFER_SIZE] = {0};
@@ -485,6 +485,15 @@ void MotorUpdate(uint8_t throttle, int8_t pitchPID, int8_t rollPID)
 //}
 
 
+void FTM0_IRQHANDLER(void)
+{
+    /* Clear interrupt flag.*/
+    FTM_ClearStatusFlags(FTM_MODULE, kFTM_Chnl4Flag);
+    ftmIsrFlag = true;
+    __DSB();
+}
+
+
 
 /*******************************************************************************
  * MAIN function
@@ -504,31 +513,6 @@ int main(void)
 	MPU6050_Init();
 	MPU6050_Configure_Device();
 	isThereAccelMPU = MPU6050_ReadSensorWhoAmI();
-
-	// Initialization of low power timer
-	//lptmr_config_t lptmrConfig;
-	//LPTMR_GetDefaultConfig(&lptmrConfig);
-
-	//lptmrConfig.timerMode = kLPTMR_TimerModeTimeCounter;
-	//lptmrConfig.bypassPrescaler = true;
-
-	//LPTMR_Init(LPTMR0, &lptmrConfig);
-	//LPTMR_SetTimerPeriod(LPTMR0, USEC_TO_COUNT(LPTMR_USEC_COUNT, LPTMR_SOURCE_CLOCK));
-
-	// UART4 configuration
-	/*uart_config_t config;
-	UART_GetDefaultConfig(&config);
-	config.baudRate_Bps = 9600U;
-	config.enableTx     = false;
-	config.enableRx     = true;
-	UART_Init(UART4, &config, UART_CLK_FREQ);
-	UART_TransferCreateHandle(UART4, &uartHandle, UART_UserCallback, NULL);
-	UART_TransferStartRingBuffer(UART4, &uartHandle, rxRingBuffer, RX_RING_BUFFER_SIZE);*/
-	/*uart_transfer_t receiveXfer;
-	size_t receivedBytes;
-	receiveXfer.data     = rxRingBuffer;
-	receiveXfer.dataSize = RX_RING_BUFFER_SIZE;*/
-	//uint8_t i;
 
 	uint32_t byteCount = 0U;
 	uint8_t rxIndex = 0U;
@@ -569,22 +553,14 @@ int main(void)
 	rollData.last_pError = p_error;
 	rollData.dt = DT;
 
-	//pit_config_t pitConfig;
-	/* Init pit module */
-	//PIT_Init(PIT, &pitConfig);
-	/* Set timer period for channel 0 */
-	//PIT_SetTimerPeriod(PIT, kPIT_Chnl_0, USEC_TO_COUNT(1000000U, PIT_SOURCE_CLOCK));
-	/* Enable timer interrupts for channel 0 */
-	//PIT_EnableInterrupts(PIT, kPIT_Chnl_0, kPIT_TimerInterruptEnable);
-	//EnableIRQ(PIT_IRQ_ID);
-	//PIT_StartTimer(PIT, kPIT_Chnl_1);
+
 
 	// Main loop
 	while (1)
 	{
-		SysTick_DelayTicks(10U);
-		//while (!pitIsrFlag){}
-		//pitIsrFlag = false;
+		//SysTick_DelayTicks(1U);
+		while (!ftmIsrFlag){}
+		ftmIsrFlag = false;
 		/******************************************************************
 		 * Read commands from bluetooth module
 		 ******************************************************************/

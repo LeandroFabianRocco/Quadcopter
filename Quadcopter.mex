@@ -1086,6 +1086,15 @@
                                  <setting name="enable_chan_irq" value="false"/>
                               </struct>
                            </struct>
+                           <struct name="4">
+                              <setting name="edge_aligned_mode" value="kFTM_EdgeAlignedPwm"/>
+                              <struct name="edge_aligned_pwm">
+                                 <setting name="chnlNumber" value="kFTM_Chnl_0"/>
+                                 <setting name="level" value="kFTM_NoPwmSignal"/>
+                                 <setting name="dutyCyclePercent" value="0"/>
+                                 <setting name="enable_chan_irq" value="true"/>
+                              </struct>
+                           </struct>
                         </array>
                      </config_set>
                   </instance>

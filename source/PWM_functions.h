@@ -20,15 +20,22 @@
  * Definitions
  ************************************************************************/
 #define FTM_MODULE FTM0
-#define PWM_CH0 0U
-#define PWM_CH1 1U
-#define PWM_CH2 2U
-#define PWM_CH3 3U
+#define PWM_CH0  0U
+#define PWM_CH1  1U
+#define PWM_CH2  2U
+#define PWM_CH3  3U
+#define LOOPTIME 4U
 
 #define FTM_SOURCE_CLOCK CLOCK_GetFreq(kCLOCK_McgFixedFreqClk)
 
 #define MAX_THROTTLE 196U
 #define MIN_THROTTLE 97U
+
+
+/* FTM0 interrupt vector ID (number). */
+#define FTM0_IRQN FTM0_IRQn
+/* FTM0 interrupt handler identifier. */
+#define FTM0_IRQHANDLER FTM0_IRQHandler
 
 /*********************************************************************************************
  * @brief Set the CnV field for PWM channels
