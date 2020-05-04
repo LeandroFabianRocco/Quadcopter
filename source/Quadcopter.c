@@ -71,11 +71,6 @@
 #define LPTMR_USEC_COUNT 1000U
 
 
-// Pre-processor definitions
-//#define SG_filter		1
-//#define FIR_filter 	1
-
-
 // Bluetooth data definitions
 #define HEADER_1_ASCII	0xAA
 #define HEADER_2_ASCII	0xA8
@@ -84,20 +79,11 @@
 #define TAIL_2_ASCII	0xA9
 
 
-// PIT definitions
-//#define PIT_HANDLER PIT0_IRQHandler
-//#define PIT_IRQ_ID PIT0_IRQn
-/* Get source clock for PIT driver */
-//#define PIT_SOURCE_CLOCK CLOCK_GetFreq(kCLOCK_McgInternalRefClk)
-
 // Time differential
 #define DT 0.00012288
 /*******************************************************************************
  * Prototypes
  ******************************************************************************/
-/* UART user callback */
-//void UART_UserCallback(UART_Type *base, uart_handle_t *handle, status_t status, void *userData);
-
 void MotorUpdate(uint8_t throttle, int8_t pitchPID, int8_t rollPID);
 
 void commands_to_reference(uint8_t joystick);
@@ -149,126 +135,8 @@ bool isThereAccelFX = false;
 uint32_t LPTMRtime = 0;
 
 
-// Savitzky-Golay filter variables
-float rollCircularBuffer[SG_FILTER_SIZE] = {0};
-float pitchCircularBuffer[SG_FILTER_SIZE] = {0};
-uint8_t rollWriteIndex = 0;
-uint8_t pitchWriteIndex = 0;
-float sg_coef[SG_FILTER_SIZE] = {89.0, 84.0, 69.0, 44.0, 9.0, -36.0, 9.0, 44.0, 69.0, 84.0, 89.0};
-float sg_h = 429.0;
-
-
 
 volatile bool ftmIsrFlag = false;
-
-// UART buffer
-//uint8_t rxBufferUART4[UART_RING_BUFFER_SIZE] = {0};
-
-/*******************************************************************************
- * Function to increment index
- ******************************************************************************/
-uint8_t incrementIndex(uint8_t index)
-{
-	if (index >= (SG_FILTER_SIZE - 1))
-		index = 0;
-	else
-		index++;
-
-	return index;
-}
-
-/*******************************************************************************
- * Roll and pitch Savitzky-Golay filter using circular buffer
- ******************************************************************************/
-#ifdef SG_filter
-float roll_sgolayfilt(float data)
-{
-	uint8_t i;
-	float sum = 0.0;
-
-	rollCircularBuffer[rollWriteIndex] = data;
-
-	uint8_t rollReadIndex = rollWriteIndex;
-
-	rollWriteIndex = incrementIndex(rollWriteIndex);
-
-	for (i = 0; i < SG_FILTER_SIZE; i++)
-	{
-		sum += rollCircularBuffer[rollReadIndex] * sg_coef[i];
-		rollReadIndex = incrementIndex(rollReadIndex);
-	}
-
-	sum = sum / sg_h;
-
-	return sum;
-}
-
-float pitch_sgolayfilt(float data)
-{
-	uint8_t i;
-	float sum = 0.0;
-
-	pitchCircularBuffer[pitchWriteIndex] = data;
-
-	uint8_t pitchReadIndex = pitchWriteIndex;
-
-	pitchWriteIndex = incrementIndex(pitchWriteIndex);
-
-	for (i = 0; i < SG_FILTER_SIZE; i++)
-	{
-		sum += pitchCircularBuffer[pitchReadIndex] * sg_coef[i];
-		pitchReadIndex = incrementIndex(pitchReadIndex);
-	}
-
-	sum = sum / sg_h;
-
-	return sum;
-}
-#elif FIR_filter
-float roll_FIRfilt(float data)
-{
-	uint8_t i;
-	float sum = 0.0;
-
-	rollCircularBuffer[rollWriteIndex] = data;
-
-	uint8_t rollReadIndex = rollWriteIndex;
-
-	rollWriteIndex = incrementIndex(rollWriteIndex);
-
-	for (i = 0; i < SG_FILTER_SIZE; i++)
-	{
-		sum += rollCircularBuffer[rollReadIndex] * sg_coef[i];
-		rollReadIndex = incrementIndex(rollReadIndex);
-	}
-
-	sum = sum / sg_h;
-
-	return sum;
-}
-
-float pitch_FIRfilt(float data)
-{
-	uint8_t i;
-	float sum = 0.0;
-
-	pitchCircularBuffer[pitchWriteIndex] = data;
-
-	uint8_t pitchReadIndex = pitchWriteIndex;
-
-	pitchWriteIndex = incrementIndex(pitchWriteIndex);
-
-	for (i = 0; i < SG_FILTER_SIZE; i++)
-	{
-		sum += pitchCircularBuffer[pitchReadIndex] * sg_coef[i];
-		pitchReadIndex = incrementIndex(pitchReadIndex);
-	}
-
-	sum = sum / sg_h;
-
-	return sum;
-}
-#endif
 
 
 
@@ -451,21 +319,8 @@ void MotorUpdate(uint8_t throttle, int8_t pitchPID, int8_t rollPID)
 
 
 /*******************************************************************************
- * PIT handler
+ * Interrupt handler of channel 4 of FTM0 module
  ******************************************************************************/
-//void PIT_1_IRQHANDLER(void)
-//{
-    /* Clear interrupt flag.*/
-//    PIT_ClearStatusFlags(PIT, kPIT_Chnl_1, kPIT_TimerFlag);
-//    pitIsrFlag = true;
-//    /* Added for, and affects, all PIT handlers. For CPU clock which is much larger than the IP bus clock,
-//     * CPU can run out of the interrupt handler before the interrupt flag being cleared, resulting in the
-//     * CPU's entering the handler again and again. Adding DSB can prevent the issue from happening.
-//     */
-//    __DSB();
-//}
-
-
 void FTM0_IRQHANDLER(void)
 {
     /* Clear interrupt flag.*/
@@ -568,29 +423,14 @@ int main(void)
 		 ******************************************************************/
 		if (isThereAccelMPU)
 		{
-			//LPTMRtime = LPTMR_GetCurrentTimerCount(LPTMR0);
-			//LPTMR_StopTimer(LPTMR0);
-			//dt_sec = (float)(LPTMRtime) * 0.001;
-			//mpu_angles.dt = dt_sec;
 			MPU6050_ComplementaryFilterAngles(&mpu_angles);
-#ifdef SG_filter
-			rollData.angle = roll_sgolayfilt(mpu_angles.y);
-			pitchData.angle = pitch_sgolayfilt(mpu_angles.x);
-#elif FIR_filter
-			rollData.angle = roll_FIRfilt(mpu_angles.y);
-			pitchData.angle = pitch_FIRfilt(mpu_angles.x);
-#else
 			rollData.angle = mpu_angles.y;
 			pitchData.angle = mpu_angles.x;
-#endif
-			//LPTMR_StartTimer(LPTMR0);
 		}
 		/******************************************************************
 		 * PID controller for pitch angle
 		 ******************************************************************/
-		//pitchData.dt = dt_sec;
-		//rollData.dt = dt_sec;
-		if (throttle >= 5) // If throttle is below 25, quadcopter is on the floor
+		if (throttle >= 5)
 		{
 			pitchPID = getPitchPID(&pitchData);
 			rollPID = getRollPID(&rollData);
