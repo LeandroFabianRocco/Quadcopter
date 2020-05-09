@@ -7467,9 +7467,9 @@ END GROUP
  .bss.isThereAccelMPU
                 0x0000000020000254        0x1 ./source/Quadcopter.o
                 0x0000000020000254                isThereAccelMPU
- .bss.ftmIsrFlag
+ .bss.pitIsrFlag
                 0x0000000020000255        0x1 ./source/Quadcopter.o
-                0x0000000020000255                ftmIsrFlag
+                0x0000000020000255                pitIsrFlag
  .bss.startInstanceNum.8136
                 0x0000000020000256        0x1 ./drivers/fsl_edma.o
  *(SORT_BY_ALIGNMENT(COMMON))
@@ -9378,7 +9378,6 @@ fseek                                             /usr/local/mcuxpressoide-11.1.
                                                   /usr/local/mcuxpressoide-11.1.1_3241/ide/plugins/com.nxp.mcuxpresso.tools.linux_11.1.0.202001081728/tools/bin/../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libcr_c.a(_deferredlazyseek.o)
 ftell                                             /usr/local/mcuxpressoide-11.1.1_3241/ide/plugins/com.nxp.mcuxpresso.tools.linux_11.1.0.202001081728/tools/bin/../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libcr_c.a(ftell.o)
                                                   /usr/local/mcuxpressoide-11.1.1_3241/ide/plugins/com.nxp.mcuxpresso.tools.linux_11.1.0.202001081728/tools/bin/../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libcr_c.a(fseek.o)
-ftmIsrFlag                                        ./source/Quadcopter.o
 g_dspiDummyData                                   ./drivers/fsl_dspi.o
 g_m_handle                                        ./source/FXOS8700CQ.o
 g_pfnVectors                                      ./startup/startup_mk64f12.o
@@ -9461,6 +9460,7 @@ oscConfig_BOARD_BootClockRUN                      ./board/clock_config.o
 oscConfig_BOARD_BootClockVLPR                     ./board/clock_config.o
 pError                                            ./source/PIDcontroller.o
 p_error                                           ./source/Quadcopter.o
+pitIsrFlag                                        ./source/Quadcopter.o
 pitchAngle                                        ./source/Quadcopter.o
 pitchPID                                          ./source/Quadcopter.o
 pitch_ref                                         ./source/Quadcopter.o

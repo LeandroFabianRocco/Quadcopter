@@ -136,7 +136,7 @@ uint32_t LPTMRtime = 0;
 
 
 
-volatile bool ftmIsrFlag = false;
+volatile bool pitIsrFlag = false;
 
 
 
@@ -321,25 +321,12 @@ void MotorUpdate(uint8_t throttle, int8_t pitchPID, int8_t rollPID)
 
 
 /*******************************************************************************
- * Interrupt handler of channel 4 of FTM0 module
+ * PIT module interrupt handler
  ******************************************************************************/
-/*void FTM0_IRQHANDLER(void)
-{
-    FTM_ClearStatusFlags(FTM_MODULE, kFTM_Chnl4Flag);
-    ftmIsrFlag = true;
-    __DSB();
-}*/
-
-
 void PIT_0_IRQHANDLER(void)
 {
-	/* Clear interrupt flag.*/
 	PIT_ClearStatusFlags(PIT, kPIT_Chnl_0, kPIT_TimerFlag);
-	ftmIsrFlag = true;
-	/* Added for, and affects, all PIT handlers. For CPU clock which is much larger than the IP bus clock,
-	 * CPU can run out of the interrupt handler before the interrupt flag being cleared, resulting in the
-	 * CPU's entering the handler again and again. Adding DSB can prevent the issue from happening.
-	 */
+	pitIsrFlag = true;
 	__DSB();
 }
 
@@ -410,8 +397,8 @@ int main(void)
 	while (1)
 	{
 		//SysTick_DelayTicks(10U);
-		while (!ftmIsrFlag){}
-		ftmIsrFlag = false;
+		while (!pitIsrFlag){}
+		pitIsrFlag = false;
 		/******************************************************************
 		 * Read commands from bluetooth module
 		 ******************************************************************/
@@ -427,7 +414,6 @@ int main(void)
 					rxIndex = 0;
 			}
 			get_J_and_T();
-			//PRINTF("throttle = %d, joystick = 0x%x\r\n", throttle, joystick);
 		}
 		/******************************************************************
 		 * Update motors from commands

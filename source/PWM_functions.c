@@ -43,12 +43,16 @@ void FTM0_init(void)
 	ftm_config_t ftmInfo;
 
 	// 400Hz
-	/*uint8_t duty = 40U;
-	uint16_t period = 400U;*/
+	uint8_t duty = 40U;
+	uint16_t period = 400U;
 
 	// 250Hz
-	uint8_t duty = 25U;
-	uint16_t period = 250U;
+	/*uint8_t duty = 25U;
+	uint16_t period = 250U;*/
+
+	// 50Hz
+	/*uint8_t duty = 5U;
+	uint8_t period = 50U;*/
 
 	ftmParam[0].chnlNumber            = (ftm_chnl_t)PWM_CH0;
 	ftmParam[0].level                 = kFTM_HighTrue;
