@@ -960,6 +960,16 @@
                   <data type="Version">2.0.5</data>
                </feature>
             </dependency>
+            <dependency resourceType="SWComponent" resourceId="platform.drivers.pit" description="PIT Driver not found in the toolchain/IDE project. Project will not compile!" problem_level="2" source="Peripherals">
+               <feature name="enabled" evaluation="equal">
+                  <data type="Boolean">true</data>
+               </feature>
+            </dependency>
+            <dependency resourceType="SWComponent" resourceId="platform.drivers.pit" description="Unsupported version of the PIT Driver in the toolchain/IDE project. Required: ${required_value}, actual: ${actual_value}. Project might not compile correctly." problem_level="1" source="Peripherals">
+               <feature name="version" evaluation="equivalent">
+                  <data type="Version">2.0.0</data>
+               </feature>
+            </dependency>
          </dependencies>
          <generated_project_files>
             <file path="peripherals.c" update_enabled="true"/>
@@ -996,6 +1006,11 @@
                   <dependency resourceType="PeripheralUnifiedSignal" resourceId="I2C1.i2c_sda" description="Signal serial data of the peripheral I2C1 is not routed. Problem must be resolved in another tool." problem_level="1" source="Peripherals:BOARD_InitPeripherals">
                      <feature name="routed" evaluation="">
                         <data type="Boolean">true</data>
+                     </feature>
+                  </dependency>
+                  <dependency resourceType="ClockOutput" resourceId="Bus_clock" description="Bus clock is inactive. Problem must be resolved in another tool." problem_level="1" source="Peripherals:BOARD_InitPeripherals">
+                     <feature name="frequency" evaluation="greaterThan">
+                        <data type="Frequency" unit="Hz">0</data>
                      </feature>
                   </dependency>
                   <dependency resourceType="ClockOutput" resourceId="Bus_clock" description="Bus clock is inactive. Problem must be resolved in another tool." problem_level="1" source="Peripherals:BOARD_InitPeripherals">
@@ -1146,7 +1161,7 @@
                         </struct>
                      </config_set>
                   </instance>
-                  <instance name="PIT" uuid="e9e79c53-5def-4bea-acc1-d4ce6f12856a" type="pit" type_id="pit_a4782ba5223c8a2527ba91aeb2bc4159" mode="LPTMR_GENERAL" peripheral="PIT" enabled="false" comment="" custom_name_enabled="false">
+                  <instance name="PIT" uuid="e9e79c53-5def-4bea-acc1-d4ce6f12856a" type="pit" type_id="pit_a4782ba5223c8a2527ba91aeb2bc4159" mode="LPTMR_GENERAL" peripheral="PIT" enabled="true" comment="" custom_name_enabled="false">
                      <config_set name="fsl_pit">
                         <setting name="enableRunInDebug" value="true"/>
                         <struct name="timingConfig">
@@ -1156,13 +1171,13 @@
                         <array name="channels">
                            <struct name="0">
                               <setting name="channel_id" value=""/>
-                              <setting name="channelNumber" value="1"/>
+                              <setting name="channelNumber" value="0"/>
                               <setting name="enableChain" value="false"/>
-                              <setting name="timerPeriod" value="10ms"/>
+                              <setting name="timerPeriod" value="125us"/>
                               <setting name="startTimer" value="false"/>
                               <setting name="enableInterrupt" value="true"/>
                               <struct name="interrupt">
-                                 <setting name="IRQn" value="PIT1_IRQn"/>
+                                 <setting name="IRQn" value="PIT0_IRQn"/>
                                  <setting name="enable_priority" value="false"/>
                                  <setting name="priority" value="0"/>
                                  <setting name="enable_custom_name" value="false"/>
@@ -1243,7 +1258,7 @@
             <component name="system" uuid="79f430f4-78a4-46ab-879c-3adafb517458" type_id="system">
                <config_set_global name="global_system_definitions"/>
             </component>
-            <component name="msg" uuid="bc11b8af-7c16-4e67-82a4-e99ff5293e72" type_id="msg_6e2baaf3b97dbeef01c0043275f9a0e7">
+            <component name="msg" uuid="af521659-3387-41bf-afd7-8619c3de844a" type_id="msg_6e2baaf3b97dbeef01c0043275f9a0e7">
                <config_set_global name="global_messages"/>
             </component>
          </components>

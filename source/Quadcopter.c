@@ -288,19 +288,21 @@ void commands_to_reference(uint8_t joystick)
 void MotorUpdate(uint8_t throttle, int8_t pitchPID, int8_t rollPID)
 {
 	// Front motor
-	Mfront = throttle + pitchPID;// - yawPID;
+	/*Mfront = throttle + pitchPID;// - yawPID;
 	if (Mfront_last != Mfront)
 	{
 		set_pwm_CnV(FTM0, Mfront, PWM_CH0);
 		Mfront_last = Mfront;
-	}
+	}*/
 	// Back motor
-	Mback = throttle - pitchPID; // - yawPID;
+	/*Mback = throttle - pitchPID; // - yawPID;
 	if (Mback_last != Mback)
 	{
 		set_pwm_CnV(FTM0, Mback, PWM_CH2);
 		Mback_last = Mback;
-	}
+	}*/
+	Mfront = 0;
+	Mback = 0;
 	// Left motor
 	Mleft = throttle - rollPID; // + yawPID;
 	if (Mleft_last != Mleft)
@@ -321,14 +323,25 @@ void MotorUpdate(uint8_t throttle, int8_t pitchPID, int8_t rollPID)
 /*******************************************************************************
  * Interrupt handler of channel 4 of FTM0 module
  ******************************************************************************/
-void FTM0_IRQHANDLER(void)
+/*void FTM0_IRQHANDLER(void)
 {
-    /* Clear interrupt flag.*/
     FTM_ClearStatusFlags(FTM_MODULE, kFTM_Chnl4Flag);
     ftmIsrFlag = true;
     __DSB();
-}
+}*/
 
+
+void PIT_0_IRQHANDLER(void)
+{
+	/* Clear interrupt flag.*/
+	PIT_ClearStatusFlags(PIT, kPIT_Chnl_0, kPIT_TimerFlag);
+	ftmIsrFlag = true;
+	/* Added for, and affects, all PIT handlers. For CPU clock which is much larger than the IP bus clock,
+	 * CPU can run out of the interrupt handler before the interrupt flag being cleared, resulting in the
+	 * CPU's entering the handler again and again. Adding DSB can prevent the issue from happening.
+	 */
+	__DSB();
+}
 
 
 /*******************************************************************************
@@ -391,6 +404,8 @@ int main(void)
 
 
 
+	PIT_StartTimer(PIT_PERIPHERAL, PIT_0);
+
 	// Main loop
 	while (1)
 	{
@@ -451,7 +466,7 @@ int main(void)
 		//PRINTF("front = %3d, back = %3d, left = %3d, right = %3d\r\n", Mfront, Mback, Mleft, Mright);
 		/*PRINTF("throttle = %3d, pitch = %3.2f, filteredRoll = %3.2f, pitchPID = %3.2f, Mfront = %3d, Mback = %3d\r\n",
 				throttle, mpu_angles.x ,pitchData.angle, pitchPID, Mfront, Mback);*/
-		PRINTF("throttle = %3d, pitch = %f, roll = %f, pitchPID = %f, rollPID = %f, Mfront = %3d, Mleft = %3d, Mback = %3d, Mright = %3d\r\n",
+		/*PRINTF("throttle = %3d, pitch = %f, roll = %f, pitchPID = %f, rollPID = %f, Mfront = %3d, Mleft = %3d, Mback = %3d, Mright = %3d\r\n",
 				throttle,
 				pitchData.angle,
 				rollData.angle,
@@ -460,6 +475,12 @@ int main(void)
 				Mfront,
 				Mleft,
 				Mback,
+				Mright);*/
+		PRINTF("throttle = %3d, roll = %f, rollPID = %f, Mleft = %3d, Mright = %3d\r\n",
+				throttle,
+				rollData.angle,
+				rollPID,
+				Mleft,
 				Mright);
 	}
 }
