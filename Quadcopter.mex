@@ -1173,7 +1173,7 @@
                               <setting name="channel_id" value=""/>
                               <setting name="channelNumber" value="0"/>
                               <setting name="enableChain" value="false"/>
-                              <setting name="timerPeriod" value="125us"/>
+                              <setting name="timerPeriod" value="1ms"/>
                               <setting name="startTimer" value="false"/>
                               <setting name="enableInterrupt" value="true"/>
                               <struct name="interrupt">
@@ -1258,7 +1258,7 @@
             <component name="system" uuid="79f430f4-78a4-46ab-879c-3adafb517458" type_id="system">
                <config_set_global name="global_system_definitions"/>
             </component>
-            <component name="msg" uuid="af521659-3387-41bf-afd7-8619c3de844a" type_id="msg_6e2baaf3b97dbeef01c0043275f9a0e7">
+            <component name="msg" uuid="5dd0b95a-d17d-49e5-bcf2-22ab1be45ffd" type_id="msg_6e2baaf3b97dbeef01c0043275f9a0e7">
                <config_set_global name="global_messages"/>
             </component>
          </components>

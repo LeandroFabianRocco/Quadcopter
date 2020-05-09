@@ -140,7 +140,7 @@ instance:
         - channel_id: ''
         - channelNumber: '0'
         - enableChain: 'false'
-        - timerPeriod: '125us'
+        - timerPeriod: '1ms'
         - startTimer: 'false'
         - enableInterrupt: 'true'
         - interrupt:
