@@ -52,11 +52,11 @@ void set_pwm_CnV(FTM_Type *base, int32_t value, uint8_t ch);
 /*********************************************************************************************
  * @brief FTM channels initialization
  *
- * @param void
+ * @param FTM module pointer
  *
  * @return void
  *********************************************************************************************/
-void FTM0_init(void);
+void FTM0_init(FTM_Type *base);
 
 
 #endif /* PWM_FUNCTIONS_H_ */

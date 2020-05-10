@@ -124,7 +124,7 @@ volatile float pitchAngle, rollAngle;
 volatile float i_error = 0;
 volatile float p_error = 0;
 // Time differential
-volatile float dt, dt_sec;
+//volatile float dt, dt_sec;
 
 // MPU6050 Who_Am_I flag
 bool isThereAccelMPU = false;
@@ -132,7 +132,7 @@ bool isThereAccelMPU = false;
 bool isThereAccelFX = false;
 
 // Timer variable
-uint32_t LPTMRtime = 0;
+//uint32_t LPTMRtime = 0;
 
 
 
@@ -223,7 +223,6 @@ void get_J_and_T(void)
 		joystick = j[2];
 	else if (j[1] == j[2])
 		joystick = j[1];
-
 }
 
 
@@ -301,8 +300,6 @@ void MotorUpdate(uint8_t throttle, int8_t pitchPID, int8_t rollPID)
 		set_pwm_CnV(FTM0, Mback, PWM_CH2);
 		Mback_last = Mback;
 	}*/
-	Mfront = 0;
-	Mback = 0;
 	// Left motor
 	Mleft = throttle - rollPID; // + yawPID;
 	if (Mleft_last != Mleft)
@@ -340,10 +337,10 @@ int main(void)
 	BOARD_BootClockRUN();
 	BOARD_InitBootPeripherals();
 	SysTick_init();
-	// Inicializo el LED RGB
+	// RGB LED initialization
 	RGB_LED_init();
 	// FTM init
-	FTM0_init();
+	FTM0_init(FTM_MODULE);
 
 	// MPU6050 initialization and configuration
 	MPU6050_Init();
@@ -353,11 +350,11 @@ int main(void)
 	uint32_t byteCount = 0U;
 	uint8_t rxIndex = 0U;
 	uint8_t i;
-	/* Initialize the UART configurations. */
+	// Initialize the UART configurations
 	InitUART4();
-	/* Initialize the EDMA configuration for UART trasnfer. */
+	// Initialize the EDMA configuration for UART trasnfer
 	InitEDMA();
-	/* Start ring buffer. */
+	// Start ring buffer
 	StartRingBufferEDMA();
 
 
@@ -388,8 +385,6 @@ int main(void)
 	rollData.last_iError = i_error;
 	rollData.last_pError = p_error;
 	rollData.dt = DT;
-
-
 
 	PIT_StartTimer(PIT_PERIPHERAL, PIT_0);
 

@@ -33,11 +33,11 @@ void set_pwm_CnV(FTM_Type *base, int32_t value, uint8_t ch)
 /*********************************************************************************************
  * @brief FTM channels initialization
  *
- * @param void
+ * @param FTM module pointer
  *
  * @return void
  *********************************************************************************************/
-void FTM0_init(void)
+void FTM0_init(FTM_Type *base)
 {
 	ftm_chnl_pwm_signal_param_t ftmParam[4];
 	ftm_config_t ftmInfo;
@@ -78,18 +78,10 @@ void FTM0_init(void)
 	ftmParam[3].firstEdgeDelayPercent = 0U;
 	ftmParam[3].enableDeadtime        = false;
 
-	/*ftmParam[4].chnlNumber            = (ftm_chnl_t)LOOPTIME;
-	ftmParam[4].level                 = kFTM_HighTrue;
-	ftmParam[4].dutyCyclePercent      = 5U; // 125us
-	ftmParam[4].firstEdgeDelayPercent = 0U;
-	ftmParam[4].enableDeadtime        = false;*/
-
 	FTM_GetDefaultConfig(&ftmInfo);
-	FTM_Init(FTM_MODULE, &ftmInfo);
-	FTM_SetupPwm(FTM_MODULE, ftmParam, 4U, kFTM_EdgeAlignedPwm, period, FTM_SOURCE_CLOCK);
-	//FTM_EnableInterrupts(FTM_MODULE, kFTM_Chnl4InterruptEnable);
-	//EnableIRQ(FTM0_IRQN);
-	FTM_StartTimer(FTM_MODULE, kFTM_FixedClock);
+	FTM_Init(base, &ftmInfo);
+	FTM_SetupPwm(base, ftmParam, 4U, kFTM_EdgeAlignedPwm, period, FTM_SOURCE_CLOCK);
+	FTM_StartTimer(base, kFTM_FixedClock);
 }
 
 
