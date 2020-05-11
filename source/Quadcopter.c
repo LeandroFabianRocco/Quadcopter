@@ -40,7 +40,7 @@
 #include "MK64F12.h"
 #include "fsl_debug_console.h"
 #include "fsl_uart.h"
-//#include "Delays.h"
+#include "Delays.h"
 #include "RGB_LEDS.h"
 #include "PWM_functions.h"
 #include "MPU6050.h"
@@ -333,13 +333,17 @@ void PIT_0_IRQHANDLER(void)
  ******************************************************************************/
 int main(void)
 {
+	// Pins initialization
 	BOARD_InitPins();
+	// Clocks initialization
 	BOARD_BootClockRUN();
+	// Peripherals initialization
 	BOARD_InitBootPeripherals();
+	// Initialization of ticks to use delays
 	SysTick_init();
 	// RGB LED initialization
 	RGB_LED_init();
-	// FTM init
+	// FTM0 initialization
 	FTM0_init(FTM_MODULE);
 
 	// MPU6050 initialization and configuration
@@ -347,15 +351,13 @@ int main(void)
 	MPU6050_Configure_Device();
 	isThereAccelMPU = MPU6050_ReadSensorWhoAmI();
 
+	// Initialization of UART4 module with DMA
 	uint32_t byteCount = 0U;
 	uint8_t rxIndex = 0U;
 	uint8_t i;
-	// Initialize the UART configurations
-	InitUART4();
-	// Initialize the EDMA configuration for UART trasnfer
-	InitEDMA();
-	// Start ring buffer
-	StartRingBufferEDMA();
+	InitUART4(); // Initialize the UART configurations
+	InitEDMA(); // Initialize the EDMA configuration for UART transfer
+	StartRingBufferEDMA(); // Start ring buffer
 
 
 	// FXOS8700 initialization and configuration
@@ -370,7 +372,7 @@ int main(void)
 	mpu_angles.dt = DT;
 
 
-	// Pitch structure inicialization
+	// Pitch structure initialization
 	struct pitchStruct pitchData;
 	pitchData.reference = pitch_ref;
 	pitchData.angle = pitchAngle;
@@ -378,7 +380,7 @@ int main(void)
 	pitchData.last_pError = p_error;
 	pitchData.dt = DT;
 
-	// Roll structure inicialization
+	// Roll structure initialization
 	struct rollStruct rollData;
 	rollData.reference = roll_ref;
 	rollData.angle = rollAngle;
@@ -391,7 +393,7 @@ int main(void)
 	// Main loop
 	while (1)
 	{
-		//SysTick_DelayTicks(10U);
+		//SysTick_DelayTicks(1U);
 		while (!pitIsrFlag){}
 		pitIsrFlag = false;
 		/******************************************************************
@@ -457,12 +459,12 @@ int main(void)
 				Mleft,
 				Mback,
 				Mright);*/
-		PRINTF("throttle = %3d, roll = %f, rollPID = %f, Mleft = %3d, Mright = %3d\r\n",
+		/*PRINTF("throttle = %3d, roll = %f, rollPID = %f, Mleft = %3d, Mright = %3d\r\n",
 				throttle,
 				rollData.angle,
 				rollPID,
 				Mleft,
-				Mright);
+				Mright);*/
 	}
 }
 

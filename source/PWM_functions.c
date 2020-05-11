@@ -27,6 +27,7 @@ void set_pwm_CnV(FTM_Type *base, int32_t value, uint8_t ch)
 	float x1 = value + 97;
 	base->CONTROLS[ch].CnV = (uint32_t)x1;
 	FTM_SetSoftwareTrigger(base, true);
+	//PRINTF("channel = %d; value = %d\r\n", ch, base->CONTROLS[ch].CnV);
 }
 
 

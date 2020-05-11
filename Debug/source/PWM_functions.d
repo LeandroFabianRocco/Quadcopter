@@ -19,7 +19,11 @@ source/PWM_functions.o source/PWM_functions.d: ../source/PWM_functions.c \
  /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/board/clock_config.h \
  /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/drivers/fsl_common.h \
  /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/drivers/fsl_gpio.h \
- /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/drivers/fsl_port.h
+ /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/drivers/fsl_port.h \
+ /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/utilities/fsl_debug_console.h \
+ /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/component/serial_manager/serial_manager.h \
+ /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/component/serial_manager/serial_port_uart.h \
+ /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/component/uart/uart.h
 
 ../source/PWM_functions.h:
 
@@ -62,3 +66,11 @@ source/PWM_functions.o source/PWM_functions.d: ../source/PWM_functions.c \
 /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/drivers/fsl_gpio.h:
 
 /home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/drivers/fsl_port.h:
+
+/home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/utilities/fsl_debug_console.h:
+
+/home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/component/serial_manager/serial_manager.h:
+
+/home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/component/serial_manager/serial_port_uart.h:
+
+/home/leandro/MEGA/Dron/FreedomProjects/Quadcopter/component/uart/uart.h:

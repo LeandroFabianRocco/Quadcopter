@@ -1013,7 +1013,7 @@
                         <data type="Frequency" unit="Hz">0</data>
                      </feature>
                   </dependency>
-                  <dependency resourceType="ClockOutput" resourceId="Bus_clock" description="Bus clock is inactive. Problem must be resolved in another tool." problem_level="1" source="Peripherals:BOARD_InitPeripherals">
+                  <dependency resourceType="ClockOutput" resourceId="Bus_clock" description="Bus clock is inactive. Problem must be resolved in another tool." problem_level="2" source="Peripherals:BOARD_InitPeripherals">
                      <feature name="frequency" evaluation="greaterThan">
                         <data type="Frequency" unit="Hz">0</data>
                      </feature>
@@ -1166,14 +1166,14 @@
                         <setting name="enableRunInDebug" value="true"/>
                         <struct name="timingConfig">
                            <setting name="clockSource" value="BusInterfaceClock"/>
-                           <setting name="clockSourceFreq" value="GetFreq"/>
+                           <setting name="clockSourceFreq" value="BOARD_BootClockVLPR"/>
                         </struct>
                         <array name="channels">
                            <struct name="0">
                               <setting name="channel_id" value=""/>
                               <setting name="channelNumber" value="0"/>
                               <setting name="enableChain" value="false"/>
-                              <setting name="timerPeriod" value="1ms"/>
+                              <setting name="timerPeriod" value="125us"/>
                               <setting name="startTimer" value="false"/>
                               <setting name="enableInterrupt" value="true"/>
                               <struct name="interrupt">
@@ -1258,7 +1258,7 @@
             <component name="system" uuid="79f430f4-78a4-46ab-879c-3adafb517458" type_id="system">
                <config_set_global name="global_system_definitions"/>
             </component>
-            <component name="msg" uuid="5dd0b95a-d17d-49e5-bcf2-22ab1be45ffd" type_id="msg_6e2baaf3b97dbeef01c0043275f9a0e7">
+            <component name="msg" uuid="0c045a40-a74e-4d4a-8bd2-c7d8e5a1eec3" type_id="msg_6e2baaf3b97dbeef01c0043275f9a0e7">
                <config_set_global name="global_messages"/>
             </component>
          </components>

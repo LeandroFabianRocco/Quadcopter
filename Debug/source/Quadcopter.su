@@ -5,4 +5,4 @@ Quadcopter.c:156:6:get_J_and_T	24	static
 Quadcopter.c:232:6:commands_to_reference	16	static
 Quadcopter.c:287:6:MotorUpdate	16	static
 Quadcopter.c:323:6:PIT0_IRQHandler	8	static
-Quadcopter.c:334:5:main	112	static
+Quadcopter.c:334:5:main	80	static
