@@ -4,6 +4,6 @@ Quadcopter.c:149:9:increment_buff_index	16	static
 Quadcopter.c:159:6:get_J_and_T	24	static
 Quadcopter.c:235:6:commands_to_reference	16	static
 Quadcopter.c:290:6:MotorUpdate	24	static
-Quadcopter.c:326:7:throttle2CnV	24	static
-Quadcopter.c:335:6:PIT0_IRQHandler	8	static
-Quadcopter.c:346:5:main	128	static
+Quadcopter.c:326:7:throttle2CnV	32	static
+Quadcopter.c:337:6:PIT0_IRQHandler	8	static
+Quadcopter.c:348:5:main	144	static

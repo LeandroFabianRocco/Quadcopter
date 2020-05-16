@@ -18,7 +18,7 @@
 #define KI_PITCH	1.0
 #define KD_PITCH	1.0
 
-#define KP_ROLL		0.4
+#define KP_ROLL		1.2
 #define KI_ROLL		0.0
 #define KD_ROLL		0.0
 

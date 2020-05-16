@@ -325,7 +325,9 @@ void MotorUpdate(float t2c, float pitchPID, float rollPID)
  ******************************************************************************/
 float throttle2CnV(uint8_t throttle)
 {
-	return (float)(throttle * (CnV_MAX - CnV_MIN) * 0.01 + CnV_MIN);
+	float x1 = (float)throttle * (CnV_MAX - CnV_MIN) * 0.01 + CnV_MIN;
+	//return (float)(throttle * (CnV_MAX - CnV_MIN) * 0.01 + CnV_MIN);
+	return x1;
 }
 
 
@@ -474,8 +476,9 @@ int main(void)
 				Mleft,
 				Mback,
 				Mright);*/
-		PRINTF("throttle = %3d, roll = %f, rollPID = %f, Mleft = %3d, Mright = %3d\r\n",
+		PRINTF("throttle = %3d, t2c = %f, roll = %f, rollPID = %f, Mleft = %f, Mright = %f\r\n",
 				throttle,
+				t2c,
 				rollData.angle,
 				rollPID,
 				Mleft,
