@@ -84,7 +84,7 @@
 /*******************************************************************************
  * Prototypes
  ******************************************************************************/
-void MotorUpdate(uint8_t throttle, int8_t pitchPID, int8_t rollPID);
+void MotorUpdate(float t2c, float pitchPID, float rollPID);
 
 void commands_to_reference(uint8_t joystick);
 
@@ -93,6 +93,8 @@ float roll_sgolayfilt(float data);
 float pitch_sgolayfilt(float data);
 
 uint8_t increment_buff_index(uint8_t index);
+
+float throttle2CnV(uint8_t throttle);
 /*******************************************************************************
  * Variables declaration
  ******************************************************************************/
@@ -107,10 +109,10 @@ volatile bool rxOnGoing = true;
 uint8_t joystick, throttle;
 
 // Variables to controlling the BLDC motors
-volatile int8_t Mfront, Mfront_last;	// Front motor
-volatile int8_t Mleft, Mleft_last;		// Left motor
-volatile int8_t Mback, Mback_last;		// Back motor
-volatile int8_t Mright, Mright_last;	// Right motor
+volatile float Mfront, Mfront_last;	// Front motor
+volatile float Mleft, Mleft_last;		// Left motor
+volatile float Mback, Mback_last;		// Back motor
+volatile float Mright, Mright_last;	// Right motor
 
 // Reference for pitch and roll angles
 volatile uint8_t pitch_ref = 0;
@@ -139,6 +141,7 @@ bool isThereAccelFX = false;
 volatile bool pitIsrFlag = false;
 
 
+float t2c;
 
 /*******************************************************************************
  * Get Joystick and throttle values
@@ -284,7 +287,7 @@ void commands_to_reference(uint8_t joystick)
 /*******************************************************************************
  * Update motors values
  ******************************************************************************/
-void MotorUpdate(uint8_t throttle, int8_t pitchPID, int8_t rollPID)
+void MotorUpdate(float t2c, float pitchPID, float rollPID)
 {
 	// Front motor
 	/*Mfront = throttle + pitchPID;// - yawPID;
@@ -301,19 +304,28 @@ void MotorUpdate(uint8_t throttle, int8_t pitchPID, int8_t rollPID)
 		Mback_last = Mback;
 	}*/
 	// Left motor
-	Mleft = throttle - rollPID; // + yawPID;
+	Mleft = t2c - rollPID; // + yawPID;
 	if (Mleft_last != Mleft)
 	{
 		set_pwm_CnV(FTM0, Mleft, PWM_CH1);
 		Mleft_last = Mleft;
 	}
 	// Right motor
-	Mright = throttle + rollPID; // + yawPID;
+	Mright = t2c + rollPID; // + yawPID;
 	if (Mright_last != Mright)
 	{
 		set_pwm_CnV(FTM0, Mright, PWM_CH3);
 		Mright_last = Mright;
 	}
+}
+
+
+/*******************************************************************************
+ * Throttle to CnV value
+ ******************************************************************************/
+float throttle2CnV(uint8_t throttle)
+{
+	return (float)(throttle * (CnV_MAX - CnV_MIN) * 0.01 + CnV_MIN);
 }
 
 
@@ -343,13 +355,16 @@ int main(void)
 	SysTick_init();
 	// RGB LED initialization
 	RGB_LED_init();
-	// FTM0 initialization
-	FTM0_init(FTM_MODULE);
 
 	// MPU6050 initialization and configuration
 	MPU6050_Init();
 	MPU6050_Configure_Device();
 	isThereAccelMPU = MPU6050_ReadSensorWhoAmI();
+
+	// FTM0 initialization
+	FTM0_init(FTM_MODULE);
+
+
 
 	// Initialization of UART4 module with DMA
 	uint32_t byteCount = 0U;
@@ -440,7 +455,8 @@ int main(void)
 		/******************************************************************
 		 * Update Motors throttle
 		 ******************************************************************/
-		MotorUpdate(throttle, pitchPID, rollPID);
+		t2c = throttle2CnV(throttle);
+		MotorUpdate(t2c, pitchPID, rollPID);
 
 		/******************************************************************
 		 * Prints
