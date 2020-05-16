@@ -28,8 +28,9 @@
 
 #define FTM_SOURCE_CLOCK CLOCK_GetFreq(kCLOCK_McgFixedFreqClk)
 
-#define MAX_THROTTLE 196U
-#define MIN_THROTTLE 97U
+
+#define CnV_MAX	782U
+#define CnV_MIN	391U
 
 
 /* FTM0 interrupt vector ID (number). */

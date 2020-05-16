@@ -393,7 +393,6 @@ int main(void)
 	// Main loop
 	while (1)
 	{
-		//SysTick_DelayTicks(1U);
 		while (!pitIsrFlag){}
 		pitIsrFlag = false;
 		/******************************************************************
@@ -459,12 +458,12 @@ int main(void)
 				Mleft,
 				Mback,
 				Mright);*/
-		/*PRINTF("throttle = %3d, roll = %f, rollPID = %f, Mleft = %3d, Mright = %3d\r\n",
+		PRINTF("throttle = %3d, roll = %f, rollPID = %f, Mleft = %3d, Mright = %3d\r\n",
 				throttle,
 				rollData.angle,
 				rollPID,
 				Mleft,
-				Mright);*/
+				Mright);
 	}
 }
 

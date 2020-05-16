@@ -850,7 +850,7 @@
                   <clock_output id="Flash_clock.outFreq" value="24 MHz" locked="false" accuracy=""/>
                   <clock_output id="FlexBus_clock.outFreq" value="40 MHz" locked="false" accuracy=""/>
                   <clock_output id="LPO_clock.outFreq" value="1 kHz" locked="false" accuracy=""/>
-                  <clock_output id="MCGFFCLK.outFreq" value="195.3125/2 kHz" locked="false" accuracy=""/>
+                  <clock_output id="MCGFFCLK.outFreq" value="781.25/2 kHz" locked="false" accuracy=""/>
                   <clock_output id="MCGIRCLK.outFreq" value="2 MHz" locked="false" accuracy=""/>
                   <clock_output id="OSCERCLK.outFreq" value="50 MHz" locked="false" accuracy=""/>
                   <clock_output id="PLLFLLCLK.outFreq" value="120 MHz" locked="false" accuracy=""/>
@@ -864,7 +864,8 @@
                   <setting id="MCGMode" value="PEE" locked="false"/>
                   <setting id="CLKOUTConfig" value="yes" locked="false"/>
                   <setting id="ENETTimeSrcConfig" value="yes" locked="false"/>
-                  <setting id="MCG.FRDIV.scale" value="512" locked="true"/>
+                  <setting id="MCG.FCRDIV.scale" value="2" locked="true"/>
+                  <setting id="MCG.FRDIV.scale" value="128" locked="true"/>
                   <setting id="MCG.IRCS.sel" value="MCG.FCRDIV" locked="false"/>
                   <setting id="MCG.IREFS.sel" value="MCG.FRDIV" locked="false"/>
                   <setting id="MCG.PLLS.sel" value="MCG.PLL" locked="false"/>
@@ -1258,7 +1259,7 @@
             <component name="system" uuid="79f430f4-78a4-46ab-879c-3adafb517458" type_id="system">
                <config_set_global name="global_system_definitions"/>
             </component>
-            <component name="msg" uuid="0c045a40-a74e-4d4a-8bd2-c7d8e5a1eec3" type_id="msg_6e2baaf3b97dbeef01c0043275f9a0e7">
+            <component name="msg" uuid="af4c4c60-6f59-428b-8613-2bd3e1e5ad6d" type_id="msg_6e2baaf3b97dbeef01c0043275f9a0e7">
                <config_set_global name="global_messages"/>
             </component>
          </components>

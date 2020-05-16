@@ -9,5 +9,5 @@ fsl_smc.h:256:20:SMC_SetPowerModeProtection	16	static
 fsl_smc.h:275:33:SMC_GetPowerModeState	16	static
 clock_config.c:81:13:CLOCK_CONFIG_SetFllExtRefDiv	16	static
 clock_config.c:89:6:BOARD_InitBootClocks	8	static
-clock_config.c:196:6:BOARD_BootClockRUN	8	static
-clock_config.c:306:6:BOARD_BootClockVLPR	8	static
+clock_config.c:197:6:BOARD_BootClockRUN	8	static
+clock_config.c:307:6:BOARD_BootClockVLPR	8	static
